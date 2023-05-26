@@ -1,20 +1,18 @@
 import {Alert, Image, StyleSheet, Text, View} from "react-native";
-import ButtonOutlined from "../components/ui/ButtonOutlined";
-import TextBetweenHorizontalLines from "../components/ui/TextBetweenHorizontalLines";
-import Colors from "../constants/colors";
 import RegisterForm from "../components/Auth/RegisterForm";
-import { useState } from "react";
+import colors from "../constants/colors";
+import ButtonOutlined from "../components/ui/ButtonOutlined";
+import { useState} from "react";
 import LoadingOverlay from "../components/ui/LoadingOverlay";
 
-const RegisterScreen = ({navigation}) => {
-
-    function switchToLogIn() {
-        navigation.replace("Login");
+function RegisterScreen({navigation}) {
+    function switchToLoginHandler() {
+        navigation.replace('Login')
     }
 
     const [isAuthenticating, setIsAuthenticating] = useState(false);
 
-    async function handleRegistration({username, email, password}) {
+    async function signupHandler({username, email, password}) {
         setIsAuthenticating(true);
         const response = await fetch("http://localhost:8080/auth/signup", {
             method: "POST",
@@ -42,18 +40,25 @@ const RegisterScreen = ({navigation}) => {
     if (isAuthenticating) {
         return <LoadingOverlay message="Creating user..."/>;
     }
+
     return (
         <View style={styles.container}>
             <View style={styles.logoContainer}>
                 <Image style={styles.logo} source={require('./../assets/logo.png')}/>
             </View>
             <View>
-                <RegisterForm onAuthenticate={handleRegistration}/>
+                <RegisterForm onAuthenticate={signupHandler}/>
             </View>
             <View style={styles.bottomContainer}>
-                <TextBetweenHorizontalLines text="Already have an acount?"/>
+                <View style={styles.bottomTextContainer}>
+                    <View style={styles.line}/>
+                    <View>
+                        <Text style={styles.bottomText}>Already have an account?</Text>
+                    </View>
+                    <View style={styles.line}/>
+                </View>
                 <View style={styles.loginButtonContainer}>
-                    <ButtonOutlined onPress={switchToLogIn}>LOGIN</ButtonOutlined>
+                    <ButtonOutlined onPress={switchToLoginHandler}>LOGIN</ButtonOutlined>
                 </View>
             </View>
         </View>
@@ -89,11 +94,11 @@ const styles = StyleSheet.create({
     line: {
         flex: 1,
         height: 1,
-        backgroundColor: Colors.primary600
+        backgroundColor: colors.primary600
     },
     bottomText: {
         width: 180,
-        color: Colors.primary600,
+        color: colors.primary600,
         textAlign: 'center'
     },
     loginButtonContainer: {
