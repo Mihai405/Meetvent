@@ -4,6 +4,7 @@ import com.backend.meetvent.constants.SecurityConstants;
 import com.backend.meetvent.domain.AppUser;
 import com.backend.meetvent.domain.Event;
 import com.backend.meetvent.domain.UserInterestCounter;
+import com.backend.meetvent.domain.dto.events.EventDTO;
 import com.backend.meetvent.domain.views.Views;
 import com.backend.meetvent.repository.EventRepository;
 import com.backend.meetvent.service.EventService;
@@ -31,8 +32,7 @@ public class EventController {
     }
 
     @GetMapping()
-    @JsonView(Views.Going.class)
-    public List<Event> getAllEvents(@RequestHeader(SecurityConstants.JWT_HEADER) String token) {
+    public List<EventDTO> getAllEvents(@RequestHeader(SecurityConstants.JWT_HEADER) String token) {
         return this.eventService.getAllEvents(token);
     }
 
@@ -62,14 +62,12 @@ public class EventController {
     }
 
     @GetMapping("city/{name}")
-    @JsonView(Views.Going.class)
-    public List<Event> getEventsFromCity(@PathVariable String name, @RequestHeader(SecurityConstants.JWT_HEADER) String token) {
+    public List<EventDTO> getEventsFromCity(@PathVariable String name, @RequestHeader(SecurityConstants.JWT_HEADER) String token) {
         return this.eventService.getEventsFromCity(name, token);
     }
 
     @GetMapping("trending/city/{name}")
-    @JsonView(Views.Going.class)
-    public List<Event> getTrendingEventsFromCity(@PathVariable String name, @RequestHeader(SecurityConstants.JWT_HEADER) String token) {
+    public List<EventDTO> getTrendingEventsFromCity(@PathVariable String name, @RequestHeader(SecurityConstants.JWT_HEADER) String token) {
         return this.eventService.getTrendingEventsFromCity(name, token);
     }
 

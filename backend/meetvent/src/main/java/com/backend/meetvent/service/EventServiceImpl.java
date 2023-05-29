@@ -1,6 +1,7 @@
 package com.backend.meetvent.service;
 
 import com.backend.meetvent.api_error.exceptions.UserAlreadyJoinedEventException;
+import com.backend.meetvent.domain.dto.events.EventDTO;
 import com.backend.meetvent.repository.EventRepository;
 import com.backend.meetvent.domain.AppUser;
 import com.backend.meetvent.domain.Event;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -33,17 +35,24 @@ public class EventServiceImpl implements EventService{
 
     @Override
     @Transactional
-    public List<Event> getAllEvents(String token) {
-        AppUser appUser = this.appUserService.getUserFromToken(token);
-        for(Event e:this.eventRepository.findAll()) {
-            if(appUser.getEvents().contains(e)) {
-                e.setGoing(true);
+    public List<EventDTO> getAllEvents(String token) {
+        List<Event> events = this.eventRepository.findAll();
+        return this.convertToEventDTOs(events, token);
+    }
+
+    private List<EventDTO> convertToEventDTOs(List<Event> events, String token) {
+        List<EventDTO> eventDTOS = new ArrayList<>();
+        for(Event e:events) {
+            EventDTO eventDTO = new EventDTO(e);
+            AppUser appUser = this.appUserService.getUserFromToken(token);
+            if(e.getAttendees().contains(appUser)) {
+                eventDTO.setGoing(true);
             } else {
-                e.setGoing(false);
+                eventDTO.setGoing(false);
             }
-            this.eventRepository.save(e);
+            eventDTOS.add(eventDTO);
         }
-        return this.eventRepository.findAll();
+        return eventDTOS;
     }
 
     @Override
@@ -76,16 +85,18 @@ public class EventServiceImpl implements EventService{
         return attendees;
     }
 
+    @Override
     @Transactional
-    public List<Event> getEventsFromCity(String cityName, String token) {
-        this.getAllEvents(token);
-        return this.eventRepository.findAllByAddress_City(cityName);
+    public List<EventDTO> getEventsFromCity(String cityName, String token) {
+        List<Event> events = this.eventRepository.findAllByAddress_City(cityName);
+        return this.convertToEventDTOs(events, token);
     }
 
     @Override
-    public List<Event> getTrendingEventsFromCity(String city, String token) {
-        this.getAllEvents(token);
-        return this.eventRepository.findAllByAddress_CityOrderByAttendeesSize(city);
+    @Transactional
+    public List<EventDTO> getTrendingEventsFromCity(String city, String token) {
+        List<Event> events = this.eventRepository.findAllByAddress_CityOrderByAttendeesSize(city);
+        return this.convertToEventDTOs(events, token);
     }
 
     @Override

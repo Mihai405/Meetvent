@@ -8,6 +8,7 @@ import java.net.URI;
 import java.time.LocalDate;
 
 public class EventDTO {
+    private Long id;
     private String title;
     private AppUserVO organizer;
     private LocalDate date;
@@ -19,6 +20,7 @@ public class EventDTO {
     private URI imageUri;
 
     public EventDTO(Event event) {
+        this.id = event.getId();
         this.title = event.getTitle();
         this.organizer = new AppUserVO(event.getOrganizer().getEmail(), event.getOrganizer().getUsername(), event.getOrganizer().getImageUri());
         this.date = event.getDate();
@@ -27,6 +29,10 @@ public class EventDTO {
         this.address = event.getAddress();
         this.interestKey = event.getInterestKey();
         this.imageUri = event.getImageUri();
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getTitle() {
