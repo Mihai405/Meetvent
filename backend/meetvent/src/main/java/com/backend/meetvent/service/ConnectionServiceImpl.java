@@ -13,11 +13,11 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class TinderServiceImpl implements TinderService{
+public class ConnectionServiceImpl implements ConnectionService {
     private AppUserService appUserService;
     private TinderMatchRepository tinderMatchRepository;
 
-    public TinderServiceImpl(AppUserService appUserService, TinderMatchRepository tinderMatchRepository) {
+    public ConnectionServiceImpl(AppUserService appUserService, TinderMatchRepository tinderMatchRepository) {
         this.appUserService = appUserService;
         this.tinderMatchRepository = tinderMatchRepository;
     }
