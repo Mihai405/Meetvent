@@ -1,7 +1,7 @@
 package com.backend.meetvent.jwt;
 
 import com.backend.meetvent.constants.SecurityConstants;
-import com.backend.meetvent.service.UserDetailsImpl;
+import com.backend.meetvent.service.auth.UserDetailsImpl;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.slf4j.Logger;

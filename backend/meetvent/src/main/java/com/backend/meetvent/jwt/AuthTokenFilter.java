@@ -1,7 +1,7 @@
 package com.backend.meetvent.jwt;
 
 import com.backend.meetvent.constants.SecurityConstants;
-import com.backend.meetvent.service.UserDetailsServiceImpl;
+import com.backend.meetvent.service.auth.UserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

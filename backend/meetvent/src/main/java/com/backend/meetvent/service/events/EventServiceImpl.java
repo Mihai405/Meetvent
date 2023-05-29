@@ -1,4 +1,4 @@
-package com.backend.meetvent.service;
+package com.backend.meetvent.service.events;
 
 import com.backend.meetvent.api_error.exceptions.UserAlreadyJoinedEventException;
 import com.backend.meetvent.domain.dto.events.EventDTO;
@@ -6,6 +6,9 @@ import com.backend.meetvent.repository.EventRepository;
 import com.backend.meetvent.domain.AppUser;
 import com.backend.meetvent.domain.Event;
 import com.backend.meetvent.domain.UserInterestCounter;
+import com.backend.meetvent.service.ImageUtils;
+import com.backend.meetvent.service.UserInterestCounterService;
+import com.backend.meetvent.service.appUser.AppUserService;
 import jakarta.persistence.EntityNotFoundException;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,7 @@
 package com.backend.meetvent.config;
 
 import com.backend.meetvent.jwt.AuthTokenFilter;
-import com.backend.meetvent.service.UserDetailsServiceImpl;
+import com.backend.meetvent.service.auth.UserDetailsServiceImpl;
 import com.backend.meetvent.jwt.AuthEntryPointJwt;
 import com.backend.meetvent.jwt.JwtUtils;
 import jakarta.servlet.http.HttpServletRequest;

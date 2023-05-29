@@ -7,7 +7,7 @@ import com.backend.meetvent.domain.UserInterestCounter;
 import com.backend.meetvent.domain.dto.events.EventDTO;
 import com.backend.meetvent.domain.views.Views;
 import com.backend.meetvent.repository.EventRepository;
-import com.backend.meetvent.service.EventService;
+import com.backend.meetvent.service.events.EventService;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

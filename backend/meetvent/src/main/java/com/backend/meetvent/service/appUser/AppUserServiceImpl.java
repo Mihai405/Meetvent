@@ -1,9 +1,11 @@
-package com.backend.meetvent.service;
+package com.backend.meetvent.service.appUser;
 
 import com.backend.meetvent.repository.AppUserRepository;
 import com.backend.meetvent.domain.AppUser;
 import com.backend.meetvent.domain.Event;
 import com.backend.meetvent.jwt.JwtUtils;
+import com.backend.meetvent.service.ImageUtils;
+import com.backend.meetvent.service.UserInterestCounterService;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +19,7 @@ import java.util.Optional;
 @Transactional
 public class AppUserServiceImpl implements AppUserService{
     private AppUserRepository appUserRepository;
-    private  UserInterestCounterService userInterestCounterService;
+    private UserInterestCounterService userInterestCounterService;
     private JwtUtils jwtUtils;
 
     public AppUserServiceImpl(AppUserRepository appUserRepository,

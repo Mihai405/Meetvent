@@ -1,4 +1,4 @@
-package com.backend.meetvent.service;
+package com.backend.meetvent.service.auth;
 
 import com.backend.meetvent.domain.AppUser;
 import com.fasterxml.jackson.annotation.JsonIgnore;

@@ -3,6 +3,7 @@ package com.backend.meetvent.service;
 import com.backend.meetvent.domain.AppUser;
 import com.backend.meetvent.domain.TinderMatch;
 import com.backend.meetvent.repository.TinderMatchRepository;
+import com.backend.meetvent.service.appUser.AppUserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
