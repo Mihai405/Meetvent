@@ -8,6 +8,7 @@ import com.backend.meetvent.domain.dto.events.EventDTO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 
 public interface EventService {
@@ -17,7 +18,7 @@ public interface EventService {
     List<AppUserDTO> getUserForEvents(String id);
     List<EventDTO> getEventsFromCity(String city, String token);
     List<EventDTO> getTrendingEventsFromCity(String city, String token);
-    Event updateEventImage(String id, MultipartFile image) throws IOException;
+    EventDTO updateEventImage(String id, MultipartFile image, URI location) throws IOException;
     EventDTO createEvent(Event event, String token);
     List<UserInterestCounter> joinEvent(String userToken, String eventId);
     EventDTO getEventByIdAndToken(String id, String userToken);

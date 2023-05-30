@@ -70,14 +70,10 @@ public class EventController {
     }
 
     @PostMapping(path="/{id}/image", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-    public ResponseEntity<?> updateEventImage(@PathVariable String id, @ModelAttribute MultipartFile image) throws IOException {
-        Event event = this.eventService.updateEventImage(id, image);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().buildAndExpand(event.getId()).toUri();
-        if(event.getImage() != null) {
-            event.setImageUri(location);
-            this.eventRepository.save(event);
-        }
-        return new ResponseEntity<>(this.eventRepository.save(event), HttpStatus.OK);
+    public ResponseEntity<EventDTO> updateEventImage(@PathVariable String id, @ModelAttribute MultipartFile image) throws IOException {
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().buildAndExpand(id).toUri();
+        EventDTO eventDTO = this.eventService.updateEventImage(id, image, location);
+        return new ResponseEntity<>(eventDTO, HttpStatus.OK);
     }
 
     @GetMapping(path="/{id}/image")

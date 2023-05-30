@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -104,10 +105,13 @@ public class EventServiceImpl implements EventService{
     }
 
     @Override
-    public Event updateEventImage(String id, MultipartFile image) throws IOException {
+    public EventDTO updateEventImage(String id, MultipartFile image, URI location) throws IOException {
         Event event = this.getEventById(id);
         event.setImage(ImageUtils.compressImage(image.getBytes()));
-        return event;
+        if(event.getImage() != null) {
+            event.setImageUri(location);
+        }
+        return new EventDTO(this.eventRepository.save(event));
     }
 
     @Override
