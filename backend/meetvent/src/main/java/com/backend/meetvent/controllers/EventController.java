@@ -42,9 +42,8 @@ public class EventController {
     }
 
     @PostMapping()
-    @JsonView(Views.Public.class)
-    public ResponseEntity<Event> saveEvent(@RequestBody Event event, @RequestHeader(SecurityConstants.JWT_HEADER) String token) {
-        Event savedEvent = this.eventService.createEvent(event, token);
+    public ResponseEntity<EventDTO> saveEvent(@RequestBody Event event, @RequestHeader(SecurityConstants.JWT_HEADER) String token) {
+        EventDTO savedEvent = this.eventService.createEvent(event, token);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedEvent.getId()).toUri();
         return ResponseEntity.created(location).body(savedEvent);
     }

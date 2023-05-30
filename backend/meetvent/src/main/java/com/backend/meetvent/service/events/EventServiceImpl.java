@@ -111,10 +111,10 @@ public class EventServiceImpl implements EventService{
     }
 
     @Override
-    public Event createEvent(Event event, String token) {
+    public EventDTO createEvent(Event event, String token) {
         event.setOrganizer(this.appUserService.getUserFromToken(token));
         Event savedEvent  = this.saveEvent(event);
-        return savedEvent;
+        return new EventDTO(savedEvent);
     }
 
     @Override

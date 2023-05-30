@@ -17,7 +17,7 @@ public interface EventService {
     List<EventDTO> getEventsFromCity(String city, String token);
     List<EventDTO> getTrendingEventsFromCity(String city, String token);
     Event updateEventImage(String id, MultipartFile image) throws IOException;
-    Event createEvent(Event event, String token);
+    EventDTO createEvent(Event event, String token);
     List<UserInterestCounter> joinEvent(String userToken, String eventId);
     EventDTO getEventByIdAndToken(String id, String userToken);
     byte[] getEventImage(String id);
