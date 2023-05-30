@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import static java.lang.Long.parseLong;
+
 @Service
 public class EventServiceImpl implements EventService{
 
@@ -58,9 +60,8 @@ public class EventServiceImpl implements EventService{
         return eventDTOS;
     }
 
-    @Override
-    public Event getEventById(String id) {
-        Optional<Event> eventOptional = this.eventRepository.findById(Long.parseLong(id));
+    private Event getEventById(String id) {
+        Optional<Event> eventOptional = this.eventRepository.findById(parseLong(id));
         if(eventOptional.isEmpty()) {
             throw new EntityNotFoundException("Nu exista eveniment cu id-ul " + id);
         }
@@ -82,7 +83,7 @@ public class EventServiceImpl implements EventService{
     @Override
     @Transactional
     public List<AppUser> getUserForEvents(String id) {
-        Optional<Event> event = this.eventRepository.findById(Long.parseLong(id));
+        Optional<Event> event = this.eventRepository.findById(parseLong(id));
         List<AppUser> attendees = event.get().getAttendees();
         Hibernate.initialize(attendees);
         return attendees;
@@ -138,16 +139,17 @@ public class EventServiceImpl implements EventService{
     }
 
     @Override
-    public Event getEventByIdAndToken(String id, String userToken) {
-        List<Event> events = this.appUserService.getUserEventsFromToken(userToken);
+    @Transactional
+    public EventDTO getEventByIdAndToken(String id, String userToken) {
         Event event = this.getEventById(id);
-        if(events.contains(event)) {
-            event.setGoing(true);
+        AppUser appUser = this.appUserService.getUserFromToken(userToken);
+        EventDTO eventDTO = new EventDTO(event);
+        if(event.getAttendees().contains(appUser)) {
+            eventDTO.setGoing(true);
         } else {
-            event.setGoing(false);
+            eventDTO.setGoing(false);
         }
-        this.eventRepository.save(event);
-        return event;
+        return eventDTO;
     }
 
     @Override

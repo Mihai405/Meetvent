@@ -11,7 +11,6 @@ import java.util.List;
 
 public interface EventService {
     List<EventDTO> getAllEvents(String token);
-    Event getEventById(String id);
     Event saveEvent(Event event);
     void deleteEventById(Long id);
     List<AppUser> getUserForEvents(String id);
@@ -20,6 +19,6 @@ public interface EventService {
     Event updateEventImage(String id, MultipartFile image) throws IOException;
     Event createEvent(Event event, String token);
     List<UserInterestCounter> joinEvent(String userToken, String eventId);
-    Event getEventByIdAndToken(String id, String userToken);
+    EventDTO getEventByIdAndToken(String id, String userToken);
     byte[] getEventImage(String id);
 }

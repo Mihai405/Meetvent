@@ -37,8 +37,7 @@ public class EventController {
     }
 
     @GetMapping("{id}")
-    @JsonView(Views.Going.class)
-    public ResponseEntity<Event> getEventById(@PathVariable String id, @RequestHeader(SecurityConstants.JWT_HEADER) String token) {
+    public ResponseEntity<EventDTO> getEventById(@PathVariable String id, @RequestHeader(SecurityConstants.JWT_HEADER) String token) {
         return new ResponseEntity<>(this.eventService.getEventByIdAndToken(id, token), HttpStatus.OK);
     }
 
