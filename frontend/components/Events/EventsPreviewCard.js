@@ -5,8 +5,9 @@ import {Ionicons} from "@expo/vector-icons";
 import colors from "../../constants/colors";
 import {Avatar, Badge} from "@rneui/base";
 import AvatarCardList from "./AvatarCardList";
+import Colors from "../../constants/colors";
 
-function EventsPreviewCard({id, image, date, title, location}) {
+function EventsPreviewCard({id, imageUri, date, title, location}) {
     const navigation = useNavigation();
 
     function pressHandler() {
@@ -44,7 +45,7 @@ function EventsPreviewCard({id, image, date, title, location}) {
                     {/*    </Pressable>)*/}
                     {/*}*/}
                 </View>
-                <Image style={styles.image} source={{uri: image}}/>
+                <Image style={styles.image} source={{uri: imageUri}}/>
             </View>
                 <View style={styles.detailsContainer}>
                     <Text style={styles.title} ellipsizeMode="tail" numberOfLines={1}>{title}</Text>
@@ -82,7 +83,6 @@ const styles = StyleSheet.create({
         height: "100%",
     },
     onImage:{
-        flexDirection: "row",
         position: "absolute",
         zIndex: 1,
     },
