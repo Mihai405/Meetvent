@@ -4,6 +4,7 @@ import com.backend.meetvent.constants.SecurityConstants;
 import com.backend.meetvent.domain.AppUser;
 import com.backend.meetvent.domain.Event;
 import com.backend.meetvent.domain.UserInterestCounter;
+import com.backend.meetvent.domain.dto.appUsers.AppUserDTO;
 import com.backend.meetvent.domain.dto.events.EventDTO;
 import com.backend.meetvent.domain.views.Views;
 import com.backend.meetvent.repository.EventRepository;
@@ -54,8 +55,7 @@ public class EventController {
     }
 
     @GetMapping("/{id}/users")
-    @JsonView(Views.Public.class)
-    public List<AppUser> getUsersForEvent(@PathVariable String id) {
+    public List<AppUserDTO> getUsersForEvent(@PathVariable String id) {
         return this.eventService.getUserForEvents(id);
     }
 

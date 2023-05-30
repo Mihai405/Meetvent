@@ -1,6 +1,7 @@
 package com.backend.meetvent.service.events;
 
 import com.backend.meetvent.api_error.exceptions.UserAlreadyJoinedEventException;
+import com.backend.meetvent.domain.dto.appUsers.AppUserDTO;
 import com.backend.meetvent.domain.dto.events.EventDTO;
 import com.backend.meetvent.repository.EventRepository;
 import com.backend.meetvent.domain.AppUser;
@@ -82,11 +83,10 @@ public class EventServiceImpl implements EventService{
 
     @Override
     @Transactional
-    public List<AppUser> getUserForEvents(String id) {
-        Optional<Event> event = this.eventRepository.findById(parseLong(id));
-        List<AppUser> attendees = event.get().getAttendees();
-        Hibernate.initialize(attendees);
-        return attendees;
+    public List<AppUserDTO> getUserForEvents(String id) {
+        Event event = this.getEventById(id);
+        List<AppUser> attendees = event.getAttendees();
+        return this.appUserService.convertToAppUserDTOs(attendees);
     }
 
     @Override
