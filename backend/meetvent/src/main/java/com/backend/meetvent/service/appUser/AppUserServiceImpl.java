@@ -1,5 +1,6 @@
 package com.backend.meetvent.service.appUser;
 
+import com.backend.meetvent.domain.dto.appUsers.AppUserDTO;
 import com.backend.meetvent.repository.AppUserRepository;
 import com.backend.meetvent.domain.AppUser;
 import com.backend.meetvent.domain.Event;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,5 +80,14 @@ public class AppUserServiceImpl implements AppUserService{
     @Override
     public AppUser getAppUserById(String id) {
         return this.appUserRepository.getAppUserById(Long.parseLong(id)).get();
+    }
+
+    @Override
+    public List<AppUserDTO> convertToAppUserDTOs(List<AppUser> appUsers) {
+        List<AppUserDTO> appUserDTOS = new ArrayList<>();
+        for(AppUser appUser:appUsers) {
+            appUserDTOS.add(new AppUserDTO(appUser));
+        }
+        return appUserDTOS;
     }
 }
