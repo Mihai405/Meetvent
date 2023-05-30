@@ -16,71 +16,95 @@ function EventsScreen({eventsRoute, filtersDropdown}) {
 
     const fetchEvents = useCallback(async () => {
         setIsLoading(true);
-        const response = await fetch(`http://localhost:8080/events/city/${interestsCtx.city}`, {
-            headers: {
-                "Authorization": `Bearer ${authCtx.token}`
-            },
-        })
+        const response = await fetch(
+            `http://localhost:8080/events/city/${interestsCtx.city}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${authCtx.token}`,
+                },
+            }
+        );
         if (!response.ok) {
-            Alert.alert(
-                'Something went wrong!',
-                'Please try again later!'
-            );
+            Alert.alert("Something went wrong!", "Please try again later!");
             setIsLoading(false);
         } else {
             const data = await response.json();
             setEvents(data);
             setIsLoading(false);
         }
-    }, [])
+    }, []);
 
     useEffect(() => {
         fetchEvents();
-    }, [fetchEvents])
+    }, [fetchEvents]);
 
     useEffect(() => {
         if (eventsRoute.params) {
-            setActiveFilters([eventsRoute.params.interestId])
+            setActiveFilters([eventsRoute.params.interestId]);
         }
-    }, [eventsRoute])
+    }, [eventsRoute]);
 
     if (isLoading) {
         return <LoadingOverlay/>;
     }
 
     if (events.length === 0) {
-        return <Text style={styles.noEventsText}>No events found in {interestsCtx.city}!</Text>;
+        return (
+            <Text style={styles.noEventsText}>
+                No events found in {interestsCtxl.city}!
+            </Text>
+        );
     }
 
     function onPressFilter(id) {
         if (!activeFilters.includes(id)) {
-            setActiveFilters(prevState => [...prevState, id])
+            setActiveFilters((prevState) => [...prevState, id]);
         } else {
-            setActiveFilters((prevState => prevState.filter(interestId => interestId !== id)))
+            setActiveFilters((prevState) =>
+                prevState.filter((interestId) => interestId !== id)
+            );
         }
     }
 
-    const filteredEvents = events.filter((event) => activeFilters.includes(event.interestKey));
+    const filteredEvents = events.filter((event) =>
+        activeFilters.includes(event.interestKey)
+    );
 
     return (
-        <View>
-            {filtersDropdown && <FiltersDropdown activeFilters={activeFilters} onPressFilter={onPressFilter}/>}
-            <FlatList data={activeFilters.length === 0 ? events : filteredEvents} keyExtractor={(event) => event.id} renderItem={(itemData) =>
-                <EventCard id={itemData.item.id} image={itemData.item.imageUri} title={itemData.item.title}
-                           date={itemData.item.date}
-                           location={itemData.item.location}/>
-            }/>
+        <View style={styles.rootScreen}>
+            {filtersDropdown && (
+                <FiltersDropdown
+                    activeFilters={activeFilters}
+                    onPressFilter={onPressFilter}
+                />
+            )}
+            <FlatList
+                data={activeFilters.length === 0 ? events : filteredEvents}
+                keyExtractor={(event) => event.id}
+                renderItem={(itemData) => (
+                    <EventCard
+                        id={itemData.item.id}
+                        image={itemData.item.imageUri}
+                        title={itemData.item.title}
+                        date={itemData.item.date}
+                        location={itemData.item.location}
+                    />
+                )}
+            />
         </View>
-    )
+    );
 }
 
 export default EventsScreen;
 
 const styles = StyleSheet.create({
+    rootScreen: {
+        flex: 1,
+    },
     noEventsText: {
         fontWeight: "bold",
         textAlign: "center",
         marginTop: 24,
         fontSize: 24,
-    }
-})
+    },
+});

@@ -5,100 +5,117 @@ import {useCallback, useContext, useEffect, useState} from "react";
 import {AuthContext} from "../store/auth-context";
 import LoadingOverlay from "../components/ui/LoadingOverlay";
 import {InterestsContext} from "../store/interests-context";
+import {doRequest} from "../util/request";
 
 function HomeScreen({navigation}) {
     const [searchedText, setSearchedText] = useState();
     const [searchedData, setSearchedData] = useState([]);
-
+    const [isLoading, setIsLoading] = useState(false);
+    const authCtx = useContext(AuthContext);
+    const interestsCtx = useContext(InterestsContext);
     const [events, setEvents] = useState([]);
 
     function searchHandler(searched) {
         setSearchedText(searched);
         if (!searched) {
-            setSearchedData([])
+            setSearchedData([]);
         } else {
-            const searchedTextLowerCase = searched.toLowerCase()
-            const resultsList = events.filter(item => {
+            const searchedTextLowerCase = searched.toLowerCase();
+            const resultsList = events.filter((item) => {
                 const eventLowerCase = item.title.toLowerCase();
                 if (eventLowerCase.match(searchedTextLowerCase)) return item;
-            })
+            });
             setSearchedData(resultsList);
         }
     }
 
     useEffect(() => {
-        navigation.addListener('transitionStart', (e) => {
+        navigation.addListener("transitionStart", (e) => {
             if (e.data.closing) {
-                searchHandler("")
+                searchHandler("");
             }
         });
     }, [navigation]);
 
-    const [isLoading, setIsLoading] = useState(false);
-
-    const authCtx = useContext(AuthContext);
-    const interestsCtx = useContext(InterestsContext);
-
     const fetchEvents = useCallback(async () => {
         setIsLoading(true);
         if (interestsCtx.city) {
-            const response = await fetch(`http://localhost:8080/events/city/${interestsCtx.city}`, {
-                headers: {
-                    "Authorization": `Bearer ${authCtx.token}`
-                },
-            })
-            if (!response.ok) {
-                Alert.alert('Something went wrong!', 'Please try again later!');
-                setIsLoading(false);
-            } else {
-                const data = await response.json();
+            try {
+                const path = `http://localhost:8080/events/city/${interestsCtx.city}`;
+                const requestObject = {
+                    headers: {
+                        Authorization: `Bearer ${authCtx.token}`,
+                    },
+                };
+                const data = await doRequest(path, requestObject);
                 setEvents(data);
+                setIsLoading(false);
+            } catch (error) {
+                Alert.alert(error.message);
                 setIsLoading(false);
             }
         }
-    }, [interestsCtx.city])
+    }, [interestsCtx.city]);
 
     useEffect(() => {
-        fetchEvents();
-    }, [fetchEvents])
+        fetchEvents()
+            .catch(err => console.log(`Error fetchEvents() ${err}`))
+    }, [fetchEvents]);
 
     if (isLoading || events.length === 0) {
         return (
-            <View style={styles.outerContainer}>
-                <SearchHome searchedText={searchedText} searchHandler={searchHandler} data={searchedData}/>
+            <View style={styles.rootScreen}>
+                <SearchHome
+                    searchedText={searchedText}
+                    searchHandler={searchHandler}
+                    data={searchedData}
+                />
                 {isLoading && <LoadingOverlay/>}
-                {(events.length === 0 && !isLoading) &&
-                    <Text style={styles.noEventsText}>No events found in {interestsCtx.city}!</Text>}
+                {events.length === 0 && !isLoading && (
+                    <Text style={styles.noEventsText}>
+                        No events found in {interestsCtx.city}!
+                    </Text>
+                )}
             </View>
-        )
+        );
     }
     const newEvents = events.slice().reverse();
     return (
-        <View style={styles.outerContainer}>
-            <SearchHome searchedText={searchedText} searchHandler={searchHandler} data={searchedData}/>
+        <View style={styles.rootScreen}>
+            <SearchHome
+                searchedText={searchedText}
+                searchHandler={searchHandler}
+                data={searchedData}
+            />
             {searchedText && <View style={styles.searching}/>}
             <View style={styles.innerContainer}>
                 <EventPreviewList title="Trending" list={newEvents}/>
                 <EventPreviewList title="New Events" list={events}/>
             </View>
         </View>
-    )
+    );
 }
 
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-    outerContainer: {
-        flex: 1
-    }, innerContainer: {
-        marginTop: 100
-    }, searching: {
-        backgroundColor: 'rgba(0,0,0,0.5)', position: "absolute", height: "100%", width: "100%", zIndex: 2
+    rootScreen: {
+        flex: 1,
+    },
+    innerContainer: {
+        marginTop: 100,
+    },
+    searching: {
+        backgroundColor: "rgba(0,0,0,0.5)",
+        position: "absolute",
+        height: "100%",
+        width: "100%",
+        zIndex: 2,
     },
     noEventsText: {
         fontWeight: "bold",
         textAlign: "center",
         marginTop: 150,
         fontSize: 24,
-    }
-})
+    },
+});
