@@ -1,8 +1,7 @@
 package com.backend.meetvent.service.events;
 
-import com.backend.meetvent.domain.AppUser;
 import com.backend.meetvent.domain.Event;
-import com.backend.meetvent.domain.UserInterestCounter;
+import com.backend.meetvent.domain.dto.UserInterestCounter.UserInterestCounterDTO;
 import com.backend.meetvent.domain.dto.appUsers.AppUserDTO;
 import com.backend.meetvent.domain.dto.events.EventDTO;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,7 +19,7 @@ public interface EventService {
     List<EventDTO> getTrendingEventsFromCity(String city, String token);
     EventDTO updateEventImage(String id, MultipartFile image, URI location) throws IOException;
     EventDTO createEvent(Event event, String token);
-    List<UserInterestCounter> joinEvent(String userToken, String eventId);
+    List<UserInterestCounterDTO> joinEvent(String userToken, String eventId);
     EventDTO getEventByIdAndToken(String id, String userToken);
     byte[] getEventImage(String id);
 }

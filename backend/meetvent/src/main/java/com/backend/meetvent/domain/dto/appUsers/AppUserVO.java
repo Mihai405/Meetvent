@@ -1,10 +1,5 @@
 package com.backend.meetvent.domain.dto.appUsers;
-
-import com.backend.meetvent.domain.UserInterestCounter;
-
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
 
 public class AppUserVO {
     private String email;

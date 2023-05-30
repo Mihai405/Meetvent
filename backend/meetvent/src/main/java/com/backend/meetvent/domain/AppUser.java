@@ -82,11 +82,6 @@ public class AppUser extends BaseEntity{
         this.events = events;
     }
 
-    public void saveEvent(Event event) {
-        event.getAttendees().add(this);
-        this.getEvents().add(event);
-    }
-
     public List<UserInterestCounter> getUserInterestCounters() {
         return userInterestCounters;
     }

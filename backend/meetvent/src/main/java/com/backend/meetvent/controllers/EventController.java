@@ -1,9 +1,8 @@
 package com.backend.meetvent.controllers;
 
 import com.backend.meetvent.constants.SecurityConstants;
-import com.backend.meetvent.domain.AppUser;
 import com.backend.meetvent.domain.Event;
-import com.backend.meetvent.domain.UserInterestCounter;
+import com.backend.meetvent.domain.dto.UserInterestCounter.UserInterestCounterDTO;
 import com.backend.meetvent.domain.dto.appUsers.AppUserDTO;
 import com.backend.meetvent.domain.dto.events.EventDTO;
 import com.backend.meetvent.domain.views.Views;
@@ -84,8 +83,7 @@ public class EventController {
 
     @PostMapping("/{id}/join") //join an Event as a User
     @JsonView(Views.Public.class)
-    public List<UserInterestCounter> joinEvent(@RequestHeader(SecurityConstants.JWT_HEADER) String token, @PathVariable String id) {
-        List<UserInterestCounter> userInterests = this.eventService.joinEvent(token, id);
-        return userInterests;
+    public List<UserInterestCounterDTO> joinEvent(@RequestHeader(SecurityConstants.JWT_HEADER) String token, @PathVariable String id) {
+        return this.eventService.joinEvent(token, id);
     }
 }

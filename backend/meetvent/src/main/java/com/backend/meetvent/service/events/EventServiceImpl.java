@@ -1,6 +1,7 @@
 package com.backend.meetvent.service.events;
 
 import com.backend.meetvent.api_error.exceptions.UserAlreadyJoinedEventException;
+import com.backend.meetvent.domain.dto.UserInterestCounter.UserInterestCounterDTO;
 import com.backend.meetvent.domain.dto.appUsers.AppUserDTO;
 import com.backend.meetvent.domain.dto.events.EventDTO;
 import com.backend.meetvent.repository.EventRepository;
@@ -11,7 +12,6 @@ import com.backend.meetvent.service.ImageUtils;
 import com.backend.meetvent.service.UserInterestCounterService;
 import com.backend.meetvent.service.appUser.AppUserService;
 import jakarta.persistence.EntityNotFoundException;
-import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static java.lang.Long.parseLong;
@@ -123,23 +122,17 @@ public class EventServiceImpl implements EventService{
 
     @Override
     @Transactional
-    public List<UserInterestCounter> joinEvent(String userToken, String eventId) {
+    public List<UserInterestCounterDTO> joinEvent(String userToken, String eventId) {
         AppUser appUser = this.appUserService.getUserFromToken(userToken);
         Event event = this.getEventById(eventId);
-        UserInterestCounter userInterestCounter;
-        if(appUser.getEvents().contains(event)) {
+        if(event.getAttendees().contains(appUser)) {
             throw new UserAlreadyJoinedEventException("User already joined this event");
         } else {
-            appUser.saveEvent(event);
-            this.eventRepository.save(event);
-            try {
-                userInterestCounter = this.userInterestCounterService.updateUserInterestCounter(event.getInterestKey(), appUser);
-            } catch (NoSuchElementException e) {
-                userInterestCounter = this.userInterestCounterService.saveNewElement(event.getInterestKey(), appUser);
-            }
+            event.addAttendee(appUser);
+            this.userInterestCounterService.updateUserInterestCounter(event.getInterestKey(), appUser);
         }
         List<UserInterestCounter> userInterests = this.userInterestCounterService.getAllInterestsForUser(appUser);
-        return userInterests;
+        return this.userInterestCounterService.convertToUserInterestCounterDTOs(userInterests);
     }
 
     @Override

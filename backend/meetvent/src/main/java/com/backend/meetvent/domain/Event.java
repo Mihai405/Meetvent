@@ -18,7 +18,7 @@ public class Event extends BaseEntity{
     @ManyToOne
     @JoinColumn(name="organizer_id")
     private AppUser organizer;
-    @ManyToMany()
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "event_user",
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
@@ -87,6 +87,11 @@ public class Event extends BaseEntity{
 
     public void setAttendees(List<AppUser> attendees) {
         this.attendees = attendees;
+    }
+
+    public void addAttendee(AppUser attendee) {
+        this.attendees.add(attendee);
+        attendee.getEvents().add(this);
     }
 
     public String getTime() {
