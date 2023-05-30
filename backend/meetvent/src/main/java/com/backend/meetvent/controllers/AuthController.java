@@ -1,6 +1,8 @@
 package com.backend.meetvent.controllers;
 
 import com.backend.meetvent.domain.AppUser;
+import com.backend.meetvent.domain.dto.JSONMessageResponse;
+import com.backend.meetvent.domain.dto.appUsers.AppUserDTO;
 import com.backend.meetvent.service.auth.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +17,12 @@ public class AuthController {
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(@RequestBody AppUser loginRequest) {
+    public ResponseEntity<AppUserDTO> authenticateUser(@RequestBody AppUser loginRequest) {
         return ResponseEntity.ok(this.authService.signIn(loginRequest.getEmail(), loginRequest.getPassword()));
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@RequestBody AppUser appUser) {
+    public ResponseEntity<JSONMessageResponse> registerUser(@RequestBody AppUser appUser) {
         return ResponseEntity.ok(this.authService.register(appUser));
     }
 

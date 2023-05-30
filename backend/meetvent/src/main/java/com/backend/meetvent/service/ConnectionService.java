@@ -5,7 +5,7 @@ import com.backend.meetvent.domain.AppUser;
 import java.util.List;
 
 public interface ConnectionService {
-    public List<AppUser> findUsers(String userToken);
-    public String doTinderMatchLogic(String userToken, String contactId, String tinderResponse);
-    public List<AppUser> findMyMatches(String userToken);
+    List<AppUser> findUsers(String userToken);
+    String doTinderMatchLogic(String userToken, String contactId, String tinderResponse);
+    List<AppUser> findMyMatches(String userToken);
 }
