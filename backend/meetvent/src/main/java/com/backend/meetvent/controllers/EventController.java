@@ -24,11 +24,8 @@ import java.util.List;
 @RequestMapping("/events")
 public class EventController {
     private EventService eventService;
-    private EventRepository eventRepository;
-    public EventController(EventService eventService,
-                           EventRepository eventRepository) {
+    public EventController(EventService eventService) {
         this.eventService = eventService;
-        this.eventRepository = eventRepository;
     }
 
     @GetMapping()

@@ -2,6 +2,7 @@ package com.backend.meetvent.controllers;
 import com.backend.meetvent.constants.SecurityConstants;
 import com.backend.meetvent.domain.AppUser;
 import com.backend.meetvent.domain.Event;
+import com.backend.meetvent.domain.dto.appUsers.AppUserDTO;
 import com.backend.meetvent.domain.views.Views;
 import com.backend.meetvent.repository.AppUserRepository;
 import com.backend.meetvent.service.appUser.AppUserService;
@@ -30,17 +31,16 @@ public class UserController {
     }
 
     @GetMapping()
-    @JsonView(Views.Internal.class)
-    public AppUser getUser(@RequestHeader(SecurityConstants.JWT_HEADER) String token) {
+    public AppUserDTO getUser(@RequestHeader(SecurityConstants.JWT_HEADER) String token) {
         AppUser appUser = this.appUserService.getUserFromToken(token);
-        return appUser;
+        return new AppUserDTO(appUser);
     }
 
-    @GetMapping("/events")
-    @JsonView(Views.Public.class)
-    public List<Event> getUserEvents(@RequestHeader(SecurityConstants.JWT_HEADER) String token) {
-        return this.appUserService.getUserEventsFromToken(token);
-    }
+//    @GetMapping("/events")
+//    @JsonView(Views.Public.class)
+//    public List<Event> getUserEvents(@RequestHeader(SecurityConstants.JWT_HEADER) String token) {
+//        return this.appUserService.getUserEventsFromToken(token);
+//    }
 
     @PostMapping(path="/image", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity<AppUser> updateImage(@RequestHeader(SecurityConstants.JWT_HEADER) String token, @ModelAttribute MultipartFile image) throws IOException {
