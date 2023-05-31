@@ -6,6 +6,7 @@ import {AuthContext} from "../store/auth-context";
 import LoadingOverlay from "../components/ui/LoadingOverlay";
 import {InterestsContext} from "../store/interests-context";
 import {doRequest} from "../util/request";
+import RequestPaths from "../constants/requestPaths";
 
 function HomeScreen({navigation}) {
     const [searchedText, setSearchedText] = useState();
@@ -42,7 +43,7 @@ function HomeScreen({navigation}) {
         const fetchEvents = async () => {
             if(interestsCtx.city) {
                 try {
-                    const path = `http://localhost:8080/events/city/${interestsCtx.city}`;
+                    const path = RequestPaths.getEventsFromCity(interestsCtx.city);
                     const requestObject = {
                         headers: {
                             Authorization: `Bearer ${authCtx.token}`,

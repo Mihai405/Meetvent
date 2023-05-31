@@ -6,6 +6,7 @@ import {useCallback, useContext, useEffect, useState} from "react";
 import FiltersDropdown from "../components/Events/Filters/FiltersDropdown";
 import {InterestsContext} from "../store/interests-context";
 import {doRequest} from "../util/request";
+import RequestPaths from "../constants/requestPaths";
 
 function EventsScreen({eventsRoute, filtersDropdown}) {
     const [isLoading, setIsLoading] = useState(false);
@@ -19,7 +20,7 @@ function EventsScreen({eventsRoute, filtersDropdown}) {
         setIsLoading(true);
         const fetchEvents = async () => {
             try {
-                const requestPath = `http://localhost:8080/events/city/${interestsCtx.city}`
+                const requestPath = RequestPaths.getEventsFromCity(interestsCtx.city);
                 const requestObject = {
                     headers: {
                         Authorization: `Bearer ${authCtx.token}`,
