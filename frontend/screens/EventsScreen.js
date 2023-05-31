@@ -51,7 +51,7 @@ function EventsScreen({eventsRoute, filtersDropdown}) {
     if (events.length === 0) {
         return (
             <Text style={styles.noEventsText}>
-                No events found in {interestsCtxl.city}!
+                No events found in {interestsCtx.city}!
             </Text>
         );
     }
