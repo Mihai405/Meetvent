@@ -5,6 +5,7 @@ import LoadingOverlay from "../components/ui/LoadingOverlay";
 import {useCallback, useContext, useEffect, useState} from "react";
 import FiltersDropdown from "../components/Events/Filters/FiltersDropdown";
 import {InterestsContext} from "../store/interests-context";
+import {doRequest} from "../util/request";
 
 function EventsScreen({eventsRoute, filtersDropdown}) {
     const [isLoading, setIsLoading] = useState(false);
@@ -14,29 +15,26 @@ function EventsScreen({eventsRoute, filtersDropdown}) {
     const authCtx = useContext(AuthContext);
     const interestsCtx = useContext(InterestsContext);
 
-    const fetchEvents = useCallback(async () => {
-        setIsLoading(true);
-        const response = await fetch(
-            `http://localhost:8080/events/city/${interestsCtx.city}`,
-            {
-                headers: {
-                    Authorization: `Bearer ${authCtx.token}`,
-                },
-            }
-        );
-        if (!response.ok) {
-            Alert.alert("Something went wrong!", "Please try again later!");
-            setIsLoading(false);
-        } else {
-            const data = await response.json();
-            setEvents(data);
-            setIsLoading(false);
-        }
-    }, []);
-
     useEffect(() => {
-        fetchEvents();
-    }, [fetchEvents]);
+        setIsLoading(true);
+        const fetchEvents = async () => {
+            try {
+                const requestPath = `http://localhost:8080/events/city/${interestsCtx.city}`
+                const requestObject = {
+                    headers: {
+                        Authorization: `Bearer ${authCtx.token}`,
+                    },
+                }
+                const data = await doRequest(requestPath, requestObject);
+                setEvents(data);
+            } catch (e) {
+                Alert.alert(error.message);
+            } finally {
+                setIsLoading(false);
+            }
+        }
+        fetchEvents().catch(error => Alert.alert(error.message));
+    }, []);
 
     useEffect(() => {
         if (eventsRoute.params) {

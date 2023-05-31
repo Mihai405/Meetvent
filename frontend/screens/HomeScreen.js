@@ -37,30 +37,29 @@ function HomeScreen({navigation}) {
         });
     }, [navigation]);
 
-    const fetchEvents = useCallback(async () => {
+    useEffect(() => {
         setIsLoading(true);
-        if (interestsCtx.city) {
-            try {
-                const path = `http://localhost:8080/events/city/${interestsCtx.city}`;
-                const requestObject = {
-                    headers: {
-                        Authorization: `Bearer ${authCtx.token}`,
-                    },
-                };
-                const data = await doRequest(path, requestObject);
-                setEvents(data);
-                setIsLoading(false);
-            } catch (error) {
-                Alert.alert(error.message);
-                setIsLoading(false);
+        const fetchEvents = async () => {
+            if(interestsCtx.city) {
+                try {
+                    const path = `http://localhost:8080/events/city/${interestsCtx.city}`;
+                    const requestObject = {
+                        headers: {
+                            Authorization: `Bearer ${authCtx.token}`,
+                        },
+                    };
+                    const data = await doRequest(path, requestObject);
+                    setEvents(data);
+                } catch (error) {
+                    Alert.alert(error.message);
+                } finally {
+                    setIsLoading(false);
+                }
             }
         }
-    }, [interestsCtx.city]);
-
-    useEffect(() => {
         fetchEvents()
-            .catch(err => console.log(`Error fetchEvents() ${err}`))
-    }, [fetchEvents]);
+            .catch(error => Alert.alert(error.name))
+    }, [interestsCtx.city]);
 
     if (isLoading || events.length === 0) {
         return (
