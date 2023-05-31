@@ -80,13 +80,7 @@ function EventsScreen({eventsRoute, filtersDropdown}) {
                 data={activeFilters.length === 0 ? events : filteredEvents}
                 keyExtractor={(event) => event.id}
                 renderItem={(itemData) => (
-                    <EventCard
-                        id={itemData.item.id}
-                        image={itemData.item.imageUri}
-                        title={itemData.item.title}
-                        date={itemData.item.date}
-                        location={itemData.item.location}
-                    />
+                    <EventCard {...itemData.item}/>
                 )}
             />
         </View>

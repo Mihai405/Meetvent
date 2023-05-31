@@ -54,7 +54,7 @@ function EventsStackNavigator({route}) {
         <Stack.Navigator>
             <Stack.Screen name="Events" options={{
                 headerRight: () => {
-                    return (<FiltersButton onPress={() =>
+                    return (<FiltersButton isActive={filtersDropdownActive} onPress={() =>
                         setFilterDropdownActive(
                             prevState => !prevState
                         )
