@@ -8,10 +8,9 @@ import {InterestsContext} from "../store/interests-context";
 import {doRequest} from "../util/request";
 import RequestPaths from "../constants/requestPaths";
 
-function EventsScreen({eventsRoute, filtersDropdown}) {
+function EventsScreen({activeFilters, setActiveFilters, filtersDropdown}) {
     const [isLoading, setIsLoading] = useState(false);
     const [events, setEvents] = useState([]);
-    const [activeFilters, setActiveFilters] = useState([]);
 
     const authCtx = useContext(AuthContext);
     const interestsCtx = useContext(InterestsContext);
@@ -36,12 +35,6 @@ function EventsScreen({eventsRoute, filtersDropdown}) {
         }
         fetchEvents().catch(error => Alert.alert(error.message));
     }, []);
-
-    useEffect(() => {
-        if (eventsRoute.params) {
-            setActiveFilters([eventsRoute.params.interestId]);
-        }
-    }, [eventsRoute]);
 
     if (isLoading) {
         return <LoadingOverlay/>;

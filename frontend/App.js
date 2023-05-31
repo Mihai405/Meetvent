@@ -47,24 +47,37 @@ function HomeStackNavigator() {
     )
 }
 
-function EventsStackNavigator({route}) {
+function EventsStackNavigator({navigation, route}) {
     const [filtersDropdownActive, setFilterDropdownActive] = useState(false);
+    const [activeFiltersArray, setActiveFiltersArray] = useState([]);
+
+    useEffect(() => {
+        if(route.params && !activeFiltersArray.length) {
+            setActiveFiltersArray([route.params.interestId]);
+        }
+    }, [route]);
+
+    useEffect(() => {
+        navigation.addListener("blur", (e) => {
+            setActiveFiltersArray([]);
+            setFilterDropdownActive(false);
+        });
+    }, [navigation]);
 
     return (
         <Stack.Navigator>
             <Stack.Screen name="Events" options={{
                 headerRight: () => {
-                    return (<FiltersButton isActive={filtersDropdownActive} onPress={() =>
+                    return (<FiltersButton isActive={filtersDropdownActive} filtersNumber={activeFiltersArray.length} onPress={() =>
                         setFilterDropdownActive(
                             prevState => !prevState
                         )
-
                     }/>)
                 }
             }}>
                 {
                     () => {
-                        return (<EventsScreen eventsRoute={route} filtersDropdown={filtersDropdownActive}/>)
+                        return (<EventsScreen activeFilters={activeFiltersArray} setActiveFilters={setActiveFiltersArray} filtersDropdown={filtersDropdownActive}/>)
                     }
                 }
             </Stack.Screen>
@@ -80,6 +93,7 @@ function AuthenticatedNavigator() {
             screenOptions={{
                 tabBarActiveTintColor: colors.primary500
             }}
+            id="BottomTabNavigator"
         >
             <Tab.Screen name="HomeStack" component={HomeStackNavigator} options={{
                 title: "Home",
