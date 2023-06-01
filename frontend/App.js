@@ -46,24 +46,21 @@ function HomeStackNavigator() {
         </Stack.Navigator>
     )
 }
-
 function EventsStackNavigator({navigation, route}) {
     const [filtersDropdownActive, setFilterDropdownActive] = useState(false);
     const [activeFiltersArray, setActiveFiltersArray] = useState([]);
-
     useEffect(() => {
-        if(route.params && !activeFiltersArray.length) {
+        if(route.params?.interestId >=0 ) {
             setActiveFiltersArray([route.params.interestId]);
         }
-    }, [route]);
-
+    }, [route.params?.interestId]);
     useEffect(() => {
-        navigation.addListener("blur", (e) => {
+        const unsubscribeBlur = navigation.addListener("blur", (e) => {
             setActiveFiltersArray([]);
             setFilterDropdownActive(false);
         });
+        return () => unsubscribeBlur();
     }, [navigation]);
-
     return (
         <Stack.Navigator>
             <Stack.Screen name="Events" options={{
