@@ -1,8 +1,8 @@
 package com.backend.meetvent.service;
 
 import com.backend.meetvent.domain.AppUser;
-import com.backend.meetvent.domain.TinderMatch;
-import com.backend.meetvent.repository.TinderMatchRepository;
+import com.backend.meetvent.domain.Connection;
+import com.backend.meetvent.repository.ConnectionRepository;
 import com.backend.meetvent.service.appUser.AppUserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,18 +15,18 @@ import java.util.Optional;
 @Transactional
 public class ConnectionServiceImpl implements ConnectionService {
     private AppUserService appUserService;
-    private TinderMatchRepository tinderMatchRepository;
+    private ConnectionRepository connectionRepository;
 
-    public ConnectionServiceImpl(AppUserService appUserService, TinderMatchRepository tinderMatchRepository) {
+    public ConnectionServiceImpl(AppUserService appUserService, ConnectionRepository connectionRepository) {
         this.appUserService = appUserService;
-        this.tinderMatchRepository = tinderMatchRepository;
+        this.connectionRepository = connectionRepository;
     }
 
     @Override
     public List<AppUser> findUsers(String userToken) {
         List<AppUser> yourNextUsers = new ArrayList<>();
         AppUser appUser = this.appUserService.getUserFromToken(userToken);
-        List<TinderMatch> likeMatches = this.tinderMatchRepository.findAllByAppUser2_IdAndUser1ResponseAndUser2Response(appUser.getId(), "YES", null);
+        List<Connection> likeMatches = this.connectionRepository.findAllByAppUser2_IdAndUser1ResponseAndUser2Response(appUser.getId(), "YES", null);
         List<Long> peopleIds = this.getPeopleWhoLikesYouIdsFromMatches(likeMatches);
         yourNextUsers.addAll(this.getPeopleWhoLikesYou(peopleIds));
         List<Long> notWantedProfilesIds = new ArrayList<>();
@@ -40,16 +40,16 @@ public class ConnectionServiceImpl implements ConnectionService {
     public String doTinderMatchLogic(String userToken, String contactId, String tinderResponse) {
         AppUser appUser = this.appUserService.getUserFromToken(userToken);
         AppUser contactUser = this.appUserService.getAppUserById(contactId);
-        Optional<TinderMatch> tinderMatch = this.tinderMatchRepository.findByAppUser1_IdAndAndAppUser2_Id(contactUser.getId(), appUser.getId());
+        Optional<Connection> tinderMatch = this.connectionRepository.findByAppUser1_IdAndAndAppUser2_Id(contactUser.getId(), appUser.getId());
         if(tinderMatch.isPresent()) {
             if(tinderResponse.equals("YES")) {
                 tinderMatch.get().setUser2Response("YES");
-                this.tinderMatchRepository.save(tinderMatch.get());
+                this.connectionRepository.save(tinderMatch.get());
                 return "MATCH";
             } else {
                 tinderMatch.get().setAppUser2(appUser);
                 tinderMatch.get().setUser2Response("NO");
-                this.tinderMatchRepository.save(tinderMatch.get());
+                this.connectionRepository.save(tinderMatch.get());
                 return "FAILED";
             }
         } else {
@@ -63,9 +63,9 @@ public class ConnectionServiceImpl implements ConnectionService {
         }
     }
 
-    private List<Long> getPeopleWhoLikesYouIdsFromMatches(List<TinderMatch> matches) {
+    private List<Long> getPeopleWhoLikesYouIdsFromMatches(List<Connection> matches) {
         ArrayList<Long> peopleIds = new ArrayList<>();
-        for(TinderMatch match:matches) {
+        for(Connection match:matches) {
             peopleIds.add(match.getAppUser1().getId());
         }
         return peopleIds;
@@ -82,56 +82,56 @@ public class ConnectionServiceImpl implements ConnectionService {
     }
 
     private List<Long> alreadyViewedProfilesIds(Long myId) {
-        List<TinderMatch> seenProfileMatchesFirst = this.tinderMatchRepository.findAllByAppUser1_Id(myId);
-        List<TinderMatch> seenProfileMatchesSecondYes = this.tinderMatchRepository.findAllByAppUser2_IdAndUser2Response(myId, "YES");
-        List<TinderMatch> seenProfileMatchesSecondNO = this.tinderMatchRepository.findAllByAppUser2_IdAndUser2Response(myId, "NO");
-        List<TinderMatch> declineMyProfile = this.tinderMatchRepository.findAllByAppUser2_IdAndUser1Response(myId, "NO");
+        List<Connection> seenProfileMatchesFirst = this.connectionRepository.findAllByAppUser1_Id(myId);
+        List<Connection> seenProfileMatchesSecondYes = this.connectionRepository.findAllByAppUser2_IdAndUser2Response(myId, "YES");
+        List<Connection> seenProfileMatchesSecondNO = this.connectionRepository.findAllByAppUser2_IdAndUser2Response(myId, "NO");
+        List<Connection> declineMyProfile = this.connectionRepository.findAllByAppUser2_IdAndUser1Response(myId, "NO");
         List<Long> idsForSeenUsers = new ArrayList<>();
-        for(TinderMatch match:seenProfileMatchesFirst) {
+        for(Connection match:seenProfileMatchesFirst) {
             idsForSeenUsers.add(match.getAppUser2().getId());
         }
-        for(TinderMatch match:seenProfileMatchesSecondYes) {
+        for(Connection match:seenProfileMatchesSecondYes) {
             idsForSeenUsers.add(match.getAppUser1().getId());
         }
-        for(TinderMatch match:seenProfileMatchesSecondNO) {
+        for(Connection match:seenProfileMatchesSecondNO) {
             idsForSeenUsers.add(match.getAppUser1().getId());
         }
-        for(TinderMatch match:declineMyProfile) {
+        for(Connection match:declineMyProfile) {
             idsForSeenUsers.add(match.getAppUser1().getId());
         }
         return idsForSeenUsers;
     }
 
-    public TinderMatch createNewContact(AppUser appUser1, AppUser appUser2, String tinderResponse) {
-        TinderMatch tinderMatch = new TinderMatch();
-        tinderMatch.setAppUser1(appUser1);
-        tinderMatch.setAppUser2(appUser2);
-        tinderMatch.setUser1Response(tinderResponse);
-        return this.tinderMatchRepository.save(tinderMatch);
+    private Connection createNewContact(AppUser appUser1, AppUser appUser2, String tinderResponse) {
+        Connection connection = new Connection();
+        connection.setAppUser1(appUser1);
+        connection.setAppUser2(appUser2);
+        connection.setUser1Response(tinderResponse);
+        return this.connectionRepository.save(connection);
     }
 
     @Override
     public List<AppUser> findMyMatches(String userToken) {
         AppUser appUser = this.appUserService.getUserFromToken(userToken);
-        List<TinderMatch> tinderMatchesAsUser1 = this.tinderMatchRepository.findAllByAppUser1AndUser1ResponseAndUser2Response(
+        List<Connection> tinderMatchesAsUser1 = this.connectionRepository.findAllByAppUser1AndUser1ResponseAndUser2Response(
                 appUser,
                 "YES",
                 "YES"
         );
-        List<TinderMatch> tinderMatchesAsUser2 = this.tinderMatchRepository.findAllByAppUser2AndUser1ResponseAndUser2Response(
+        List<Connection> tinderMatchesAsUser2 = this.connectionRepository.findAllByAppUser2AndUser1ResponseAndUser2Response(
                 appUser,
                 "YES",
                 "YES"
         );
         List<Long> matchingPeopleIds = new ArrayList<>();
-        for(TinderMatch tinderMatch:tinderMatchesAsUser1) {
-            if(tinderMatch.getAppUser2().getId() != appUser.getId()) {
-                matchingPeopleIds.add(tinderMatch.getAppUser2().getId());
+        for(Connection connection :tinderMatchesAsUser1) {
+            if(connection.getAppUser2().getId() != appUser.getId()) {
+                matchingPeopleIds.add(connection.getAppUser2().getId());
             }
         }
-        for(TinderMatch tinderMatch:tinderMatchesAsUser2) {
-            if(tinderMatch.getAppUser1().getId() != appUser.getId()) {
-                matchingPeopleIds.add(tinderMatch.getAppUser1().getId());
+        for(Connection connection :tinderMatchesAsUser2) {
+            if(connection.getAppUser1().getId() != appUser.getId()) {
+                matchingPeopleIds.add(connection.getAppUser1().getId());
             }
         }
         return this.appUserService.getAppUsersWithIdsInList(matchingPeopleIds);

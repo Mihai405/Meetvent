@@ -4,7 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-public class TinderMatch extends BaseEntity{
+public class Connection extends BaseEntity{
     @ManyToOne
     private AppUser appUser1;
     @ManyToOne
