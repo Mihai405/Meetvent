@@ -1,7 +1,7 @@
-import {NavigationContainer} from '@react-navigation/native'
+import {NavigationContainer} from "@react-navigation/native";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import {Ionicons} from '@expo/vector-icons';
+import {Ionicons} from "@expo/vector-icons";
 
 import HomeScreen from "./screens/HomeScreen";
 import EventsScreen from "./screens/EventsScreen";
@@ -25,38 +25,63 @@ import ContactList from "./screens/ContactList";
 import FiltersButton from "./components/Events/Filters/FiltersButton";
 import InterestsContextProvider from "./store/interests-context";
 import ChatScreen from "./screens/ChatScreen";
-import * as encoding from 'text-encoding';
+import * as encoding from "text-encoding";
+import ChatHeaderTitle from "./components/Chat/headerUi/ChatHeaderTitle";
+import ChatHeaderRight from "./components/Chat/headerUi/ChatHeaderRight";
+
 function HomeStackNavigator() {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="Home" component={HomeScreen} options={{
-                headerStyle: {
-                    backgroundColor: colors.primary500,
-                },
-                headerTitle: LocationPicker,
-                headerRight: ChatButton,
-                headerTintColor: "white",
-                headerShadowVisible: false
-            }}/>
-            <Stack.Screen name="EventDetailScreenHome" component={EventDetailScreen} options={{
-                title: "Event Details"
-            }}/>
-            <Stack.Screen name="ContactList" component={ContactList} options={{
-                title: "Friends"
-            }}/>
-            <Stack.Screen name="Chat" component={ChatScreen} options={({navigation, route}) => {
-                return {
-                    title: route.params?.username
-                }
-            }}/>
+            <Stack.Screen
+                name="Home"
+                component={HomeScreen}
+                options={{
+                    headerStyle: {
+                        backgroundColor: colors.primary500,
+                    },
+                    headerTitle: LocationPicker,
+                    headerRight: ChatButton,
+                    headerTintColor: "white",
+                    headerShadowVisible: false,
+                }}
+            />
+            <Stack.Screen
+                name="EventDetailScreenHome"
+                component={EventDetailScreen}
+                options={{
+                    title: "Event Details",
+                }}
+            />
+            <Stack.Screen
+                name="ContactList"
+                component={ContactList}
+                options={{
+                    title: "Friends",
+                }}
+            />
+            <Stack.Screen
+                name="Chat"
+                component={ChatScreen}
+                options={({route}) => {
+                    const params = route.params ? route.params : null;
+                    return {
+                        headerTintColor: colors.primary500,
+                        headerTitle: () => <ChatHeaderTitle {...params} />,
+                        headerRight: (props) => (
+                            <ChatHeaderRight {...props}></ChatHeaderRight>
+                        ),
+                    };
+                }}
+            />
         </Stack.Navigator>
-    )
+    );
 }
+
 function EventsStackNavigator({navigation, route}) {
     const [filtersDropdownActive, setFilterDropdownActive] = useState(false);
     const [activeFiltersArray, setActiveFiltersArray] = useState([]);
     useEffect(() => {
-        if(route.params?.interestId >=0 ) {
+        if (route.params?.interestId >= 0) {
             setActiveFiltersArray([route.params.interestId]);
         }
     }, [route.params?.interestId]);
@@ -69,74 +94,114 @@ function EventsStackNavigator({navigation, route}) {
     }, [navigation]);
     return (
         <Stack.Navigator>
-            <Stack.Screen name="Events" options={{
-                headerRight: () => {
-                    return (<FiltersButton isActive={filtersDropdownActive} filtersNumber={activeFiltersArray.length} onPress={() =>
-                        setFilterDropdownActive(
-                            prevState => !prevState
-                        )
-                    }/>)
-                }
-            }}>
-                {
-                    () => {
-                        return (<EventsScreen activeFilters={activeFiltersArray} setActiveFilters={setActiveFiltersArray} filtersDropdown={filtersDropdownActive}/>)
-                    }
-                }
+            <Stack.Screen
+                name="Events"
+                options={{
+                    headerRight: () => {
+                        return (
+                            <FiltersButton
+                                isActive={filtersDropdownActive}
+                                filtersNumber={activeFiltersArray.length}
+                                onPress={() =>
+                                    setFilterDropdownActive((prevState) => !prevState)
+                                }
+                            />
+                        );
+                    },
+                }}
+            >
+                {() => {
+                    return (
+                        <EventsScreen
+                            activeFilters={activeFiltersArray}
+                            setActiveFilters={setActiveFiltersArray}
+                            filtersDropdown={filtersDropdownActive}
+                        />
+                    );
+                }}
             </Stack.Screen>
-            <Stack.Screen name="EventDetailScreenEvents" component={EventDetailScreen} options={{
-                title: "Event details"}}/>
+            <Stack.Screen
+                name="EventDetailScreenEvents"
+                component={EventDetailScreen}
+                options={{
+                    title: "Event details",
+                }}
+            />
         </Stack.Navigator>
-    )
+    );
 }
 
 function AuthenticatedNavigator() {
     return (
         <Tab.Navigator
             screenOptions={{
-                tabBarActiveTintColor: colors.primary500
+                tabBarActiveTintColor: colors.primary500,
             }}
             id="BottomTabNavigator"
         >
-            <Tab.Screen name="HomeStack" component={HomeStackNavigator} options={{
-                title: "Home",
-                headerShown: false,
-                tabBarIcon: ({color, size}) => (
-                    <Ionicons name="home" color={color} size={size}/>
-                ),
-            }}/>
-            <Tab.Screen name="EventsStack" component={EventsStackNavigator} options={{
-                title: "Events",
-                headerShown: false,
-                tabBarIcon: ({color, size}) => (
-                    <Ionicons name="calendar" color={color} size={size}/>
-                ),
-            }}/>
-            <Tab.Screen name="Connect" component={ConnectScreen} options={{
-                tabBarIcon: ({color, size}) => (
-                    <Ionicons name="infinite" color={color} size={size}/>
-                ),
-            }}/>
-            <Tab.Screen name="Profile" component={ProfileScreen} options={{
-                tabBarIcon: ({color, size}) => (
-                    <Ionicons name="person" color={color} size={size}/>
-                ),
-            }}/>
+            <Tab.Screen
+                name="HomeStack"
+                component={HomeStackNavigator}
+                options={{
+                    title: "Home",
+                    headerShown: false,
+                    tabBarIcon: ({color, size}) => (
+                        <Ionicons name="home" color={color} size={size}/>
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="EventsStack"
+                component={EventsStackNavigator}
+                options={{
+                    title: "Events",
+                    headerShown: false,
+                    tabBarIcon: ({color, size}) => (
+                        <Ionicons name="calendar" color={color} size={size}/>
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="Connect"
+                component={ConnectScreen}
+                options={{
+                    tabBarIcon: ({color, size}) => (
+                        <Ionicons name="infinite" color={color} size={size}/>
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="Profile"
+                component={ProfileScreen}
+                options={{
+                    tabBarIcon: ({color, size}) => (
+                        <Ionicons name="person" color={color} size={size}/>
+                    ),
+                }}
+            />
         </Tab.Navigator>
-    )
+    );
 }
 
 function AuthNavigator() {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="Login" component={LoginScreen} options={{
-                headerShown: false,
-            }}/>
-            <Stack.Screen name="Register" component={RegisterScreen} options={{
-                headerShown: false,
-            }}/>
+            <Stack.Screen
+                name="Login"
+                component={LoginScreen}
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen
+                name="Register"
+                component={RegisterScreen}
+                options={{
+                    headerShown: false,
+                }}
+            />
         </Stack.Navigator>
-    )
+    );
 }
 
 function Navigation() {
@@ -147,7 +212,7 @@ function Navigation() {
             {!authCtx.isAuthenticated && <AuthNavigator/>}
             {authCtx.isAuthenticated && <AuthenticatedNavigator/>}
         </NavigationContainer>
-    )
+    );
 }
 
 function Root() {
@@ -157,7 +222,7 @@ function Root() {
 
     useEffect(() => {
         async function fetchToken() {
-            const storedToken = await AsyncStorage.getItem('token');
+            const storedToken = await AsyncStorage.getItem("token");
 
             if (storedToken) {
                 authCtx.authenticate(storedToken);

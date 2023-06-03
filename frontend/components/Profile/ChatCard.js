@@ -6,7 +6,8 @@ function ChatCard({email, username, imageUri}) {
     const navigation = useNavigation();
     const onNavigate = () => {
         navigation.navigate("Chat" ,{
-            username: username
+            username: username,
+            imageUri: imageUri
         });
     }
 

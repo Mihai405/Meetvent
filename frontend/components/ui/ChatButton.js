@@ -7,7 +7,7 @@ function ChatButton() {
     const navigation = useNavigation();
 
     function onPress() {
-        navigation.navigate('Chat')
+        navigation.navigate('ContactList')
     }
 
     return (
