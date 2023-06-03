@@ -1,80 +1,84 @@
-import {Alert, FlatList, StyleSheet, Text, View} from "react-native";
-import {useCallback, useContext, useEffect, useState} from "react";
+import {useState, useCallback, useEffect, useContext} from 'react'
+import { StyleSheet } from "react-native";
+import { GiftedChat } from 'react-native-gifted-chat'
+import SockJs from "sockjs-client";
+import {Stomp} from "@stomp/stompjs";
 import {AuthContext} from "../store/auth-context";
-import LoadingOverlay from "../components/ui/LoadingOverlay";
-import colors from "../constants/colors";
-import ChatCard from "../components/Profile/ChatCard";
 
-function ChatScreen() {
-    const [isLoading, setIsLoading] = useState(false);
-    const [connections, setConnections] = useState(false);
+let stompClient = null;
+export function ChatScreen() {
+    let userId = 1;
+    const [messages, setMessages] = useState([]);
     const authCtx = useContext(AuthContext);
-
-    const fetchEvent = useCallback(async () => {
-        setIsLoading(true);
-        const response = await fetch(`http://localhost:8080/tinder/matches`, {
-            headers: {
-                "Authorization": `Bearer ${authCtx.token}`
+    const [user, setUser] = useState({
+        _id: 1,
+        name: 'User1',
+    })
+    useEffect(() => {
+        setMessages([
+            {
+                _id: 1,
+                text: 'Hello developer',
+                createdAt: new Date(),
+                user: {
+                    _id: 2,
+                    name: 'React Native',
+                    avatar: 'https://placeimg.com/140/140/any',
+                },
             },
-        })
-        if (!response.ok) {
-            Alert.alert(
-                'Something went wrong!',
-                'Please try again later!'
-            );
-        } else {
-            const data = await response.json();
-            console.log(data)
-            setConnections(data)
-
+        ])
+    }, [])
+    useEffect(() => {
+        const connect = () => {
+            try {
+                stompClient = Stomp.over(() => new SockJs('http://localhost:8080/ws'));
+                stompClient.debug=()=>{};
+                stompClient.onConnect = () => {
+                    stompClient.subscribe(`/user/${user._id}/private`, onPrivateMessage)
+                }
+                stompClient.activate();
+            } catch (e) {
+                console.log(e);
+            }
         }
-        setIsLoading(false);
+        connect();
     }, [])
 
-    useEffect(() => {
-        fetchEvent();
-    }, [fetchEvent])
-
-    if (isLoading) {
-        return <LoadingOverlay/>;
+    const onPrivateMessage = (payload) => {
+        const message = JSON.parse(payload.body);
+        setMessages(previousMessages => GiftedChat.append(previousMessages, message))
     }
 
+    const handleSend = () => {
+        const bodyObject = JSON.stringify({
+           receiverId: 1,
+           senderId: 2,
+           text: "Primul mesaj intre user2 si user1",
+           date: new Date()
+        });
+        stompClient.publish({destination: "/app/private-message", body: bodyObject});
+    }
+
+    const onError = (error) => {
+        console.log(error);
+    }
+
+    const onSend = useCallback((messages = []) => {
+        setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
+    }, [])
+
     return (
-        <View style={styles.container}>
-            {connections.length !== 0 &&
-                <FlatList data={connections} keyExtractor={(connection) => connection.id} renderItem={(itemData) =>
-                    <ChatCard email={itemData.item.email} username={itemData.item.username} image={itemData.item.imageUri}/>
-                }/>}
-            {connections.length === 0 &&
-                <View style={styles.emptyContainer}>
-                    <Text style={styles.title}>No connections found!</Text>
-                </View>
-            }
-        </View>
+        <GiftedChat
+            messages={messages}
+            onSend={messages => handleSend()}
+            user={{
+                _id: 1,
+            }}
+        />
     )
 }
-
 export default ChatScreen;
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: colors.primary100,
-        borderRadius: 20,
-        padding: 8,
-        margin: 8,
-    },
-    emptyContainer: {
-        backgroundColor: "#FFFFFF",
-        height: 66,
-        width: 350,
-        margin: 4,
-        borderRadius: 8,
-        alignSelf: "center",
-        justifyContent: "center",
-        alignItems: "center"
-    },
-    title: {
-        fontWeight: "bold",
-        fontSize: 20
-    }
+
 })

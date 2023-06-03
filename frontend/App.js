@@ -21,10 +21,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import LoadingOverlay from "./components/ui/LoadingOverlay";
 import LocationPicker from "./components/Location/LocationPicker";
 import ChatButton from "./components/ui/ChatButton";
-import ChatScreen from "./screens/ChatScreen";
+import ContactList from "./screens/ContactList";
 import FiltersButton from "./components/Events/Filters/FiltersButton";
 import InterestsContextProvider from "./store/interests-context";
-
+import ChatScreen from "./screens/ChatScreen";
+import * as encoding from 'text-encoding';
 function HomeStackNavigator() {
     return (
         <Stack.Navigator>
@@ -40,8 +41,13 @@ function HomeStackNavigator() {
             <Stack.Screen name="EventDetailScreenHome" component={EventDetailScreen} options={{
                 title: "Event Details"
             }}/>
-            <Stack.Screen name="ChatScreen" component={ChatScreen} options={{
-                title: "Chat"
+            <Stack.Screen name="ContactList" component={ContactList} options={{
+                title: "Friends"
+            }}/>
+            <Stack.Screen name="Chat" component={ChatScreen} options={({navigation, route}) => {
+                return {
+                    title: route.params?.username
+                }
             }}/>
         </Stack.Navigator>
     )

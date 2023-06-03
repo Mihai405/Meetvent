@@ -1,15 +1,23 @@
 import {Image, Pressable, StyleSheet, Text, View} from "react-native";
 import colors from "../../constants/colors";
+import {useNavigation} from "@react-navigation/native";
 
-function ChatCard({email, username, image}) {
+function ChatCard({email, username, imageUri}) {
+    const navigation = useNavigation();
+    const onNavigate = () => {
+        navigation.navigate("Chat" ,{
+            username: username
+        });
+    }
+
     return (
         <Pressable style={({pressed}) =>
             pressed
                 ? [styles.container, styles.pressed]
                 : [styles.container]
-        }>
+        } onPress={onNavigate}>
             <View style={styles.imageContainer}>
-                <Image style={styles.image} source={{uri: image}}/>
+                <Image style={styles.image} source={{uri: imageUri}}/>
             </View>
             <View style={styles.detailsContainer}>
                 <Text style={styles.title}>{username}</Text>
