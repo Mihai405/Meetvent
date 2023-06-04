@@ -1,15 +1,13 @@
 import {StyleSheet, View, Text, Image} from "react-native";
 import Colors from "../../../constants/colors";
 
-const defaultColor = Colors.primary500;
-
-function ChatHeaderTitle({username=defaultColor, imageUri=defaultColor}) {
+function ChatHeaderTitle({user}) {
     return (
         <View style={styles.container}>
-            <Image style={styles.image} source={{uri: imageUri}}/>
+            <Image style={styles.image} source={{uri: user.avatar}}/>
             <View style={styles.textContainer}>
                 <Text style={styles.title} ellipsizeMode="tail" numberOfLines={1}>
-                    {username}
+                    {user.name}
                 </Text>
                 <Text style={styles.active}>Active now</Text>
             </View>

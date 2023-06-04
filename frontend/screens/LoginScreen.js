@@ -38,7 +38,7 @@ function LoginScreen({navigation}) {
     } else {
       const data = await response.json();
       interestsCtx.setUsersInterests(data.userInterestCounters);
-      authCtx.authenticate(data.token);
+      authCtx.authenticate(data.token, data.id);
     }
   }
 

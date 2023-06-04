@@ -2,12 +2,11 @@ import {Image, Pressable, StyleSheet, Text, View} from "react-native";
 import colors from "../../constants/colors";
 import {useNavigation} from "@react-navigation/native";
 
-function ChatCard({email, username, imageUri}) {
+function ChatCard({user}) {
     const navigation = useNavigation();
     const onNavigate = () => {
-        navigation.navigate("Chat" ,{
-            username: username,
-            imageUri: imageUri
+        navigation.navigate("ChatScreen" ,{
+            user: user
         });
     }
 
@@ -18,11 +17,11 @@ function ChatCard({email, username, imageUri}) {
                 : [styles.container]
         } onPress={onNavigate}>
             <View style={styles.imageContainer}>
-                <Image style={styles.image} source={{uri: imageUri}}/>
+                <Image style={styles.image} source={{uri: user.avatar}}/>
             </View>
             <View style={styles.detailsContainer}>
-                <Text style={styles.title}>{username}</Text>
-                <Text style={styles.date}>{email}</Text>
+                <Text style={styles.title}>{user.name}</Text>
+                <Text style={styles.date}>{user.email}</Text>
             </View>
         </Pressable>
     )

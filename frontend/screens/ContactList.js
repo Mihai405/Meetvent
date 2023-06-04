@@ -7,12 +7,12 @@ import ChatCard from "../components/Profile/ChatCard";
 
 function ContactList() {
     const [isLoading, setIsLoading] = useState(false);
-    const [connections, setConnections] = useState(false);
+    const [contacts, setContacts] = useState(false);
     const authCtx = useContext(AuthContext);
 
     const fetchEvent = useCallback(async () => {
         setIsLoading(true);
-        const response = await fetch(`http://localhost:8080/tinder/matches`, {
+        const response = await fetch(`http://localhost:8080/tinder/contacts`, {
             headers: {
                 "Authorization": `Bearer ${authCtx.token}`
             },
@@ -25,7 +25,7 @@ function ContactList() {
         } else {
             const data = await response.json();
             console.log(data)
-            setConnections(data)
+            setContacts(data)
 
         }
         setIsLoading(false);
@@ -41,11 +41,11 @@ function ContactList() {
 
     return (
         <View style={styles.container}>
-            {connections.length !== 0 &&
-                <FlatList data={connections} keyExtractor={(connection) => connection.id} renderItem={(itemData) =>
-                    <ChatCard {...itemData.item}/>
+            {contacts.length !== 0 &&
+                <FlatList data={contacts} keyExtractor={(contact) => contact._id} renderItem={(itemData) =>
+                    <ChatCard user={itemData.item}/>
                 }/>}
-            {connections.length === 0 &&
+            {contacts.length === 0 &&
                 <View style={styles.emptyContainer}>
                     <Text style={styles.title}>No connections found!</Text>
                 </View>

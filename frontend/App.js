@@ -60,7 +60,7 @@ function HomeStackNavigator() {
                 }}
             />
             <Stack.Screen
-                name="Chat"
+                name="ChatScreen"
                 component={ChatScreen}
                 options={({route}) => {
                     const params = route.params ? route.params : null;
@@ -223,9 +223,10 @@ function Root() {
     useEffect(() => {
         async function fetchToken() {
             const storedToken = await AsyncStorage.getItem("token");
+            const storedUserId = await AsyncStorage.getItem("userId");
 
             if (storedToken) {
-                authCtx.authenticate(storedToken);
+                authCtx.authenticate(storedToken, parseInt(storedUserId, 10));
             }
 
             setIsTryingLogin(false);
