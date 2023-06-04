@@ -1,5 +1,7 @@
 package com.backend.meetvent.domain.dto.Chat;
 
+import com.backend.meetvent.domain.Message;
+
 import java.time.LocalDateTime;
 
 public class MessageDTO {
@@ -7,6 +9,17 @@ public class MessageDTO {
     private String senderId;
     private String text;
     private LocalDateTime createdAt;
+    private Boolean isRead;
+
+    public MessageDTO(Message message) {
+        this.receiverId = String.valueOf(message.getReceiver().getId());
+        this.senderId = String.valueOf(message.getSender().getId());
+        this.text = message.getText();
+        this.createdAt = message.getCreatedAt();
+        this.isRead = message.getRead();
+    }
+
+    public MessageDTO() {}
 
     public String getReceiverId() {
         return receiverId;
@@ -38,5 +51,9 @@ public class MessageDTO {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Boolean getRead() {
+        return isRead;
     }
 }

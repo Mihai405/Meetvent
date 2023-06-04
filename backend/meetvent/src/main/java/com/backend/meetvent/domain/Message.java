@@ -15,6 +15,7 @@ public class Message extends BaseEntity{
     private AppUser receiver;
     private String text;
     private LocalDateTime createdAt;
+    private Boolean isRead=false;
 
     public AppUser getSender() {
         return sender;
@@ -46,5 +47,13 @@ public class Message extends BaseEntity{
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Boolean getRead() {
+        return isRead;
+    }
+
+    public void setRead(Boolean read) {
+        isRead = read;
     }
 }

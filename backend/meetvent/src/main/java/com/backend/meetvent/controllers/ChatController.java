@@ -10,6 +10,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 import static java.lang.Long.parseLong;
@@ -22,6 +23,11 @@ public class ChatController {
                           MessageService messageService) {
         this.simpMessagingTemplate = simpMessagingTemplate;
         this.messageService = messageService;
+    }
+
+    @PutMapping("/private-messages/update/{id}")
+    public @ResponseBody HashMap<String, Boolean> updateMessagesReadState(@PathVariable String id, @RequestHeader(SecurityConstants.JWT_HEADER) String token) {
+        return this.messageService.updateMessagesReadState(token, Long.parseLong(id));
     }
 
     @GetMapping("/private-messages/{id}")

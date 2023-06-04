@@ -3,8 +3,11 @@ package com.backend.meetvent.service.connection;
 import com.backend.meetvent.domain.AppUser;
 import com.backend.meetvent.domain.Connection;
 import com.backend.meetvent.domain.dto.Chat.ContactUserVO;
+import com.backend.meetvent.domain.dto.Chat.ConversationDTO;
+import com.backend.meetvent.domain.dto.Chat.MessageDTO;
 import com.backend.meetvent.repository.ConnectionRepository;
 import com.backend.meetvent.service.appUser.AppUserService;
+import com.backend.meetvent.service.chat.MessageService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,10 +21,14 @@ import java.util.stream.Collectors;
 public class ConnectionServiceImpl implements ConnectionService {
     private AppUserService appUserService;
     private ConnectionRepository connectionRepository;
+    private MessageService messageService;
 
-    public ConnectionServiceImpl(AppUserService appUserService, ConnectionRepository connectionRepository) {
+    public ConnectionServiceImpl(AppUserService appUserService,
+                                 ConnectionRepository connectionRepository,
+                                 MessageService messageService) {
         this.appUserService = appUserService;
         this.connectionRepository = connectionRepository;
+        this.messageService = messageService;
     }
 
     @Override
@@ -113,10 +120,20 @@ public class ConnectionServiceImpl implements ConnectionService {
     }
 
     @Override
-    public List<ContactUserVO> findMyContacts(String userToken) {
+    public List<ConversationDTO> findMyConversations(String userToken) {
         AppUser appUser = this.appUserService.getUserFromToken(userToken);
-        List<AppUser> contacts = this.connectionRepository.findUserConnectionsByUser1Id(appUser.getId());
-        contacts.addAll(this.connectionRepository.findUserConnectionsByUser2Id(appUser.getId()));
+        List<ContactUserVO> contactUserVOS = this.findMyContacts(appUser.getId());
+        return contactUserVOS.stream()
+                .map(contactUserVO -> {
+                    MessageDTO messageDTO = this.messageService.getLastMessageFromConversation(appUser.getId(),contactUserVO.get_id());
+                    return new ConversationDTO(contactUserVO, messageDTO);
+                })
+                .collect(Collectors.toList());
+    }
+
+    private List<ContactUserVO> findMyContacts(Long id) {
+        List<AppUser> contacts = this.connectionRepository.findUserConnectionsByUser1Id(id);
+        contacts.addAll(this.connectionRepository.findUserConnectionsByUser2Id(id));
         return contacts.stream()
                 .map(user -> new ContactUserVO(user))
                 .collect(Collectors.toList());

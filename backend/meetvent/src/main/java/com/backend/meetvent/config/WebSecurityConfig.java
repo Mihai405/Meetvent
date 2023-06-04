@@ -81,7 +81,7 @@ public class WebSecurityConfig {
                 .addFilterBefore(new AuthTokenFilter(jwtUtils, userDetailsServiceImpl), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests()
                 .requestMatchers("/users", "/events" ,"/events/{id}", "/events/{id}/join","/users/events",
-                                "/events/{id}/users", "/events/city/{name}", "/events/trending/city/{name}","/users/update", "/tinder/users", "/tinder/response/user/{id}", "/users/image", "/tinder/contacts", "/private-messages/{id}/**").authenticated()
+                                "/events/{id}/users", "/events/city/{name}", "/events/trending/city/{name}","/users/update", "/tinder/users", "/tinder/response/user/{id}", "/users/image", "/tinder/conversations", "/private-messages/**").authenticated()
                 .requestMatchers("/auth/**", "/users/image/{id}", "/events/{id}/image", "/app/chatroom", "/chatroom/public", "/ws/**", "/app/private-message", "/user/{id}/private").permitAll()
                 .and().formLogin()
                 .and().httpBasic();
