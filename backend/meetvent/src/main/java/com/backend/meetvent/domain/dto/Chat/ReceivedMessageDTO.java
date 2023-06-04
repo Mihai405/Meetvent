@@ -8,13 +8,13 @@ public class ReceivedMessageDTO {
     private Long _id;
     private String text;
     private LocalDateTime createdAt;
-    private SenderUserVO user;
+    private ContactUserVO user;
 
     public ReceivedMessageDTO(Message message) {
         this._id = message.getId();
         this.text = message.getText();
         this.createdAt = message.getCreatedAt();
-        this.user = new SenderUserVO(message.getSender());
+        this.user = new ContactUserVO(message.getSender());
     }
 
     public Long get_id() {
@@ -41,11 +41,11 @@ public class ReceivedMessageDTO {
         this.createdAt = createdAt;
     }
 
-    public SenderUserVO getUser() {
+    public ContactUserVO getUser() {
         return user;
     }
 
-    public void setUser(SenderUserVO user) {
+    public void setUser(ContactUserVO user) {
         this.user = user;
     }
 }

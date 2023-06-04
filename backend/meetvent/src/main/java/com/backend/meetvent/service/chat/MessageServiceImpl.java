@@ -32,9 +32,9 @@ public class MessageServiceImpl implements MessageService{
 
     @Override
     @Transactional
-    public List<ReceivedMessageDTO> getConversationMessages(String token, Long senderId) {
-        Long receiverId = this.appUserService.getUserFromToken(token).getId();
-        return messageRepository.findAllByReceiverIdAndSenderId(receiverId, senderId).stream()
+    public List<ReceivedMessageDTO> getConversationMessages(String token, Long user2Id) {
+        Long user1Id = this.appUserService.getUserFromToken(token).getId();
+        return messageRepository.getConversationMessages(user1Id, user2Id).stream()
                 .map(ReceivedMessageDTO::new)
                 .collect(Collectors.toList());
     }

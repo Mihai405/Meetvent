@@ -2,6 +2,7 @@ package com.backend.meetvent.service;
 
 import com.backend.meetvent.domain.AppUser;
 import com.backend.meetvent.domain.Connection;
+import com.backend.meetvent.domain.dto.Chat.ContactUserVO;
 import com.backend.meetvent.repository.ConnectionRepository;
 import com.backend.meetvent.service.appUser.AppUserService;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -111,7 +113,7 @@ public class ConnectionServiceImpl implements ConnectionService {
     }
 
     @Override
-    public List<AppUser> findMyMatches(String userToken) {
+    public List<ContactUserVO> findMyContacts(String userToken) {
         AppUser appUser = this.appUserService.getUserFromToken(userToken);
         List<Connection> tinderMatchesAsUser1 = this.connectionRepository.findAllByAppUser1AndUser1ResponseAndUser2Response(
                 appUser,
@@ -134,6 +136,8 @@ public class ConnectionServiceImpl implements ConnectionService {
                 matchingPeopleIds.add(connection.getAppUser1().getId());
             }
         }
-        return this.appUserService.getAppUsersWithIdsInList(matchingPeopleIds);
+        return this.appUserService.getAppUsersWithIdsInList(matchingPeopleIds).stream()
+                .map(user -> new ContactUserVO(user))
+                .collect(Collectors.toList());
     }
 }

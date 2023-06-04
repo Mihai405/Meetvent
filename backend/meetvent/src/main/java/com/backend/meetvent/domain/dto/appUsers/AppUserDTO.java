@@ -16,13 +16,16 @@ public class AppUserDTO {
     private String token;
 
     public AppUserDTO(AppUser appUser) {
+        this.id = appUser.getId();
         this.email = appUser.getEmail();
         this.username = appUser.getUsername();
         this.imageUri = appUser.getImageUri();
         this.token = appUser.getToken();
         this.userInterestCounters = appUser.getUserInterestCounters();
     }
-
+    public Long getId() {
+        return id;
+    }
     public String getEmail() {
         return email;
     }

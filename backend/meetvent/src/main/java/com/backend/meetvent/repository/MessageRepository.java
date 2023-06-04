@@ -7,5 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface MessageRepository extends JpaRepository<Message, Long> {
-    List<Message> findAllByReceiverIdAndSenderId(Long receiverId, Long senderId);
+    @Query("select m from Message m where " +
+            "(m.receiver.id = :user1Id and m.sender.id = :user2Id) " +
+            "or (m.receiver.id = :user2Id and m.sender.id = :user1Id) " +
+            "order by m.id desc")
+    List<Message> getConversationMessages(Long user1Id, Long user2Id);
 }

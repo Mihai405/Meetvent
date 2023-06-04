@@ -2,6 +2,7 @@ package com.backend.meetvent.controllers;
 
 import com.backend.meetvent.constants.SecurityConstants;
 import com.backend.meetvent.domain.AppUser;
+import com.backend.meetvent.domain.dto.Chat.ContactUserVO;
 import com.backend.meetvent.domain.dto.JSONMessageResponse;
 import com.backend.meetvent.domain.dto.TinderResponseDTO;
 import com.backend.meetvent.domain.views.Views;
@@ -28,10 +29,9 @@ public class ConnectionController {
         return this.connectionService.findUsers(token);
     }
 
-    @GetMapping("/matches")
-    @JsonView(Views.Public.class)
-    public List<AppUser> findMyMatches(@RequestHeader(SecurityConstants.JWT_HEADER) String token) {
-        return this.connectionService.findMyMatches(token);
+    @GetMapping("/contacts")
+    public List<ContactUserVO> findMyContacts(@RequestHeader(SecurityConstants.JWT_HEADER) String token) {
+        return this.connectionService.findMyContacts(token);
     }
 
     @PostMapping("/response/user/{id}")
