@@ -6,7 +6,7 @@ import com.backend.meetvent.domain.dto.Chat.ContactUserVO;
 import com.backend.meetvent.domain.dto.JSONMessageResponse;
 import com.backend.meetvent.domain.dto.TinderResponseDTO;
 import com.backend.meetvent.domain.views.Views;
-import com.backend.meetvent.service.ConnectionService;
+import com.backend.meetvent.service.connection.ConnectionService;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package com.backend.meetvent.service;
+package com.backend.meetvent.service.connection;
 
 import com.backend.meetvent.domain.AppUser;
 import com.backend.meetvent.domain.Connection;
@@ -115,28 +115,9 @@ public class ConnectionServiceImpl implements ConnectionService {
     @Override
     public List<ContactUserVO> findMyContacts(String userToken) {
         AppUser appUser = this.appUserService.getUserFromToken(userToken);
-        List<Connection> tinderMatchesAsUser1 = this.connectionRepository.findAllByAppUser1AndUser1ResponseAndUser2Response(
-                appUser,
-                "YES",
-                "YES"
-        );
-        List<Connection> tinderMatchesAsUser2 = this.connectionRepository.findAllByAppUser2AndUser1ResponseAndUser2Response(
-                appUser,
-                "YES",
-                "YES"
-        );
-        List<Long> matchingPeopleIds = new ArrayList<>();
-        for(Connection connection :tinderMatchesAsUser1) {
-            if(connection.getAppUser2().getId() != appUser.getId()) {
-                matchingPeopleIds.add(connection.getAppUser2().getId());
-            }
-        }
-        for(Connection connection :tinderMatchesAsUser2) {
-            if(connection.getAppUser1().getId() != appUser.getId()) {
-                matchingPeopleIds.add(connection.getAppUser1().getId());
-            }
-        }
-        return this.appUserService.getAppUsersWithIdsInList(matchingPeopleIds).stream()
+        List<AppUser> contacts = this.connectionRepository.findUserConnectionsByUser1Id(appUser.getId());
+        contacts.addAll(this.connectionRepository.findUserConnectionsByUser2Id(appUser.getId()));
+        return contacts.stream()
                 .map(user -> new ContactUserVO(user))
                 .collect(Collectors.toList());
     }

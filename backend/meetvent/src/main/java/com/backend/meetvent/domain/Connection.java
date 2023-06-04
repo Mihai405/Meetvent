@@ -2,8 +2,10 @@ package com.backend.meetvent.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "connections")
 public class Connection extends BaseEntity{
     @ManyToOne
     private AppUser appUser1;

@@ -3,6 +3,7 @@ package com.backend.meetvent.repository;
 import com.backend.meetvent.domain.AppUser;
 import com.backend.meetvent.domain.Connection;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,4 +16,11 @@ public interface ConnectionRepository extends JpaRepository<Connection, Long> {
     Optional<Connection> findByAppUser1_IdAndAndAppUser2_Id(Long appUser1Id, Long appUser2Id);
     List<Connection> findAllByAppUser1AndUser1ResponseAndUser2Response(AppUser appUser1Id, String user1Response, String user2Response);
     List<Connection> findAllByAppUser2AndUser1ResponseAndUser2Response(AppUser appUser2Id, String user1Response, String user2Response);
+    @Query("select c.appUser2 from Connection c where " +
+            "c.appUser1.id = :user1Id and (c.user1Response = 'YES' and c.user2Response = 'YES') ")
+    List<AppUser> findUserConnectionsByUser1Id(Long user1Id);
+
+    @Query("select c.appUser1 from Connection c where " +
+            "c.appUser2.id = :user2Id and (c.user1Response = 'YES' and c.user2Response = 'YES') ")
+    List<AppUser> findUserConnectionsByUser2Id(Long user2Id);
 }

@@ -1,4 +1,4 @@
-package com.backend.meetvent.service;
+package com.backend.meetvent.service.connection;
 
 import com.backend.meetvent.domain.AppUser;
 import com.backend.meetvent.domain.dto.Chat.ContactUserVO;
