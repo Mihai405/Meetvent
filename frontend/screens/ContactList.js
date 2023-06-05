@@ -4,6 +4,7 @@ import {AuthContext} from "../store/auth-context";
 import LoadingOverlay from "../components/ui/LoadingOverlay";
 import colors from "../constants/colors";
 import ChatCard from "../components/Profile/ChatCard";
+import ContactListItem from "../components/Chat/ChatList/ContactListItem";
 
 function ContactList() {
     const [isLoading, setIsLoading] = useState(false);
@@ -24,7 +25,6 @@ function ContactList() {
             );
         } else {
             const data = await response.json();
-            console.log(data)
             setConversations(data)
 
         }
@@ -43,13 +43,14 @@ function ContactList() {
         <View style={styles.container}>
             {conversations.length !== 0 &&
                 <FlatList data={conversations} keyExtractor={({contact}) => contact._id} renderItem={(itemData) =>
-                    <ChatCard user={itemData.item.contact}/>
+                    // <ChatCard user={itemData.item.contact}/>
+                    <ContactListItem {...itemData.item}/>
                 }/>}
-            {conversations.length === 0 &&
-                <View style={styles.emptyContainer}>
-                    <Text style={styles.title}>No connections found!</Text>
-                </View>
-            }
+            {/*{conversations.length === 0 &&*/}
+            {/*    <View style={styles.emptyContainer}>*/}
+            {/*        <Text style={styles.title}>No connections found!</Text>*/}
+            {/*    </View>*/}
+            {/*}*/}
         </View>
     )
 }
@@ -58,10 +59,11 @@ export default ContactList;
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: colors.primary100,
-        borderRadius: 20,
-        padding: 8,
-        margin: 8,
+        flex: 1,
+        backgroundColor: "white"
+        // borderRadius: 20,
+        // padding: 8,
+        // margin: 8,
     },
     emptyContainer: {
         backgroundColor: "#FFFFFF",

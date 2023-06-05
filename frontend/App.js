@@ -28,6 +28,13 @@ import ChatScreen from "./screens/ChatScreen";
 import * as encoding from "text-encoding";
 import ChatHeaderTitle from "./components/Chat/headerUi/ChatHeaderTitle";
 import ChatHeaderRight from "./components/Chat/headerUi/ChatHeaderRight";
+import ChatHeaderLeft from "./components/Chat/headerUi/ChatHeaderLeft";
+
+// function ChatNavigator() {
+//     return(
+//
+//     )
+// }
 
 function HomeStackNavigator() {
     return (
@@ -56,17 +63,25 @@ function HomeStackNavigator() {
                 name="ContactList"
                 component={ContactList}
                 options={{
-                    title: "Friends",
+                    title: "Contacts",
+                    headerShadowVisible: false,
                 }}
             />
             <Stack.Screen
                 name="ChatScreen"
                 component={ChatScreen}
-                options={({route}) => {
-                    const params = route.params ? route.params : null;
+                options={({navigation, route}) => {
+                    const routeParams = route.params ? route.params : null;
                     return {
                         headerTintColor: colors.primary500,
-                        headerTitle: () => <ChatHeaderTitle {...params} />,
+                        headerLeft: (props) => (
+                            <ChatHeaderLeft
+                                navigation={navigation}
+                                contactId={routeParams?.user?._id}
+                                {...props}
+                            />
+                        ),
+                        headerTitle: () => <ChatHeaderTitle {...routeParams} />,
                         headerRight: (props) => (
                             <ChatHeaderRight {...props}></ChatHeaderRight>
                         ),
