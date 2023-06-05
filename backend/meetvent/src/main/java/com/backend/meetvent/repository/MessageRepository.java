@@ -24,6 +24,6 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
     @Modifying
     @Query("update Message m set " +
             "m.isRead = true where " +
-            "m.receiver.id = :userId and m.sender.id = :contactId ")
+            "m.receiver.id = :userId and m.sender.id = :contactId and m.isRead = false ")
     void updateMessageReadStateForConversation(Long userId, Long contactId);
 }
