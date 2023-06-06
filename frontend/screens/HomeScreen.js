@@ -41,7 +41,7 @@ function HomeScreen({navigation}) {
     useEffect(() => {
         setIsLoading(true);
         const fetchEvents = async () => {
-            if(interestsCtx.city) {
+            if (interestsCtx.city) {
                 try {
                     const path = RequestPaths.getEventsFromCity(interestsCtx.city);
                     const requestObject = {
@@ -57,9 +57,8 @@ function HomeScreen({navigation}) {
                     setIsLoading(false);
                 }
             }
-        }
-        fetchEvents()
-            .catch(error => Alert.alert(error.name))
+        };
+        fetchEvents().catch((error) => Alert.alert(error.name));
     }, [interestsCtx.city]);
 
     if (isLoading || events.length === 0) {

@@ -1,25 +1,24 @@
-import {useState, useCallback, useEffect, useContext} from 'react'
+import {useState, useCallback, useEffect, useContext} from "react";
 import {Alert, StyleSheet} from "react-native";
-import {Bubble, GiftedChat} from 'react-native-gifted-chat'
-import SockJs from "sockjs-client";
-import {Stomp} from "@stomp/stompjs";
+import {Bubble, GiftedChat} from "react-native-gifted-chat";
 import {AuthContext} from "../store/auth-context";
-import RequestPaths from "../constants/requestPaths";
 import {doRequest} from "../util/request";
 import Colors from "../constants/colors";
+import {ChatContext} from "../store/chat/chatContext";
+import MessageActions from "../constants/messageActions";
 
-let stompClient = null;
+const defaultObject = {
+    _id: undefined,
+    name: undefined,
+    avatar: undefined,
+};
+let renderNumber = 0;
+
 export function ChatScreen({route}) {
-
-    const defaultObject = {
-        _id: undefined,
-        name: undefined,
-        avatar: undefined
-    }
-    const contact = route.params? route.params.user : defaultObject;
-
+    const contact = route.params ? route.params.user : defaultObject;
     const [messages, setMessages] = useState([]);
     const authCtx = useContext(AuthContext);
+    const chatCtx = useContext(ChatContext);
 
     useEffect(() => {
         const fetchMessages = async () => {
@@ -28,86 +27,74 @@ export function ChatScreen({route}) {
                 headers: {
                     Authorization: `Bearer ${authCtx.token}`,
                 },
-            }
+            };
             const data = await doRequest(requestPath, requestObject);
             setMessages(data);
         };
-        fetchMessages().catch(error => Alert.alert(error));
-    }, [])
+        fetchMessages().catch((error) => Alert.alert(error));
+    }, []);
 
-    useEffect(() => {
-        let subscription;
-        const connect = () => {
-            stompClient = Stomp.over(() => new SockJs('http://localhost:8080/ws'));
-            stompClient.debug=()=>{};
-            stompClient.onConnect = () => {
-                subscription = stompClient.subscribe(`/user/${authCtx.userId}/private`, onPrivateMessage)
-            }
-            stompClient.activate();
+    const updateConversationScreen = (receivedMessage) => {
+        if (receivedMessage) {
+            setMessages((previousMessages) =>
+                GiftedChat.append(previousMessages, [receivedMessage])
+            );
         }
-        connect();
-        return () => subscription.unsubscribe();
-    }, [])
+    };
+    chatCtx.receiveMessageObject.action = MessageActions.UPDATE_CONVERSATION;
+    chatCtx.receiveMessageObject.updateConversationScreen =
+        updateConversationScreen;
 
-    const onPrivateMessage = (payload) => {
-        const message = JSON.parse(payload.body);
-        console.log(message)
-        setMessages(previousMessages => GiftedChat.append(previousMessages, message))
-    }
-
-    const onError = (error) => {
-        console.log(error);
-    }
-
+    renderNumber = renderNumber + 1;
+    console.log("Render number " + renderNumber);
     const convertToMessageDTO = (message) => {
         return JSON.stringify({
             receiverId: contact._id,
             senderId: authCtx.userId,
             text: message.text,
-            createdAt: message.createdAt
-        })
-    }
+            createdAt: message.createdAt,
+        });
+    };
 
-    const onSend = useCallback((messages = []) => {
-        messages.map(giftedChatMessage => {
-            stompClient.publish({destination: "/app/private-message", body: convertToMessageDTO(giftedChatMessage)});
-        })
-        setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
-    }, [])
+    const handleMessageSend = useCallback((messages) => {
+        chatCtx.publishMessage(
+            messages.map((message) => convertToMessageDTO(message))
+        );
+        setMessages((previousMessages) =>
+            GiftedChat.append(previousMessages, messages)
+        );
+    }, []);
 
     return (
         <GiftedChat
             messages={messages}
-            onSend={messages => onSend(messages)}
+            onSend={(messages) => handleMessageSend(messages)}
             renderBubble={renderBubble}
             user={{
                 _id: authCtx.userId,
             }}
-            messagesContainerStyle={{backgroundColor:"white"}}
+            messagesContainerStyle={{backgroundColor: "white"}}
         />
-    )
+    );
 }
+
 export default ChatScreen;
 
 const renderBubble = (props) => {
     return (
         <Bubble
             {...props}
-            textStyle={{
-
-            }}
+            textStyle={{}}
             wrapperStyle={{
                 right: {
                     backgroundColor: Colors.primary500,
                 },
                 left: {
-                    backgroundColor: "#ecebed"
-                }
+                    backgroundColor: "#ecebed",
+                },
             }}
         />
     );
-}
+};
 
-const styles = StyleSheet.create({
-
-})
+const styles = StyleSheet.create({});

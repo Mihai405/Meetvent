@@ -8,17 +8,17 @@ function AvatarCardList() {
             <Avatar
                 size={24}
                 rounded
-                source={{uri: "/Users/mihai/Downloads/lenghel.jpeg"}}
+                // source={{uri: "/Users/mihai/Downloads/lenghel.jpeg"}}
             />
             <Avatar
                 size={23}
                 rounded
-                source={{uri: "/Users/mihai/Downloads/madelyn.jpeg"}}
+                // source={{uri: "/Users/mihai/Downloads/madelyn.jpeg"}}
             />
             <Avatar
                 size={24}
                 rounded
-                source={{uri: "/Users/mihai/Downloads/duaLipa.jpeg"}}
+                // source={{uri: "/Users/mihai/Downloads/duaLipa.jpeg"}}
             />
             <Avatar
                 size={24}

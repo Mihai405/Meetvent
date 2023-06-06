@@ -1,41 +1,26 @@
-import {createContext, useEffect, useState} from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import {createContext, useContext, useEffect, useState} from "react";
 import {AuthContext} from "../auth-context";
-
+import useWebSocket from "../../customHooks/useWebSocket";
+import MessageActions from "../../constants/messageActions";
 export const ChatContext = createContext({
-    unreadMessages: 0,
-    updateUnreadMessages: () => {}
+    publishMessage: undefined,
+    receivedMessage: "",
 })
 
-let stompClient = null;
+const receiveMessageObject = {
+    action: undefined,
+    updateContactListScreen: undefined,
+    updateConversationScreen: undefined
+}
 
-function ChatContextProvider() {
-    const [unreadMessages, setUnreadMessages] = useState(0);
-    useEffect(() => {
-
-    }, [])
-    function updateUnreadMessages(unreadMessages) {
-        setUnreadMessages(unreadMessages);
-    }
-
-    function authenticate(token, userId) {
-        setAuthToken(token);
-        setUserId(userId);
-        AsyncStorage.setItem('token', token);
-        AsyncStorage.setItem("userId", `${userId}`);
-    }
-
-    function logout() {
-        setAuthToken(null);
-        AsyncStorage.removeItem('token')
-    }
+function ChatContextProvider({children}) {
+    const authCtx = useContext(AuthContext);
+    const [message, publishMessage] = useWebSocket(authCtx.userId, receiveMessageObject);
 
     const value = {
-        token: authToken,
-        userId: userId,
-        isAuthenticated: !!authToken,
-        authenticate: authenticate,
-        logout: logout,
+        message: message,
+        publishMessage: publishMessage,
+        receiveMessageObject: receiveMessageObject
     };
 
     return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>

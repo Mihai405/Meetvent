@@ -24,7 +24,7 @@ function EventsScreen({activeFilters, setActiveFilters, filtersDropdown}) {
                     headers: {
                         Authorization: `Bearer ${authCtx.token}`,
                     },
-                }
+                };
                 const data = await doRequest(requestPath, requestObject);
                 setEvents(data);
             } catch (e) {
@@ -32,8 +32,8 @@ function EventsScreen({activeFilters, setActiveFilters, filtersDropdown}) {
             } finally {
                 setIsLoading(false);
             }
-        }
-        fetchEvents().catch(error => Alert.alert(error.message));
+        };
+        fetchEvents().catch((error) => Alert.alert(error.message));
     }, []);
 
     if (isLoading) {
@@ -73,9 +73,7 @@ function EventsScreen({activeFilters, setActiveFilters, filtersDropdown}) {
             <FlatList
                 data={activeFilters.length === 0 ? events : filteredEvents}
                 keyExtractor={(event) => event.id}
-                renderItem={(itemData) => (
-                    <EventCard {...itemData.item}/>
-                )}
+                renderItem={(itemData) => <EventCard {...itemData.item} />}
             />
         </View>
     );
