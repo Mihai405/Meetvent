@@ -19,29 +19,6 @@ function ContactList({navigation}) {
     const authCtx = useContext(AuthContext);
     const chatCtx = useContext(ChatContext);
 
-    // useEffect(() => {
-    //     const fetchEvents = async () =>{
-    //         setIsLoading(true);
-    //         const response = await fetch(`http://localhost:8080/tinder/conversations`, {
-    //             headers: {
-    //                 "Authorization": `Bearer ${authCtx.token}`
-    //             },
-    //         })
-    //         if (!response.ok) {
-    //             Alert.alert(
-    //                 'Something went wrong!',
-    //                 'Please try again later!'
-    //             );
-    //         } else {
-    //             const data = await response.json();
-    //             setConversations(data)
-    //
-    //         }
-    //         setIsLoading(false);
-    //     }
-    //     fetchEvents().catch(error => console.log(error));
-    // }, [])
-
     useEffect(() => {
         const unsubscribe = navigation.addListener("focus", async () => {
             const fetchEvents = async () => {

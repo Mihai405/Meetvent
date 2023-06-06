@@ -1,11 +1,12 @@
 import {useState, useCallback, useEffect, useContext} from "react";
-import {Alert, StyleSheet} from "react-native";
-import {Bubble, GiftedChat} from "react-native-gifted-chat";
+import {Alert, StyleSheet, View} from "react-native";
+import {Bubble, GiftedChat, InputToolbar, Send} from "react-native-gifted-chat";
 import {AuthContext} from "../store/auth-context";
 import {doRequest} from "../util/request";
 import Colors from "../constants/colors";
 import {ChatContext} from "../store/chat/chatContext";
 import MessageActions from "../constants/messageActions";
+import {FontAwesome} from "@expo/vector-icons";
 
 const defaultObject = {
     _id: undefined,
@@ -66,15 +67,19 @@ export function ChatScreen({route}) {
     }, []);
 
     return (
-        <GiftedChat
-            messages={messages}
-            onSend={(messages) => handleMessageSend(messages)}
-            renderBubble={renderBubble}
-            user={{
-                _id: authCtx.userId,
-            }}
-            messagesContainerStyle={{backgroundColor: "white"}}
-        />
+        <View style={styles.container}>
+            <GiftedChat
+                messages={messages}
+                onSend={(messages) => handleMessageSend(messages)}
+                renderBubble={renderBubble}
+                renderInputToolbar={renderInputToolbar}
+                renderSend={renderSend}
+                user={{
+                    _id: authCtx.userId,
+                }}
+                messagesContainerStyle={{backgroundColor: "white"}}
+            />
+        </View>
     );
 }
 
@@ -97,4 +102,27 @@ const renderBubble = (props) => {
     );
 };
 
-const styles = StyleSheet.create({});
+const renderInputToolbar = (props) => {
+    return <InputToolbar {...props} containerStyle={{
+        borderColor: "lightgray",
+        borderWidth: 1,
+    }} textInputStyle={{ }}/>
+}
+
+const renderSend = (props) => {
+    return (
+        <Send
+            {...props}
+        >
+            <View style={{marginRight: 10, marginBottom: 12}}>
+                <FontAwesome name="send" size={20} color={Colors.primary500} />
+            </View>
+        </Send>
+    );
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex:1,
+    }
+});

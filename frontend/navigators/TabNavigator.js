@@ -1,11 +1,12 @@
 import colors from "../constants/colors";
 import { Tab } from "../constants/navigators";
 import { Ionicons } from "@expo/vector-icons";
-import ChatStackNavigator from "./ChatStackNavigator";
 import EventsStackNavigator from "./EventStackNavigator";
 import ConnectScreen from "../screens/ConnectScreen";
 import ProfileScreen from "../screens/ProfileScreen";
-import HomeStackNavigator from "./HomeStackNavigator";
+import HomeScreen from "../screens/HomeScreen";
+import LocationPicker from "../components/Location/LocationPicker";
+import ContactList from "../screens/ContactList";
 
 function TabNavigator() {
   return (
@@ -16,25 +17,29 @@ function TabNavigator() {
       id="BottomTabNavigator"
     >
       <Tab.Screen
-        name="HomeStack"
-        component={HomeStackNavigator}
+        name="Home"
+        component={HomeScreen}
         options={{
-          title: "Home",
-          headerShown: false,
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home" color={color} size={size} />
-          ),
+            headerStyle: {
+                backgroundColor: colors.primary500,
+            },
+            headerTitle: LocationPicker,
+            headerTintColor: "white",
+            headerShadowVisible: false,
+            tabBarIcon: ({ color, size }) => (
+                <Ionicons name="home" color={color} size={size} />
+            ),
         }}
       />
       <Tab.Screen
-        name="ChatStack"
-        component={ChatStackNavigator}
+        name="ContactList"
+        component={ContactList}
         options={{
-          title: "Chat",
-          headerShown: false,
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="chatbubble-ellipses" size={size} color={color} />
-          ),
+            title: "Contacts",
+            headerShadowVisible: false,
+            tabBarIcon: ({ color, size }) => (
+                <Ionicons name="chatbubble-ellipses" size={size} color={color} />
+            ),
         }}
       />
       <Tab.Screen

@@ -8,7 +8,7 @@ import {useNavigation} from "@react-navigation/native";
 function ContactListItem({contact, message}) {
     const navigation = useNavigation();
     const authCtx = useContext(AuthContext);
-    const newConnectionMessage = "You are now connected!";
+    const newConnectionMessage = "You are now connected! 👋";
     const isLastMessageMine = authCtx?.userId === parseInt(message?.senderId)
     const isMessageUnread = (!isLastMessageMine && message && (message.read===false)) ? "bold" : "normal"
     const onNavigate = () => {
