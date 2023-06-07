@@ -36,18 +36,17 @@ export function ChatScreen({route}) {
     }, []);
 
     const updateConversationScreen = (receivedMessage) => {
-        if (receivedMessage) {
+        if (receivedMessage && receivedMessage.user._id === contact._id) {
             setMessages((previousMessages) =>
                 GiftedChat.append(previousMessages, [receivedMessage])
             );
         }
     };
     chatCtx.receiveMessageObject.action = MessageActions.UPDATE_CONVERSATION;
-    chatCtx.receiveMessageObject.updateConversationScreen =
-        updateConversationScreen;
+    chatCtx.receiveMessageObject.updateConversationScreen = updateConversationScreen;
 
-    renderNumber = renderNumber + 1;
-    console.log("Render number " + renderNumber);
+    // renderNumber = renderNumber + 1;
+    // console.log("Render number " + renderNumber);
     const convertToMessageDTO = (message) => {
         return JSON.stringify({
             receiverId: contact._id,

@@ -11,6 +11,8 @@ export default getUpdatedConversationList;
 const updateMessage = (conversation, receivedMessage, myId) => {
     if(conversation.contact._id === receivedMessage.user._id) {
         if(conversation.message) {
+            conversation.message.receiverId = myId
+            conversation.message.senderId = conversation.contact._id
             conversation.message.text = receivedMessage.text;
             conversation.message.createdAt = receivedMessage.createdAt;
             conversation.message.read = false;

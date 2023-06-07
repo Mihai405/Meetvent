@@ -10,38 +10,28 @@ import {GiftedChat} from "react-native-gifted-chat";
 import MessageActions from "../constants/messageActions";
 import {ChatContext} from "../store/chat/chatContext";
 import getUpdatedConversationList from "../util/chat/updateConversationList";
+import {useFocusEffect} from "@react-navigation/native";
+import {doRequest} from "../util/request";
+import {authorizationHeader} from "../constants/requestObjects";
 
 let renderNumber = 0;
 
-function ContactList({navigation}) {
+function ContactList() {
     const [conversations, setConversations] = useState([]);
 
     const authCtx = useContext(AuthContext);
     const chatCtx = useContext(ChatContext);
 
-    useEffect(() => {
-        const unsubscribe = navigation.addListener("focus", async () => {
-            const fetchEvents = async () => {
-                const response = await fetch(
-                    `http://localhost:8080/tinder/conversations`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${authCtx.token}`,
-                        },
-                    }
-                );
-                if (!response.ok) {
-                    Alert.alert("Something went wrong!", "Please try again later!");
-                } else {
-                    const data = await response.json();
-                    setConversations(data);
-                }
-            };
-            fetchEvents().catch((error) => console.log(error));
-            chatCtx.receiveMessageObject.action = MessageActions.UPDATE_CONTACT_LIST;
-        });
-        return unsubscribe;
-    }, [navigation]);
+    useFocusEffect(
+        useCallback(() => {
+           const fetchConversations = async ()=> {
+               const data = await doRequest(`http://localhost:8080/tinder/conversations`, authorizationHeader(authCtx.token));
+               setConversations(data);
+           }
+           chatCtx.receiveMessageObject.action = MessageActions.UPDATE_CONTACT_LIST;
+           fetchConversations().catch(error => console.log(error));
+        }, [])
+    );
 
     chatCtx.receiveMessageObject.updateContactListScreen = (receivedMessage) =>
         setConversations(
@@ -50,7 +40,9 @@ function ContactList({navigation}) {
 
     // renderNumber = renderNumber + 1
     // console.log("Render number " + renderNumber);
-
+    conversations.map(conversation => {
+        console.log(conversation);
+    })
     return (
         <View style={styles.container}>
             {conversations.length !== 0 && (
