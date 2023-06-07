@@ -1,10 +1,14 @@
 const getUpdatedConversationList = (conversations, receivedMessage, myId) => {
-    return conversations.map((conversation) => {
+    let updatedConversation;
+    const updatedList = [];
+    conversations.map((conversation) => {
         if(conversation.contact._id === receivedMessage.user._id) {
-            return updateMessage(conversation, receivedMessage, myId);
+            updatedConversation = updateMessage(conversation, receivedMessage, myId);
+        } else {
+            updatedList.push(conversation);
         }
-        return conversation
     })
+    return [updatedConversation, ...updatedList];
 }
 export default getUpdatedConversationList;
 
