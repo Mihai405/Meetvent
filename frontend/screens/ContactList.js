@@ -40,9 +40,6 @@ function ContactList() {
 
     // renderNumber = renderNumber + 1
     // console.log("Render number " + renderNumber);
-    conversations.map(conversation => {
-        console.log(conversation);
-    })
     return (
         <View style={styles.container}>
             {conversations.length !== 0 && (
