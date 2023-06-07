@@ -7,7 +7,7 @@ import {Avatar, Badge} from "@rneui/base";
 import AvatarCardList from "./AvatarCardList";
 import Colors from "../../constants/colors";
 
-function EventsPreviewCard({id, imageUri, date, title, location}) {
+function EventsPreviewCard({id, imageUri, date, title, location, attendees}) {
     const navigation = useNavigation();
 
     function pressHandler() {
@@ -54,7 +54,7 @@ function EventsPreviewCard({id, imageUri, date, title, location}) {
                         <Text style={styles.locationText}>{location}</Text>
                     </View>
                 </View>
-                <AvatarCardList />
+                <AvatarCardList attendees={attendees}/>
         </Pressable>
     )
 }

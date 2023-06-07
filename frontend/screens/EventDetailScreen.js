@@ -7,6 +7,7 @@ import LoadingOverlay from "../components/ui/LoadingOverlay";
 import {useCallback, useContext, useEffect, useState} from "react";
 import {InterestsContext} from "../store/interests-context";
 import interests from "../constants/interests";
+import AvatarCardList from "../components/Events/AvatarCardList";
 
 function EventDetailScreen({route}) {
     const eventId = route.params.eventId;
@@ -87,6 +88,7 @@ function EventDetailScreen({route}) {
         <View>
             <Image style={styles.image} source={{uri: event.imageUri}}/>
             <Text style={styles.title}>{event.title}</Text>
+            <AvatarCardList attendees={event.attendees} numberOfAvatars={7} size={35} alignSelf={"center"}/>
             <ScrollView style={styles.container}>
                 <EventDetailRow
                     title={updatedDate}

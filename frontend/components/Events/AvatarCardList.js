@@ -1,33 +1,22 @@
 import {Avatar} from "@rneui/base";
-import {View, StyleSheet} from "react-native";
-import React from "react";
+import {View, StyleSheet, FlatList} from "react-native";
+import React, {useContext} from "react";
+import {AuthContext} from "../../store/auth-context";
+import useFetch from "../../customHooks/useFetch";
+import {authorizationHeader} from "../../constants/requestObjects";
 
-function AvatarCardList() {
+function AvatarCardList({attendees, numberOfAvatars=3, size=24, alignSelf="flex-end"}) {
     return (
-        <View style={styles.avatarContainer}>
-            <Avatar
-                size={24}
+        <View style={[styles.avatarContainer, {alignSelf: alignSelf}]}>
+            {attendees && attendees.slice(0,numberOfAvatars).map(user => <Avatar key={user.id} size={size} rounded source={{uri: user.imageUri}}/>)}
+            {attendees && (attendees.length>numberOfAvatars) && <Avatar
+                size={size}
                 rounded
-                // source={{uri: "/Users/mihai/Downloads/lenghel.jpeg"}}
-            />
-            <Avatar
-                size={23}
-                rounded
-                // source={{uri: "/Users/mihai/Downloads/madelyn.jpeg"}}
-            />
-            <Avatar
-                size={24}
-                rounded
-                // source={{uri: "/Users/mihai/Downloads/duaLipa.jpeg"}}
-            />
-            <Avatar
-                size={24}
-                rounded
-                title="+99"
-                containerStyle={{backgroundColor: "#666769"}}
-            />
+                title={`+${attendees.length - numberOfAvatars}`}
+                containerStyle={{backgroundColor: "#888888"}}
+            />}
         </View>
-    )
+    );
 }
 
 export default AvatarCardList;
@@ -35,7 +24,6 @@ export default AvatarCardList;
 const styles = StyleSheet.create({
     avatarContainer: {
         flexDirection: "row",
-        alignSelf: "flex-end",
-        marginRight: 20
-    }
-})
+        marginRight: 20,
+    },
+});

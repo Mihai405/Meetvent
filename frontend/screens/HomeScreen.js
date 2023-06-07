@@ -7,7 +7,8 @@ import LoadingOverlay from "../components/ui/LoadingOverlay";
 import {InterestsContext} from "../store/interests-context";
 import {doRequest} from "../util/request";
 import RequestPaths from "../constants/requestPaths";
-
+import {authorizationHeader} from "../constants/requestObjects";
+import {useFocusEffect} from "@react-navigation/native";
 function HomeScreen({navigation}) {
     const [searchedText, setSearchedText] = useState();
     const [searchedData, setSearchedData] = useState([]);
@@ -15,7 +16,6 @@ function HomeScreen({navigation}) {
     const authCtx = useContext(AuthContext);
     const interestsCtx = useContext(InterestsContext);
     const [events, setEvents] = useState([]);
-
     function searchHandler(searched) {
         setSearchedText(searched);
         if (!searched) {
@@ -29,37 +29,35 @@ function HomeScreen({navigation}) {
             setSearchedData(resultsList);
         }
     }
+    //
+    // useEffect(() => {
+    //     setIsLoading(true);
+    //     const fetchEvents = async () => {
+    //         const path = RequestPaths.getEventsFromCity(interestsCtx.city);
+    //         if (interestsCtx.city) {
+    //             const data = await doRequest(path, authorizationHeader(authCtx.token));
+    //             setEvents(data);
+    //             setIsLoading(false);
+    //         }
+    //     };
+    //     fetchEvents().catch((error) => console.log(error));
+    // }, [interestsCtx.city]);
 
-    useEffect(() => {
-        navigation.addListener("transitionStart", (e) => {
-            if (e.data.closing) {
-                searchHandler("");
-            }
-        });
-    }, [navigation]);
-
-    useEffect(() => {
-        setIsLoading(true);
-        const fetchEvents = async () => {
-            if (interestsCtx.city) {
-                try {
+    useFocusEffect(
+        useCallback(() => {
+            setIsLoading(true)
+            const fetchEvents = async () => {
+                if(interestsCtx.city){
                     const path = RequestPaths.getEventsFromCity(interestsCtx.city);
-                    const requestObject = {
-                        headers: {
-                            Authorization: `Bearer ${authCtx.token}`,
-                        },
-                    };
-                    const data = await doRequest(path, requestObject);
+                    const data = await doRequest(path, authorizationHeader(authCtx.token));
                     setEvents(data);
-                } catch (error) {
-                    Alert.alert(error.message);
-                } finally {
                     setIsLoading(false);
                 }
             }
-        };
-        fetchEvents().catch((error) => Alert.alert(error.name));
-    }, [interestsCtx.city]);
+            searchHandler("");
+            fetchEvents().catch((error) => console.log(error));
+        }, [interestsCtx.city])
+    );
 
     if (isLoading || events.length === 0) {
         return (
