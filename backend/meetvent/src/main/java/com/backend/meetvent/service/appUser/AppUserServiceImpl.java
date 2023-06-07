@@ -1,6 +1,7 @@
 package com.backend.meetvent.service.appUser;
 
 import com.backend.meetvent.domain.dto.appUsers.AppUserDTO;
+import com.backend.meetvent.domain.dto.appUsers.AppUserVO;
 import com.backend.meetvent.repository.AppUserRepository;
 import com.backend.meetvent.domain.AppUser;
 import com.backend.meetvent.domain.Event;
@@ -89,5 +90,14 @@ public class AppUserServiceImpl implements AppUserService{
             appUserDTOS.add(new AppUserDTO(appUser));
         }
         return appUserDTOS;
+    }
+
+    @Override
+    public List<AppUserVO> convertToAppUserVos(List<AppUser> appUsers) {
+        List<AppUserVO> appUserVOS = new ArrayList<>();
+        for(AppUser appUser:appUsers) {
+            appUserVOS.add(new AppUserVO(appUser));
+        }
+        return appUserVOS;
     }
 }

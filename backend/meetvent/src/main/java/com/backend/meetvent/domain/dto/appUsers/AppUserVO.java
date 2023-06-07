@@ -1,15 +1,23 @@
 package com.backend.meetvent.domain.dto.appUsers;
+import com.backend.meetvent.domain.AppUser;
+
 import java.net.URI;
 
 public class AppUserVO {
+    private Long id;
     private String email;
     private String username;
     private URI imageUri;
 
-    public AppUserVO(String email, String username, URI imageUri) {
-        this.email = email;
-        this.username = username;
-        this.imageUri = imageUri;
+    public AppUserVO(AppUser appUser) {
+        this.id = appUser.getId();
+        this.email = appUser.getEmail();
+        this.username = appUser.getUsername();
+        this.imageUri = appUser.getImageUri();
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getEmail() {

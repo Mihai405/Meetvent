@@ -3,6 +3,7 @@ package com.backend.meetvent.service.events;
 import com.backend.meetvent.api_error.exceptions.UserAlreadyJoinedEventException;
 import com.backend.meetvent.domain.dto.UserInterestCounter.UserInterestCounterDTO;
 import com.backend.meetvent.domain.dto.appUsers.AppUserDTO;
+import com.backend.meetvent.domain.dto.appUsers.AppUserVO;
 import com.backend.meetvent.domain.dto.events.EventDTO;
 import com.backend.meetvent.repository.EventRepository;
 import com.backend.meetvent.domain.AppUser;
@@ -49,7 +50,7 @@ public class EventServiceImpl implements EventService{
     private List<EventDTO> convertToEventDTOs(List<Event> events, String token) {
         List<EventDTO> eventDTOS = new ArrayList<>();
         for(Event e:events) {
-            EventDTO eventDTO = new EventDTO(e);
+            EventDTO eventDTO = this.convertToEventDTO(e);
             AppUser appUser = this.appUserService.getUserFromToken(token);
             if(e.getAttendees().contains(appUser)) {
                 eventDTO.setGoing(true);
@@ -59,6 +60,13 @@ public class EventServiceImpl implements EventService{
             eventDTOS.add(eventDTO);
         }
         return eventDTOS;
+    }
+
+    private EventDTO convertToEventDTO(Event event) {
+        EventDTO eventDTO = new EventDTO(event);
+        List<AppUserVO> appUserVOS = this.appUserService.convertToAppUserVos(event.getAttendees());
+        eventDTO.setAttendees(appUserVOS);
+        return eventDTO;
     }
 
     private Event getEventById(String id) {
@@ -140,7 +148,7 @@ public class EventServiceImpl implements EventService{
     public EventDTO getEventByIdAndToken(String id, String userToken) {
         Event event = this.getEventById(id);
         AppUser appUser = this.appUserService.getUserFromToken(userToken);
-        EventDTO eventDTO = new EventDTO(event);
+        EventDTO eventDTO = this.convertToEventDTO(event);
         if(event.getAttendees().contains(appUser)) {
             eventDTO.setGoing(true);
         } else {

@@ -3,6 +3,7 @@ package com.backend.meetvent.service.appUser;
 import com.backend.meetvent.domain.AppUser;
 import com.backend.meetvent.domain.Event;
 import com.backend.meetvent.domain.dto.appUsers.AppUserDTO;
+import com.backend.meetvent.domain.dto.appUsers.AppUserVO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -19,4 +20,5 @@ public interface AppUserService {
     List<AppUser> getAppUsersWithIdsInList(List<Long> ids);
     List<AppUser> getAppUsersWithIdsNotInList(List<Long> ids);
     List<AppUserDTO> convertToAppUserDTOs(List<AppUser> appUsers);
+    List<AppUserVO> convertToAppUserVos(List<AppUser> appUsers);
 }

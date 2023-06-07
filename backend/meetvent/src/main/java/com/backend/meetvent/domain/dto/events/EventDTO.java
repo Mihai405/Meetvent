@@ -6,11 +6,13 @@ import com.backend.meetvent.domain.dto.appUsers.AppUserVO;
 
 import java.net.URI;
 import java.time.LocalDate;
+import java.util.List;
 
 public class EventDTO {
     private Long id;
     private String title;
     private AppUserVO organizer;
+    private List<AppUserVO> attendees;
     private LocalDate date;
     private String time;
     private String location;
@@ -22,7 +24,7 @@ public class EventDTO {
     public EventDTO(Event event) {
         this.id = event.getId();
         this.title = event.getTitle();
-        this.organizer = new AppUserVO(event.getOrganizer().getEmail(), event.getOrganizer().getUsername(), event.getOrganizer().getImageUri());
+        this.organizer = new AppUserVO(event.getOrganizer());
         this.date = event.getDate();
         this.time = event.getTime();
         this.location = event.getLocation();
@@ -41,6 +43,14 @@ public class EventDTO {
 
     public AppUserVO getOrganizer() {
         return organizer;
+    }
+
+    public List<AppUserVO> getAttendees() {
+        return attendees;
+    }
+
+    public void setAttendees(List<AppUserVO> attendees) {
+        this.attendees = attendees;
     }
 
     public LocalDate getDate() {
