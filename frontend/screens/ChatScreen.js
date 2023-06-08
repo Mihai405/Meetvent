@@ -7,6 +7,7 @@ import Colors from "../constants/colors";
 import {ChatContext} from "../store/chat/chatContext";
 import MessageActions from "../constants/messageActions";
 import {FontAwesome} from "@expo/vector-icons";
+import {useFocusEffect} from "@react-navigation/native";
 
 const defaultObject = {
     _id: undefined,
@@ -35,15 +36,22 @@ export function ChatScreen({route}) {
         fetchMessages().catch((error) => Alert.alert(error));
     }, []);
 
-    const updateConversationScreen = (receivedMessage) => {
+    useFocusEffect(useCallback(() => {
+        let subscription;
+        if(chatCtx.isClientConnected) {
+            subscription = chatCtx.stompClient.subscribe(`/user/${authCtx.userId}/private`, updateConversationScreen, (e)=>console.log(e))
+        }
+        return () => subscription.unsubscribe();
+    }, [chatCtx.isClientConnected]))
+
+    const updateConversationScreen = (payload) => {
+        const receivedMessage = JSON.parse(payload.body);
         if (receivedMessage && receivedMessage.user._id === contact._id) {
             setMessages((previousMessages) =>
                 GiftedChat.append(previousMessages, [receivedMessage])
             );
         }
     };
-    chatCtx.receiveMessageObject.action = MessageActions.UPDATE_CONVERSATION;
-    chatCtx.receiveMessageObject.updateConversationScreen = updateConversationScreen;
 
     // renderNumber = renderNumber + 1;
     // console.log("Render number " + renderNumber);
@@ -57,13 +65,15 @@ export function ChatScreen({route}) {
     };
 
     const handleMessageSend = useCallback((messages) => {
-        chatCtx.publishMessage(
-            messages.map((message) => convertToMessageDTO(message))
-        );
-        setMessages((previousMessages) =>
-            GiftedChat.append(previousMessages, messages)
-        );
-    }, []);
+        if (chatCtx.isClientConnected) {
+            messages.map(message => {
+                chatCtx.stompClient.publish({destination: "/app/private-message", body: convertToMessageDTO(message)});
+            })
+            setMessages((previousMessages) =>
+                GiftedChat.append(previousMessages, messages)
+            );
+        }
+    }, [chatCtx.isClientConnected]);
 
     return (
         <View style={styles.container}>

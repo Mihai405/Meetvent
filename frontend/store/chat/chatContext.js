@@ -3,24 +3,16 @@ import {AuthContext} from "../auth-context";
 import useWebSocket from "../../customHooks/useWebSocket";
 import MessageActions from "../../constants/messageActions";
 export const ChatContext = createContext({
-    publishMessage: undefined,
-    receivedMessage: "",
+    isClientConnected: undefined,
+    stompClient: undefined,
 })
 
-const receiveMessageObject = {
-    action: undefined,
-    updateContactListScreen: undefined,
-    updateConversationScreen: undefined
-}
-
 function ChatContextProvider({children}) {
-    const authCtx = useContext(AuthContext);
-    const [message, publishMessage] = useWebSocket(authCtx.userId, receiveMessageObject);
+    const [isClientConnected, stompClient] = useWebSocket();
 
     const value = {
-        message: message,
-        publishMessage: publishMessage,
-        receiveMessageObject: receiveMessageObject
+        isClientConnected: isClientConnected,
+        stompClient: stompClient,
     };
 
     return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>

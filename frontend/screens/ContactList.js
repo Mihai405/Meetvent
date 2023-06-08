@@ -1,13 +1,7 @@
 import {Alert, FlatList, StyleSheet, Text, View} from "react-native";
 import {useCallback, useContext, useEffect, useState} from "react";
 import {AuthContext} from "../store/auth-context";
-import LoadingOverlay from "../components/ui/LoadingOverlay";
-import colors from "../constants/colors";
-import ChatCard from "../components/Profile/ChatCard";
 import ContactListItem from "../components/Chat/ChatList/ContactListItem";
-import useWebSocket from "../customHooks/useWebSocket";
-import {GiftedChat} from "react-native-gifted-chat";
-import MessageActions from "../constants/messageActions";
 import {ChatContext} from "../store/chat/chatContext";
 import getUpdatedConversationList from "../util/chat/updateConversationList";
 import {useFocusEffect} from "@react-navigation/native";
@@ -15,7 +9,6 @@ import {doRequest} from "../util/request";
 import {authorizationHeader} from "../constants/requestObjects";
 
 let renderNumber = 0;
-
 function ContactList() {
     const [conversations, setConversations] = useState([]);
 
@@ -28,15 +21,24 @@ function ContactList() {
                const data = await doRequest(`http://localhost:8080/tinder/conversations`, authorizationHeader(authCtx.token));
                setConversations(data);
            }
-           chatCtx.receiveMessageObject.action = MessageActions.UPDATE_CONTACT_LIST;
            fetchConversations().catch(error => console.log(error));
         }, [])
     );
 
-    chatCtx.receiveMessageObject.updateContactListScreen = (receivedMessage) =>
-        setConversations(
-            getUpdatedConversationList(conversations, receivedMessage, authCtx.userId)
-        );
+    const handleNewMessage = (payload) => {
+        const receivedMessage = JSON.parse(payload.body);
+        if(receivedMessage) {
+            setConversations(prevConversations => getUpdatedConversationList(prevConversations, receivedMessage, authCtx.userId));
+        }
+    }
+
+    useFocusEffect(useCallback(() => {
+        let subscription;
+        if(chatCtx.isClientConnected) {
+            subscription = chatCtx.stompClient.subscribe(`/user/${authCtx.userId}/private`, handleNewMessage, (e)=>console.log(e))
+        }
+        return () => subscription.unsubscribe();
+    }, [chatCtx.isClientConnected]))
 
     // renderNumber = renderNumber + 1
     // console.log("Render number " + renderNumber);
@@ -47,16 +49,15 @@ function ContactList() {
                     data={conversations}
                     keyExtractor={({contact}) => contact._id}
                     renderItem={(itemData) => (
-                        // <ChatCard user={itemData.item.contact}/>
                         <ContactListItem {...itemData.item} />
                     )}
                 />
             )}
-            {/*{conversations.length === 0 &&*/}
-            {/*    <View style={styles.emptyContainer}>*/}
-            {/*        <Text style={styles.title}>No connections found!</Text>*/}
-            {/*    </View>*/}
-            {/*}*/}
+            {conversations.length === 0 &&
+                <View style={styles.emptyContainer}>
+                    <Text style={styles.title}>No connections found!</Text>
+                </View>
+            }
         </View>
     );
 }
@@ -67,9 +68,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "white",
-        // borderRadius: 20,
-        // padding: 8,
-        // margin: 8,
     },
     emptyContainer: {
         backgroundColor: "#FFFFFF",
