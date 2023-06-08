@@ -7,6 +7,7 @@ import ProfileScreen from "../screens/ProfileScreen";
 import HomeScreen from "../screens/HomeScreen";
 import LocationPicker from "../components/Location/LocationPicker";
 import ContactList from "../screens/ContactList";
+import TabBarIcon from "../components/Chat/tabBarUi/TabBarIcon";
 
 function TabNavigator() {
   return (
@@ -37,8 +38,8 @@ function TabNavigator() {
         options={{
             title: "Contacts",
             headerShadowVisible: false,
-            tabBarIcon: ({ color, size }) => (
-                <Ionicons name="chatbubble-ellipses" size={size} color={color} />
+            tabBarIcon: ({ focused, color, size }) => (
+                <TabBarIcon focused={focused} color={color} size={size} />
             ),
         }}
       />
