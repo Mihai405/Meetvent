@@ -1,4 +1,5 @@
 package com.backend.meetvent.domain;
+import com.backend.meetvent.domain.dto.appUsers.ROLES;
 import com.backend.meetvent.domain.views.Views;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -34,6 +35,7 @@ public class AppUser extends BaseEntity{
     private URI imageUri;
     @JsonView(Views.Internal.class)
     private String token;
+    private ROLES role;
     public String getEmail() {
         return this.email;
     }
@@ -104,5 +106,9 @@ public class AppUser extends BaseEntity{
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public ROLES getRole() {
+        return role;
     }
 }
