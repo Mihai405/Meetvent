@@ -19,7 +19,8 @@ function RegisterScreen({navigation}) {
             body: JSON.stringify({
                 username: username,
                 email: email,
-                password: password
+                password: password,
+                role: "USER"
             }),
             headers: {
                 "Content-Type": "application/json",
