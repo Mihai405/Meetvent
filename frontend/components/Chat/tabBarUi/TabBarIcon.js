@@ -7,7 +7,6 @@ import {authorizationHeader} from "../../../constants/requestObjects";
 import {AuthContext} from "../../../store/auth-context";
 import {useFocusEffect, useNavigation, useRoute} from "@react-navigation/native";
 import {ChatContext} from "../../../store/chat/chatContext";
-import {setDisabled} from "react-native/Libraries/LogBox/Data/LogBoxData";
 
 let request = false;
 let renderNumber = 0;
@@ -15,22 +14,23 @@ function TabBarIcon({focused, size, color}) {
     const navigation = useNavigation();
     const [conversations, setConversations] = useState([]);
     const [unreadMessages, setUnreadMessages] = useState(0);
-    const [messageListener, setMessageListener] = useState(true);
-    const stateRef = useRef();
+    const stateRef = useRef({
+        conversations: [],
+        listenToMessage: true,
+    });
     const authCtx = useContext(AuthContext);
     const chatCtx = useContext(ChatContext);
 
-    stateRef.current = {
-        conversations: conversations,
-        messageListener: messageListener
-    };
+    stateRef.current.conversations = conversations;
 
     const handleMessage = (payload) => {
-        const receivedMessage = JSON.parse(payload.body);
-        const {conversations, messageListener} = stateRef.current;
-        if(!conversations.includes(receivedMessage.user._id) && messageListener===true) {
-            setConversations(prevConversations => [...prevConversations, receivedMessage.user._id])
-            setUnreadMessages(prevState => prevState + 1);
+        if(stateRef.current.listenToMessage) {
+            const receivedMessage = JSON.parse(payload.body);
+            const conversations = stateRef.current.conversations;
+            if(!conversations.includes(receivedMessage.user._id)) {
+                setConversations(prevConversations => [...prevConversations, receivedMessage.user._id])
+                setUnreadMessages(prevState => prevState + 1);
+            }
         }
     }
 
@@ -63,9 +63,20 @@ function TabBarIcon({focused, size, color}) {
     }, [])
 
     useEffect(() => {
-        const unsubscribe = navigation.addListener('blur', async () => {
+        const unsubscribe = navigation.addListener('blur',() => {
             if(focused === false) {
+                stateRef.current.listenToMessage = true;
                 fetchConversations().catch(error => console.log(error));
+            }
+        });
+        return unsubscribe;
+    }, [navigation]);
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus',() => {
+            if(focused === false) {
+                setUnreadMessages(0);
+                stateRef.current.listenToMessage = false;
             }
         });
         return unsubscribe;
@@ -77,7 +88,7 @@ function TabBarIcon({focused, size, color}) {
 
     return(
         <View>
-            {unreadMessages>0 && !focused && <Badge
+            {unreadMessages>0 && !focused && stateRef.current.listenToMessage && <Badge
                 status="error"
                 value={unreadMessages}
                 badgeStyle={[styles.badgeDimensions, {width: styleCondition ? 10:17}]}
