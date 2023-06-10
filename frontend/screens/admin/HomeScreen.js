@@ -1,20 +1,23 @@
 import AdminEventCard from "../../components/Admin/AdminEventCard";
 import {FlatList, StyleSheet, View} from "react-native";
-import {useContext, useEffect, useState} from "react";
+import {useCallback, useContext, useEffect, useState} from "react";
 import {doRequest} from "../../util/request";
 import {AuthContext} from "../../store/auth-context";
 import {authorizationHeader} from "../../constants/requestObjects";
+import {useFocusEffect} from "@react-navigation/native";
 
 function HomeScreen() {
     const [events, setEvents] = useState([])
     const authCtx = useContext(AuthContext);
-    useEffect(() => {
-        const fetchEvents = async () => {
-            const data = await doRequest("http://localhost:8080/events/organizer", authorizationHeader(authCtx.token));
-            setEvents(data);
-        }
-        fetchEvents().catch(error => console.log(error));
-    }, [])
+    useFocusEffect(
+        useCallback(() => {
+            const fetchEvents = async () => {
+                const data = await doRequest("http://localhost:8080/events/organizer", authorizationHeader(authCtx.token));
+                setEvents(data);
+            }
+            fetchEvents().catch(error => console.log(error));
+        }, [])
+    )
 
     return (
         <View style={styles.container}>
