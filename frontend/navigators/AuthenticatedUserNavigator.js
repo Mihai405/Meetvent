@@ -2,7 +2,7 @@ import ChatContextProvider from "../store/chat/chatContext";
 import TabNavigator from "./TabNavigator";
 import HomeStackNavigator from "./HomeStackNavigator";
 
-function AuthenticatedNavigator() {
+function AuthenticatedUserNavigator() {
   return (
     <ChatContextProvider>
       <HomeStackNavigator />
@@ -10,4 +10,4 @@ function AuthenticatedNavigator() {
   );
 }
 
-export default AuthenticatedNavigator;
+export default AuthenticatedUserNavigator;

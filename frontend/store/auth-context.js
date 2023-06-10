@@ -6,6 +6,7 @@ export const AuthContext = createContext({
     token: '',
     userId: undefined,
     isAuthenticated: false,
+    role: undefined,
     authenticate: (token) => {
     },
     logout: () => {
@@ -15,22 +16,30 @@ export const AuthContext = createContext({
 function AuthContextProvider({children}) {
     const [authToken, setAuthToken] = useState('');
     const [userId, setUserId] = useState(0);
-    function authenticate(token, userId) {
+    const [userRole, setUserRole] = useState('');
+    function authenticate({token, id, role}) {
         setAuthToken(token);
-        setUserId(userId);
-        AsyncStorage.setItem('token', token);
-        AsyncStorage.setItem("userId", `${userId}`);
+        setUserId(id);
+        setUserRole(role);
+        AsyncStorage.setItem('token', token).catch(error => console.log(error));
+        AsyncStorage.setItem('userId', `${id}`).catch(error => console.log(error));
+        AsyncStorage.setItem('role', role).catch(error => console.log(error));
     }
 
     function logout() {
         setAuthToken(null);
-        AsyncStorage.removeItem('token')
+        setUserId(null);
+        setUserRole(null);
+        AsyncStorage.removeItem('token').catch(error => console.log(error));
+        AsyncStorage.removeItem('userId').catch(error => console.log(error));
+        AsyncStorage.removeItem('role').catch(error => console.log(error));
     }
 
     const value = {
         token: authToken,
         userId: userId,
         isAuthenticated: !!authToken,
+        role: userRole,
         authenticate: authenticate,
         logout: logout,
     };

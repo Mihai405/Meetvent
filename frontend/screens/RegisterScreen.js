@@ -4,6 +4,7 @@ import colors from "../constants/colors";
 import ButtonOutlined from "../components/ui/ButtonOutlined";
 import { useState} from "react";
 import LoadingOverlay from "../components/ui/LoadingOverlay";
+import Roles from "../constants/roles";
 
 function RegisterScreen({navigation}) {
     function switchToLoginHandler() {
@@ -20,7 +21,7 @@ function RegisterScreen({navigation}) {
                 username: username,
                 email: email,
                 password: password,
-                role: "USER"
+                role: Roles.USER
             }),
             headers: {
                 "Content-Type": "application/json",

@@ -5,8 +5,11 @@ import AuthContextProvider, {AuthContext} from "./store/auth-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LoadingOverlay from "./components/ui/LoadingOverlay";
 import InterestsContextProvider from "./store/interests-context";
-import AuthenticatedNavigator from "./navigators/AuthenticatedNavigator";
+import AuthenticatedNavigator from "./navigators/AuthenticatedUserNavigator";
 import AuthNavigator from "./navigators/AuthNavigator";
+import Roles from "./constants/roles";
+import AuthenticatedUserNavigator from "./navigators/AuthenticatedUserNavigator";
+import AuthenticatedAdminNavigator from "./navigators/AuthenticatedAdminNavigator";
 
 function Navigation() {
     const authCtx = useContext(AuthContext);
@@ -14,7 +17,8 @@ function Navigation() {
     return (
         <NavigationContainer>
             {!authCtx.isAuthenticated && <AuthNavigator/>}
-            {authCtx.isAuthenticated && <AuthenticatedNavigator/>}
+            {authCtx.isAuthenticated && authCtx.role===Roles.USER && <AuthenticatedUserNavigator/>}
+            {authCtx.isAuthenticated && authCtx.role===Roles.ADMIN && <AuthenticatedAdminNavigator/>}
         </NavigationContainer>
     );
 }
@@ -28,15 +32,20 @@ function Root() {
         async function fetchToken() {
             const storedToken = await AsyncStorage.getItem("token");
             const storedUserId = await AsyncStorage.getItem("userId");
-
-            if (storedToken) {
-                authCtx.authenticate(storedToken, parseInt(storedUserId, 10));
+            const storedRole = await AsyncStorage.getItem("role");
+            const loginObject = {
+                token: storedToken,
+                id: parseInt(storedUserId, 10),
+                role: storedRole
+            }
+            if (storedToken && storedUserId && storedRole) {
+                authCtx.authenticate(loginObject);
             }
 
             setIsTryingLogin(false);
         }
 
-        fetchToken();
+        fetchToken().catch(error => console.log(error));
     }, []);
 
     if (isTryingLogin) {
