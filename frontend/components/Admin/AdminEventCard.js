@@ -11,11 +11,13 @@ const options = {
     day: "numeric",
 };
 
-function AdminEventCard({title, attendees, date, location, imageUri}) {
+function AdminEventCard({id, title, date, location, imageUri}) {
 
     const navigation = useNavigation();
     const handleNavigation = () => {
-        navigation.navigate('AdminEventDetailScreen');
+        navigation.navigate('AdminEventDetailScreen', {
+            eventId: id
+        });
     }
 
     let newDate = new Date(date);
@@ -73,11 +75,11 @@ const styles = StyleSheet.create({
     },
     location: {
         flexDirection: "row",
-        alignItems: "center"
+        alignItems: "center",
+        marginTop: 5
     },
     locationText: {
         color: colors.grey800,
-        marginTop: 7,
     },
     icon: {
       alignSelf: "center"
