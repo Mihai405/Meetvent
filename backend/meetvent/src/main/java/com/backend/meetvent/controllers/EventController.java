@@ -33,6 +33,11 @@ public class EventController {
         return this.eventService.getAllEvents(token);
     }
 
+    @GetMapping("/organizer")
+    public List<EventDTO> getOrganizerEvents(@RequestHeader(SecurityConstants.JWT_HEADER) String token) {
+        return this.eventService.getOrganizerEvents(token);
+    }
+
     @GetMapping("{id}")
     public ResponseEntity<EventDTO> getEventById(@PathVariable String id, @RequestHeader(SecurityConstants.JWT_HEADER) String token) {
         return new ResponseEntity<>(this.eventService.getEventByIdAndToken(id, token), HttpStatus.OK);
@@ -83,4 +88,6 @@ public class EventController {
     public List<UserInterestCounterDTO> joinEvent(@RequestHeader(SecurityConstants.JWT_HEADER) String token, @PathVariable String id) {
         return this.eventService.joinEvent(token, id);
     }
+
+
 }

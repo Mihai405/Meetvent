@@ -21,5 +21,6 @@ public interface EventService {
     EventDTO createEvent(Event event, String token);
     List<UserInterestCounterDTO> joinEvent(String userToken, String eventId);
     EventDTO getEventByIdAndToken(String id, String userToken);
+    List<EventDTO> getOrganizerEvents(String userToken);
     byte[] getEventImage(String id);
 }

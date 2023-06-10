@@ -14,7 +14,7 @@ public class AppUserDTO {
     private List<UserInterestCounter> userInterestCounters = new ArrayList<>();
     private URI imageUri;
     private String token;
-
+    private ROLES role;
     public AppUserDTO(AppUser appUser) {
         this.id = appUser.getId();
         this.email = appUser.getEmail();
@@ -22,6 +22,7 @@ public class AppUserDTO {
         this.imageUri = appUser.getImageUri();
         this.token = appUser.getToken();
         this.userInterestCounters = appUser.getUserInterestCounters();
+        this.role = appUser.getRole();
     }
     public Long getId() {
         return id;
@@ -44,5 +45,9 @@ public class AppUserDTO {
 
     public String getToken() {
         return token;
+    }
+
+    public ROLES getRole() {
+        return role;
     }
 }

@@ -10,7 +10,7 @@ function HomeScreen() {
     const authCtx = useContext(AuthContext);
     useEffect(() => {
         const fetchEvents = async () => {
-            const data = await doRequest("http://localhost:8080/events/created", authorizationHeader(authCtx.token));
+            const data = await doRequest("http://localhost:8080/events/organizer", authorizationHeader(authCtx.token));
             setEvents(data);
         }
         fetchEvents().catch(error => console.log(error));

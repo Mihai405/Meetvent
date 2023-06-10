@@ -4,6 +4,7 @@ import com.backend.meetvent.api_error.exceptions.UserAlreadyJoinedEventException
 import com.backend.meetvent.domain.dto.UserInterestCounter.UserInterestCounterDTO;
 import com.backend.meetvent.domain.dto.appUsers.AppUserDTO;
 import com.backend.meetvent.domain.dto.appUsers.AppUserVO;
+import com.backend.meetvent.domain.dto.appUsers.ROLES;
 import com.backend.meetvent.domain.dto.events.EventDTO;
 import com.backend.meetvent.repository.EventRepository;
 import com.backend.meetvent.domain.AppUser;
@@ -22,6 +23,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static java.lang.Long.parseLong;
 
@@ -155,6 +157,16 @@ public class EventServiceImpl implements EventService{
             eventDTO.setGoing(false);
         }
         return eventDTO;
+    }
+
+    @Override
+    @Transactional
+    public List<EventDTO> getOrganizerEvents(String userToken) {
+        AppUser appUser = this.appUserService.getUserFromToken(userToken);
+        List<Event> events = this.eventRepository.findAllByOrganizer(appUser);
+        return events.stream()
+                .map(this::convertToEventDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
