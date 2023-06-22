@@ -39,7 +39,7 @@ function AdminEventCard({id, title, date, location, imageUri}) {
                 </View>
             </View>
             <View style={styles.icon}>
-                <MaterialIcons name="navigate-next" size={24} color={Colors.secondary400}/>
+                <MaterialIcons name="navigate-next" size={24} color={Colors.primary600}/>
             </View>
         </Pressable>
     )
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 15,
-        color: Colors.secondary400,
+        color: Colors.primary600,
         fontWeight: "bold",
         marginBottom: 5,
     },

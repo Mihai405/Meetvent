@@ -4,6 +4,7 @@ import interests from "../../constants/interests";
 import ButtonIconContained from "../ui/ButtonIconContained";
 import { Feather, AntDesign } from '@expo/vector-icons';
 import Colors from "../../constants/colors";
+import {useNavigation} from "@react-navigation/native";
 
 const options = {
     weekday: "long",
@@ -12,7 +13,7 @@ const options = {
     day: "numeric",
 };
 
-function AdminEventDetail({title, organizer, date, time, address, location, interestKey, imageUri}) {
+function AdminEventDetail({id, title, organizer, date, time, address, location, interestKey, imageUri}) {
 
     let newDate = new Date(date);
     const updatedDate = newDate.toLocaleDateString("en-US", options);
@@ -20,6 +21,12 @@ function AdminEventDetail({title, organizer, date, time, address, location, inte
         (interest) => interest.key === interestKey
     );
     const addressString = `${address.street}, ${address.city}`;
+    const navigation = useNavigation();
+    const handleNavigation = () => {
+        return navigation.navigate("CreateEvent", {
+            eventId: id
+        })
+    }
 
     return (
         <View>
@@ -54,7 +61,12 @@ function AdminEventDetail({title, organizer, date, time, address, location, inte
                 )}
             </ScrollView>
             <View style={styles.buttonContainer}>
-                <ButtonIconContained innerContainer={{width: 150}} textStyle={{fontSize: 16,marginRight: 10}} iconOnTheRight={true} title={"Edit"}>
+                <ButtonIconContained innerContainer={{width: 150}}
+                                     textStyle={{fontSize: 16,marginRight: 10}}
+                                     iconOnTheRight={true}
+                                     title={"Edit"}
+                                     onPress={handleNavigation}
+                >
                     <Feather name="edit" size={20} color="white" />
                 </ButtonIconContained>
                 <ButtonIconContained innerContainer={{width: 150, backgroundColor: Colors.error700}} textStyle={{fontSize: 16,marginRight: 10}} iconOnTheRight={true} title={"Delete"}>

@@ -5,8 +5,10 @@ import {doRequest} from "../../util/request";
 import {AuthContext} from "../../store/auth-context";
 import {authorizationHeader} from "../../constants/requestObjects";
 import {useFocusEffect} from "@react-navigation/native";
+import {FAB} from "@rneui/base";
+import Colors from "../../constants/colors";
 
-function HomeScreen() {
+function HomeScreen({navigation}) {
     const [events, setEvents] = useState([])
     const authCtx = useContext(AuthContext);
     useFocusEffect(
@@ -19,12 +21,26 @@ function HomeScreen() {
         }, [])
     )
 
+    const handleNavigation = () => {
+        navigation.navigate("CreateEvent")
+    }
+
     return (
         <View style={styles.container}>
             <FlatList
                 data={events}
                 keyExtractor={(event) => event.id}
-                renderItem={(itemData) => <AdminEventCard {...itemData.item} />}
+                renderItem={(itemData) => <AdminEventCard {...itemData.item} />
+            }
+            />
+            <FAB
+                visible={true}
+                placement={"right"}
+                icon={{ name: 'add', color: 'white' }}
+                color={Colors.primary600}
+                size={"small"}
+                style={{marginBottom: 17, marginRight:20}}
+                onPress={handleNavigation}
             />
         </View>
     )
