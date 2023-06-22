@@ -56,12 +56,30 @@ function ProfileScreen() {
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
             aspect: [3, 3],
-            quality: 1,
+            quality: 0,
         });
 
         if (!result.canceled) {
             setSelectedImage(result.assets[0].uri);
         }
+
+        let localUri = result.assets[0].uri;
+        let filename = localUri.split('/').pop();
+
+        // Infer the type of the image
+        let match = /\.(\w+)$/.exec(filename);
+        let type = match ? `image/${match[1]}` : `image`;
+
+
+        const formData = new FormData();
+        formData.append("image", { uri: localUri, name: filename, type });
+        await fetch("http://localhost:8080/users/image", {
+            method: "POST",
+            body: formData,
+            headers: {
+                Authorization: `Bearer ${authCtx.token}`,
+            }
+        }).catch((error) => console.log(error));
     };
 
     const interests = interestsCtx.interests
