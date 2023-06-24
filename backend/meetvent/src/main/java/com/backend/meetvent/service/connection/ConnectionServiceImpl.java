@@ -84,7 +84,7 @@ public class ConnectionServiceImpl implements ConnectionService {
         return this.appUserService.getAppUsersWithIdsNotInList(yourContactsIds);
     }
 
-    private List<Long> alreadyViewedProfilesIds(Long myId) {
+    public List<Long> alreadyViewedProfilesIds(Long myId) {
         List<Long> seenProfilesAsFirstUser = this.connectionRepository.findAppUser2IdsByAppUser1Id(myId);
         List<Long> seenProfileAsSecondUser = this.connectionRepository.findAppUser1IdsByAppUser2IdAndUser2ResponseIsNotNull(myId);
         List<Long> declineMyProfile = this.connectionRepository.findAppUser1IdsByAppUser2IdAndUser1Response(myId, "NO");
