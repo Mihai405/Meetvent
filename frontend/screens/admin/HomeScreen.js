@@ -7,6 +7,7 @@ import {authorizationHeader} from "../../constants/requestObjects";
 import {useFocusEffect} from "@react-navigation/native";
 import {FAB} from "@rneui/base";
 import Colors from "../../constants/colors";
+import {API_URL} from "../../constants/api";
 
 function HomeScreen({navigation}) {
     const [events, setEvents] = useState([])
@@ -14,7 +15,7 @@ function HomeScreen({navigation}) {
     useFocusEffect(
         useCallback(() => {
             const fetchEvents = async () => {
-                const data = await doRequest("http://localhost:8080/events/organizer", authorizationHeader(authCtx.token));
+                const data = await doRequest(`${API_URL}/events/organizer`, authorizationHeader(authCtx.token));
                 setEvents(data);
             }
             fetchEvents().catch(error => console.log(error));

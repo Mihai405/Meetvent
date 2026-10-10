@@ -6,6 +6,7 @@ import {useContext, useState} from "react";
 import {AuthContext} from "../store/auth-context";
 import LoadingOverlay from "../components/ui/LoadingOverlay";
 import {InterestsContext} from "../store/interests-context";
+import {API_URL} from "../constants/api";
 
 function LoginScreen({navigation}) {
     function switchToRegisterHandler() {
@@ -19,7 +20,7 @@ function LoginScreen({navigation}) {
 
     async function loginHandler({email, password}) {
         setIsAuthenticating(true);
-        const response = await fetch("http://localhost:8080/auth/signin", {
+        const response = await fetch(`${API_URL}/auth/signin`, {
             method: "POST",
             body: JSON.stringify({
                 email: email,

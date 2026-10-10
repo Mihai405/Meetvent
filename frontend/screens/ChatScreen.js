@@ -8,6 +8,7 @@ import {ChatContext} from "../store/chat/chatContext";
 import MessageActions from "../constants/messageActions";
 import {FontAwesome} from "@expo/vector-icons";
 import {useFocusEffect} from "@react-navigation/native";
+import {API_URL} from "../constants/api";
 
 const defaultObject = {
     _id: undefined,
@@ -24,7 +25,7 @@ export function ChatScreen({route}) {
 
     useEffect(() => {
         const fetchMessages = async () => {
-            const requestPath = `http://localhost:8080/private-messages/${contact._id}`;
+            const requestPath = `${API_URL}/private-messages/${contact._id}`;
             const requestObject = {
                 headers: {
                     Authorization: `Bearer ${authCtx.token}`,

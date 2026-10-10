@@ -10,6 +10,7 @@ import ButtonOutlined from "../../components/ui/ButtonOutlined";
 import { Fontisto } from '@expo/vector-icons';
 import {doRequest} from "../../util/request";
 import {authorizationHeader} from "../../constants/requestObjects";
+import {API_URL} from "../../constants/api";
 
 function CreateEventScreen({navigation, route}) {
     const [formData, setFormData] = useState({
@@ -56,7 +57,7 @@ function CreateEventScreen({navigation, route}) {
                     imageMessage: "Change image",
                     buttonContainedText: "Update Event",
                 };
-                const data = await doRequest(`http://localhost:8080/events/${eventId}`, authorizationHeader(authCtx.token));
+                const data = await doRequest(`${API_URL}/events/${eventId}`, authorizationHeader(authCtx.token));
                 initFormData(data);
             }
             fetchEvent().catch(error => console.log(error))
@@ -118,7 +119,7 @@ function CreateEventScreen({navigation, route}) {
     async function handleSubmit() {
         console.log(createPostObject());
 
-        // await fetch("http://localhost:8080/events", {
+        // await fetch(`${API_URL}/events`, {
         //     method: "POST",
         //     body: JSON.stringify(createPostObject()),
         //     headers: {

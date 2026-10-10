@@ -5,10 +5,11 @@ import { Badge } from "@rneui/base";
 import { doRequest } from "../../../util/request";
 import { useContext, useEffect } from "react";
 import { AuthContext } from "../../../store/auth-context";
+import {API_URL} from "../../../constants/api";
 function ChatHeaderLeft({ navigation, tintColor, contactId }) {
   const authCtx = useContext(AuthContext);
   const handleUpdate = async () => {
-    const requestPath = `http://localhost:8080/private-messages/update/${contactId}`;
+    const requestPath = `${API_URL}/private-messages/update/${contactId}`;
     const requestObject = {
       method: "PUT",
       headers: {

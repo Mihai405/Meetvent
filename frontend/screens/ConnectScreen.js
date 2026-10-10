@@ -4,6 +4,7 @@ import TinderCard from 'react-tinder-card'
 import {LinearGradient} from 'expo-linear-gradient';
 import {AuthContext} from "../store/auth-context";
 import LoadingOverlay from "../components/ui/LoadingOverlay";
+import {API_URL} from "../constants/api";
 
 function ConnectScreen() {
     const [isLoading, setIsLoading] = useState(false);
@@ -14,7 +15,7 @@ function ConnectScreen() {
 
     const fetchUsers = useCallback(async () => {
         setIsLoading(true);
-        const response = await fetch(`http://localhost:8080/tinder/users`, {
+        const response = await fetch(`${API_URL}/tinder/users`, {
             headers: {
                 "Authorization": `Bearer ${authCtx.token}`
             },
@@ -38,7 +39,7 @@ function ConnectScreen() {
 
     async function swipeRequest(id, direction) {
         const dir = direction === "right" ? "YES" : "NO";
-        const response = await fetch(`http://localhost:8080/tinder/response/user/${id}`, {
+        const response = await fetch(`${API_URL}/tinder/response/user/${id}`, {
             method: "POST",
             body: JSON.stringify({
                 response: dir

@@ -7,6 +7,7 @@ import {authorizationHeader} from "../../../constants/requestObjects";
 import {AuthContext} from "../../../store/auth-context";
 import {useFocusEffect, useNavigation, useRoute} from "@react-navigation/native";
 import {ChatContext} from "../../../store/chat/chatContext";
+import {API_URL} from "../../../constants/api";
 
 let request = false;
 let renderNumber = 0;
@@ -36,7 +37,7 @@ function TabBarIcon({focused, size, color}) {
 
 
     const fetchConversations =  useCallback(async () => {
-        const data = await doRequest(`http://localhost:8080/tinder/conversations`, authorizationHeader(authCtx.token));
+        const data = await doRequest(`${API_URL}/tinder/conversations`, authorizationHeader(authCtx.token));
         const unreadMessages = await data.filter(conversation => {
             return (conversation.message && conversation.message.read === false && (parseInt(conversation.message?.senderId, 10)!==authCtx.userId))
         }).map((conversation) => parseInt(conversation.message?.senderId,10));

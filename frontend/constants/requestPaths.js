@@ -1,5 +1,6 @@
+import {API_URL} from "./api";
 const RequestPaths = {
-    getEventsFromCity: (city) => `http://localhost:8080/events/city/${city}`
+    getEventsFromCity: (city) => `${API_URL}/events/city/${city}`
 };
 
 export default RequestPaths;

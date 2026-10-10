@@ -4,6 +4,7 @@ import {AuthContext} from "../../store/auth-context";
 import {doRequest} from "../../util/request";
 import {authorizationHeader} from "../../constants/requestObjects";
 import AdminEventDetail from "../../components/Admin/AdminEventDetail";
+import {API_URL} from "../../constants/api";
 
 function EventDetailScreen({route}) {
 
@@ -13,7 +14,7 @@ function EventDetailScreen({route}) {
 
     useEffect(() => {
         const fetchEvent = async () => {
-            const data = await doRequest(`http://localhost:8080/events/${eventId}`, authorizationHeader(authCtx.token));
+            const data = await doRequest(`${API_URL}/events/${eventId}`, authorizationHeader(authCtx.token));
             setEvent(data);
         }
         fetchEvent().catch(error => console.log(error));

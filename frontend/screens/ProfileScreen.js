@@ -7,6 +7,7 @@ import {AuthContext} from "../store/auth-context";
 import * as ImagePicker from "expo-image-picker";
 import LoadingOverlay from "../components/ui/LoadingOverlay";
 import {InterestsContext} from "../store/interests-context";
+import {API_URL} from "../constants/api";
 
 const DUMMY_PROFILE = {
     image:
@@ -28,7 +29,7 @@ function ProfileScreen() {
 
     const fetchUser = useCallback(async () => {
         setIsLoading(true);
-        const response = await fetch(`http://localhost:8080/users`, {
+        const response = await fetch(`${API_URL}/users`, {
             headers: {
                 Authorization: `Bearer ${authCtx.token}`,
             },
@@ -73,7 +74,7 @@ function ProfileScreen() {
 
         const formData = new FormData();
         formData.append("image", { uri: localUri, name: filename, type });
-        await fetch("http://localhost:8080/users/image", {
+        await fetch(`${API_URL}/users/image`, {
             method: "POST",
             body: formData,
             headers: {

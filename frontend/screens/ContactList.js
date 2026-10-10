@@ -7,6 +7,7 @@ import getUpdatedConversationList from "../util/chat/updateConversationList";
 import {useFocusEffect} from "@react-navigation/native";
 import {doRequest} from "../util/request";
 import {authorizationHeader} from "../constants/requestObjects";
+import {API_URL} from "../constants/api";
 
 let renderNumber = 0;
 function ContactList() {
@@ -18,7 +19,7 @@ function ContactList() {
     useFocusEffect(
         useCallback(() => {
            const fetchConversations = async ()=> {
-               const data = await doRequest(`http://localhost:8080/tinder/conversations`, authorizationHeader(authCtx.token));
+               const data = await doRequest(`${API_URL}/tinder/conversations`, authorizationHeader(authCtx.token));
                setConversations(data);
            }
            fetchConversations().catch(error => console.log(error));

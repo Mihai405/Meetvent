@@ -8,6 +8,7 @@ import {useCallback, useContext, useEffect, useState} from "react";
 import {InterestsContext} from "../store/interests-context";
 import interests from "../constants/interests";
 import AvatarCardList from "../components/Events/AvatarCardList";
+import {API_URL} from "../constants/api";
 
 function EventDetailScreen({route}) {
     const eventId = route.params.eventId;
@@ -19,7 +20,7 @@ function EventDetailScreen({route}) {
 
     const fetchEvent = useCallback(async () => {
         setIsLoading(true);
-        const response = await fetch(`http://localhost:8080/events/${eventId}`, {
+        const response = await fetch(`${API_URL}/events/${eventId}`, {
             headers: {
                 Authorization: `Bearer ${authCtx.token}`,
             },
@@ -46,7 +47,7 @@ function EventDetailScreen({route}) {
     async function goingHandler() {
         setIsLoading(true);
         const response = await fetch(
-            `http://localhost:8080/events/${eventId}/join`,
+            `${API_URL}/events/${eventId}/join`,
             {
                 method: "POST",
                 headers: {

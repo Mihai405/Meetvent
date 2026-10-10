@@ -5,6 +5,7 @@ import ButtonOutlined from "../components/ui/ButtonOutlined";
 import { useState} from "react";
 import LoadingOverlay from "../components/ui/LoadingOverlay";
 import Roles from "../constants/roles";
+import {API_URL} from "../constants/api";
 
 function RegisterScreen({navigation}) {
     function switchToLoginHandler() {
@@ -15,7 +16,7 @@ function RegisterScreen({navigation}) {
 
     async function signupHandler({username, email, password}) {
         setIsAuthenticating(true);
-        const response = await fetch("http://localhost:8080/auth/signup", {
+        const response = await fetch(`${API_URL}/auth/signup`, {
             method: "POST",
             body: JSON.stringify({
                 username: username,
