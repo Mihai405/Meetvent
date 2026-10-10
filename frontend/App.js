@@ -1,4 +1,3 @@
-import * as encoding from "text-encoding";
 import {NavigationContainer} from "@react-navigation/native";
 import {GestureHandlerRootView} from "react-native-gesture-handler";
 import {useContext, useEffect, useState} from "react";

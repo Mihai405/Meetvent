@@ -8,6 +8,7 @@ import {ChatContext} from "../store/chat/chatContext";
 import MessageActions from "../constants/messageActions";
 import {FontAwesome} from "@expo/vector-icons";
 import {useFocusEffect} from "@react-navigation/native";
+import {useHeaderHeight} from "@react-navigation/elements";
 import {API_URL} from "../constants/api";
 
 const defaultObject = {
@@ -22,6 +23,7 @@ export function ChatScreen({route}) {
     const [messages, setMessages] = useState([]);
     const authCtx = useContext(AuthContext);
     const chatCtx = useContext(ChatContext);
+    const headerHeight = useHeaderHeight();
 
     useEffect(() => {
         const fetchMessages = async () => {
@@ -88,6 +90,7 @@ export function ChatScreen({route}) {
                     _id: authCtx.userId,
                 }}
                 messagesContainerStyle={{backgroundColor: "white"}}
+                keyboardAvoidingViewProps={{keyboardVerticalOffset: headerHeight}}
             />
         </View>
     );
