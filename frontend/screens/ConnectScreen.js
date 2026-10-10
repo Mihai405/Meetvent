@@ -1,6 +1,6 @@
 import React, {useState, useCallback, useEffect, useContext} from 'react'
 import {Alert, ImageBackground, Text, View} from 'react-native'
-import TinderCard from 'react-tinder-card'
+import SwipeCard from '../components/ui/SwipeCard'
 import {LinearGradient} from 'expo-linear-gradient';
 import {AuthContext} from "../store/auth-context";
 import LoadingOverlay from "../components/ui/LoadingOverlay";
@@ -71,9 +71,9 @@ function ConnectScreen() {
         <View style={styles.container}>
             <View style={styles.cardContainer}>
                 {characters.length !== 0 && characters.map((character, index) =>
-                    <TinderCard key={index}
-                                onSwipe={async (dir) => await swipeRequest(character.id, dir)}
-                                onCardLeftScreen={() => outOfFrame(character.username)}>
+                    <SwipeCard key={index}
+                               onSwipe={async (dir) => await swipeRequest(character.id, dir)}
+                               onCardLeftScreen={() => outOfFrame(character.username)}>
                         <View style={styles.card}>
                             <ImageBackground style={styles.cardImage} source={{uri: character.imageUri}}>
                                 <LinearGradient start={{x: 1, y: 0}} end={{x: 0.3, y: 0}}
@@ -82,7 +82,7 @@ function ConnectScreen() {
                                 </LinearGradient>
                             </ImageBackground>
                         </View>
-                    </TinderCard>
+                    </SwipeCard>
                 )}
                 {characters.length === 0 &&
                     <Text style={styles.noConnections}>No connections to be made!</Text>

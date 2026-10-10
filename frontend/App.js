@@ -1,5 +1,6 @@
 import * as encoding from "text-encoding";
 import {NavigationContainer} from "@react-navigation/native";
+import {GestureHandlerRootView} from "react-native-gesture-handler";
 import {useContext, useEffect, useState} from "react";
 import AuthContextProvider, {AuthContext} from "./store/auth-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -57,10 +58,12 @@ function Root() {
 
 export default function App() {
     return (
-        <AuthContextProvider>
-            <InterestsContextProvider>
-                <Root/>
-            </InterestsContextProvider>
-        </AuthContextProvider>
+        <GestureHandlerRootView style={{flex: 1}}>
+            <AuthContextProvider>
+                <InterestsContextProvider>
+                    <Root/>
+                </InterestsContextProvider>
+            </AuthContextProvider>
+        </GestureHandlerRootView>
     );
 }
