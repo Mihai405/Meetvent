@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<title>Meetvent – Profilul meu</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400..700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#2A2420}a:hover{color:#2A2420}
+button{font:inherit;cursor:pointer}
+</style>
+</helmet>
+<div style="width: 390px; height: 2200px; position: relative; overflow: hidden; background: #FFFFFF; font-family: 'DM Sans', system-ui, sans-serif; color: #2A2420">
+
+<div style="padding: 20px 20px 120px; display: flex; flex-direction: column; gap: 24px">
+
+  <div style="display: flex; align-items: center; justify-content: space-between">
+    <h1 style="margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.01em">Profilul meu</h1>
+    <div style="display: flex; gap: 8px">
+      <a href="ProfileView.dc.html" style="height: 36px; padding: 0 12px; border-radius: 18px; border: 1px solid #E8E1DB; display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; color: #2A2420; text-decoration: none">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg>Previzualizare</a>
+      <button aria-label="Setări" style="width: 44px; height: 44px; border-radius: 22px; border: 1px solid #EFE9E4; background: #FFFFFF; color: #2A2420; display: flex; align-items: center; justify-content: center; margin-top: -4px">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"></path></svg>
+      </button>
+    </div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; align-items: center; gap: 10px">
+    <span style="width: 96px; height: 96px; border-radius: 48px; overflow: hidden; position: relative; display: block"><dc-import name="Portrait" who="ana" crop="face" hint-size="100%,100%"></dc-import></span>
+    <span style="font-size: 18px; font-weight: 700">Ana Ionescu, 25</span>
+    <div style="width: 220px; display: flex; flex-direction: column; gap: 6px; align-items: center">
+      <div style="width: 100%; height: 4px; border-radius: 2px; background: #F2ECE7; overflow: hidden">
+        <div style="width: 70%; height: 4px; background: {{accent}}"></div>
+      </div>
+      <span style="font-size: 12px; color: #6F6660">Profil completat 70% · mai adaugă 2 poze</span>
+    </div>
+  </div>
+
+  <section aria-label="Poze" style="display: flex; flex-direction: column; gap: 10px">
+    <div style="display: flex; justify-content: space-between; align-items: baseline">
+      <h2 style="margin: 0; font-size: 13px; font-weight: 600; color: #6F6660">Poze · 4 din 6</h2>
+      <span style="font-size: 11px; color: #6F6660">Ține apăsat ca să reordonezi</span>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+      <div style="aspect-ratio: 3 / 4; border-radius: 14px; position: relative; overflow: hidden">
+        <dc-import name="Portrait" who="ana" hint-size="100%,100%"></dc-import>
+        <span style="position: absolute; left: 6px; top: 6px; font-size: 10px; font-weight: 600; background: rgba(255,255,255,0.92); color: #2A2420; padding: 3px 6px; border-radius: 6px">Principală</span>
+      </div>
+      <div style="aspect-ratio: 3 / 4; border-radius: 14px; position: relative; overflow: hidden"><dc-import name="Portrait" who="ana" variant="b" hint-size="100%,100%"></dc-import></div>
+      <div style="aspect-ratio: 3 / 4; border-radius: 14px; position: relative; overflow: hidden"><dc-import name="Scene" kind="concert" hint-size="100%,100%"></dc-import></div>
+      <div style="aspect-ratio: 3 / 4; border-radius: 14px; position: relative; overflow: hidden"><dc-import name="Scene" kind="photo" hint-size="100%,100%"></dc-import></div>
+      <button aria-label="Adaugă poză" style="aspect-ratio: 3 / 4; border-radius: 14px; border: 1px dashed {{line}}; background: #FFFFFF; color: {{deep}}; display: flex; align-items: center; justify-content: center">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+      </button>
+      <button aria-label="Adaugă poză" style="aspect-ratio: 3 / 4; border-radius: 14px; border: 1px dashed {{line}}; background: #FFFFFF; color: {{deep}}; display: flex; align-items: center; justify-content: center">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+      </button>
+    </div>
+  </section>
+
+  <section aria-label="Ce cauți" style="display: flex; flex-direction: column; gap: 10px">
+    <div style="display: flex; flex-direction: column; gap: 2px">
+      <h2 style="margin: 0; font-size: 13px; font-weight: 600; color: #6F6660">Ce cauți pe Meetvent</h2>
+      <span style="font-size: 12px; color: #6F6660">Apari doar în modurile bifate.</span>
+    </div>
+    <div style="display: flex; gap: 8px; flex-wrap: wrap">
+      <sc-for list="{{goals}}" as="g" hint-placeholder-count="3">
+        <button onClick="{{g.toggle}}" aria-pressed="{{g.pressed}}" style="height: 36px; padding: 0 14px; border-radius: 18px; border: 1px solid {{g.border}}; background: {{g.bg}}; color: {{g.fg}}; font-size: 13px; font-weight: {{g.weight}}; display: flex; align-items: center; gap: 5px">
+          <sc-if value="{{g.on}}" hint-placeholder-val="{{ true }}">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"></path></svg>
+          </sc-if>
+          {{g.label}}
+        </button>
+      </sc-for>
+    </div>
+  </section>
+
+  <section aria-label="Despre mine" style="display: flex; flex-direction: column; gap: 6px">
+    <div style="display: flex; justify-content: space-between; align-items: center">
+      <h2 style="margin: 0; font-size: 13px; font-weight: 600; color: #6F6660">Despre mine</h2>
+      <button style="border: none; background: none; padding: 10px 0; font-size: 13px; font-weight: 600; color: {{deep}}">Editează</button>
+    </div>
+    <p style="margin: 0; font-size: 14px; line-height: 1.6">Îmi plac festivalurile, sunt o persoană deschisă care e dornică să întâlnească cât mai mulți oameni noi.</p>
+  </section>
+
+  <section aria-label="Prompturi" style="display: flex; flex-direction: column; gap: 8px">
+    <h2 style="margin: 0; font-size: 13px; font-weight: 600; color: #6F6660">Prompturi · 2 din 3</h2>
+    <button style="text-align: left; border-radius: 14px; border: 1px solid #EFE9E4; background: #FFFFFF; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; color: #2A2420">
+      <span style="font-size: 12px; color: #6F6660">Weekendul ideal arată așa…</span>
+      <span style="font-size: 15px; font-weight: 600; line-height: 1.4">Vineri concert, sâmbătă brunch lung, duminică pe munte.</span>
+    </button>
+    <button style="text-align: left; border-radius: 14px; border: 1px solid #EFE9E4; background: #FFFFFF; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; color: #2A2420">
+      <span style="font-size: 12px; color: #6F6660">Mă cunoști ușor dacă…</span>
+      <span style="font-size: 15px; font-weight: 600; line-height: 1.4">Îmi recomanzi o trupă de care n-am auzit.</span>
+    </button>
+    <button style="height: 48px; border-radius: 14px; border: 1px dashed {{line}}; background: #FFFFFF; color: {{deep}}; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Adaugă un prompt
+    </button>
+  </section>
+
+  <section aria-label="Detalii" style="display: flex; flex-direction: column">
+    <h2 style="margin: 0 0 4px; font-size: 13px; font-weight: 600; color: #6F6660">Detalii</h2>
+    <sc-for list="{{details}}" as="d" hint-placeholder-count="9">
+      <button style="height: 48px; border: none; border-bottom: 1px solid #F2ECE7; background: none; padding: 0; display: flex; align-items: center; gap: 12px; text-align: left; color: #2A2420">
+        <span style="flex: 1; font-size: 14px">{{d.label}}</span>
+        <span style="font-size: 13px; color: {{d.color}}; font-weight: {{d.weight}}">{{d.value}}</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#A39890" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg>
+      </button>
+    </sc-for>
+  </section>
+
+  <section aria-label="Interese" style="display: flex; flex-direction: column; gap: 10px">
+    <div style="display: flex; justify-content: space-between; align-items: center">
+      <h2 style="margin: 0; font-size: 13px; font-weight: 600; color: #6F6660">Interese</h2>
+      <button style="border: none; background: none; padding: 10px 0; font-size: 13px; font-weight: 600; color: {{deep}}">Editează</button>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 8px">
+      <span style="height: 34px; padding: 0 12px; border-radius: 17px; background: {{soft}}; color: {{deep}}; display: flex; align-items: center; font-size: 13px; font-weight: 600">Festivaluri</span>
+      <span style="height: 34px; padding: 0 12px; border-radius: 17px; background: {{soft}}; color: {{deep}}; display: flex; align-items: center; font-size: 13px; font-weight: 600">Techno</span>
+      <span style="height: 34px; padding: 0 12px; border-radius: 17px; background: {{soft}}; color: {{deep}}; display: flex; align-items: center; font-size: 13px; font-weight: 600">Drumeții</span>
+      <span style="height: 34px; padding: 0 12px; border-radius: 17px; background: {{soft}}; color: {{deep}}; display: flex; align-items: center; font-size: 13px; font-weight: 600">Fotografie</span>
+    </div>
+  </section>
+
+  <section aria-label="Muzică" style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 14px; border: 1px solid #EFE9E4">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{deep}}" stroke-width="1.8" aria-hidden="true"><path d="M9 18V5l11-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="17" cy="16" r="3"></circle></svg>
+    <span style="flex: 1; display: flex; flex-direction: column; gap: 1px">
+      <span style="font-size: 14px; font-weight: 600">Muzica ta</span>
+      <span style="font-size: 12px; color: #6F6660">Arată artiștii tăi de top</span>
+    </span>
+    <button style="height: 34px; padding: 0 12px; border-radius: 17px; border: 1px solid {{deep}}; background: #FFFFFF; color: {{deep}}; font-size: 13px; font-weight: 600">Conectează Spotify</button>
+  </section>
+
+  <section aria-label="Confidențialitate" style="display: flex; flex-direction: column">
+    <h2 style="margin: 0 0 4px; font-size: 13px; font-weight: 600; color: #6F6660">Confidențialitate</h2>
+    <sc-for list="{{toggles}}" as="t" hint-placeholder-count="2">
+      <div style="display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #F2ECE7">
+        <span style="flex: 1; display: flex; flex-direction: column; gap: 2px">
+          <span style="font-size: 14px; font-weight: 500">{{t.label}}</span>
+          <span style="font-size: 12px; color: #6F6660">{{t.hint}}</span>
+        </span>
+        <button role="switch" aria-checked="{{t.checked}}" aria-label="{{t.label}}" onClick="{{t.toggle}}" style="width: 46px; height: 28px; border-radius: 14px; border: none; background: {{t.track}}; position: relative; flex: none; padding: 0">
+          <span style="position: absolute; top: 3px; left: {{t.knob}}; width: 22px; height: 22px; border-radius: 11px; background: #FFFFFF; box-shadow: 0 1px 2px rgba(0,0,0,0.2)"></span>
+        </button>
+      </div>
+    </sc-for>
+  </section>
+
+  <button style="align-self: center; height: 40px; padding: 0 22px; border-radius: 20px; border: 1px solid #E6A79B; background: #FFFFFF; color: #B23A2A; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 8px">
+    Deconectare
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4M10 17l5-5-5-5M15 12H3"></path></svg>
+  </button>
+
+</div>
+
+<nav aria-label="Navigare principală" style="position: absolute; left: 0; right: 0; bottom: 0; height: 82px; background: #FFFFFF; border-top: 1px solid #EFE9E4; display: flex; justify-content: space-around; align-items: flex-start; padding-top: 10px; box-sizing: border-box">
+  <a href="Main.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; width: 64px; min-height: 44px; text-decoration: none; color: #776E68; font-size: 11px; font-weight: 500">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"></path></svg>Acasă</a>
+  <a href="Events.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; width: 64px; min-height: 44px; text-decoration: none; color: #776E68; font-size: 11px; font-weight: 500">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>Evenimente</a>
+  <a href="Connect.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; width: 64px; min-height: 44px; text-decoration: none; color: #776E68; font-size: 11px; font-weight: 500">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="9" cy="12" r="6"></circle><circle cx="15" cy="12" r="6"></circle></svg>Connect</a>
+  <a href="Messages.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; width: 64px; min-height: 44px; text-decoration: none; color: #776E68; font-size: 11px; font-weight: 500">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"></path></svg>Mesaje</a>
+  <a href="MyProfile.dc.html" aria-current="page" style="display: flex; flex-direction: column; align-items: center; gap: 4px; width: 64px; min-height: 44px; text-decoration: none; color: {{deep}}; font-size: 11px; font-weight: 600">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>Profil</a>
+</nav>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#F57C3F","options":["#F57C3F","#F59A4A","#EF6F5A","#E8803A"],"section":"Temă"},"$preview":{"width":390,"height":2200}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { goals: { friends: true, dating: true, network: false }, showEvents: true, showDistance: false };
+  }
+  renderVals() {
+    const accent = this.props.accent ?? '#F57C3F';
+    const rgb = (h) => { const n = parseInt(String(h).replace('#', ''), 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; };
+    const lum = (a) => { const l = a.map((c) => { const v = c / 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }); return 0.2126 * l[0] + 0.7152 * l[1] + 0.0722 * l[2]; };
+    let d = rgb(accent); let i = 0;
+    while (1.05 / (lum(d) + 0.05) < 4.6 && i < 40) { d = d.map((c) => c * 0.96); i++; }
+    const css = (a) => 'rgb(' + a.map(Math.round).join(',') + ')';
+    const deep = css(d);
+    const soft = css(rgb(accent).map((c) => c + (255 - c) * 0.88));
+    const line = css(rgb(accent).map((c) => c + (255 - c) * 0.45));
+    const s = this.state;
+    const goals = [['friends', 'Prieteni'], ['dating', 'Dating'], ['network', 'Networking']].map(([id, label]) => {
+      const on = !!s.goals[id];
+      return {
+        label: label,
+        on: on,
+        pressed: on ? 'true' : 'false',
+        bg: on ? soft : '#FFFFFF',
+        fg: on ? deep : '#2A2420',
+        border: on ? line : '#E8E1DB',
+        weight: on ? '600' : '500',
+        toggle: () => this.setState({ goals: Object.assign({}, s.goals, { [id]: !on }) })
+      };
+    });
+    const details = [
+      ['Job', 'Marketing specialist'],
+      ['Studii', 'UBB, Științe Economice'],
+      ['Oraș', 'Cluj-Napoca'],
+      ['Înălțime', 'Adaugă'],
+      ['Zodie', 'Săgetător'],
+      ['Băutură', 'Ocazional'],
+      ['Fumat', 'Adaugă'],
+      ['Sport', 'Câteodată'],
+      ['Limbi', 'Română, Engleză']
+    ].map(([label, value]) => {
+      const empty = value === 'Adaugă';
+      return { label: label, value: value, color: empty ? deep : '#6F6660', weight: empty ? '600' : '400' };
+    });
+    const sw = (key, label, hint) => {
+      const on = !!s[key];
+      return {
+        label: label,
+        hint: hint,
+        checked: on ? 'true' : 'false',
+        track: on ? accent : '#DDD4CD',
+        knob: on ? '21px' : '3px',
+        toggle: () => this.setState({ [key]: !on })
+      };
+    };
+    return {
+      accent: accent,
+      deep: deep,
+      soft: soft,
+      line: line,
+      goals: goals,
+      details: details,
+      toggles: [
+        sw('showEvents', 'Arată la ce evenimente merg', 'Alții văd evenimentele comune pe profilul tău'),
+        sw('showDistance', 'Arată distanța', 'Ascunde-o dacă vrei mai multă discreție')
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

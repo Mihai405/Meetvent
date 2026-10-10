@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<title>Meetvent – Înregistrare</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400..700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#2A2420}a:hover{color:#2A2420}
+button{font:inherit;cursor:pointer}
+input{font:inherit}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #FFFFFF; font-family: 'DM Sans', system-ui, sans-serif; color: #2A2420">
+
+<header style="padding: 16px 16px 0; display: flex; flex-direction: column; gap: 14px">
+  <div style="display: flex; align-items: center; gap: 8px">
+    <sc-if value="{{isFirst}}" hint-placeholder-val="{{ true }}">
+      <a href="Login.dc.html" aria-label="Înapoi la autentificare" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #2A2420">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>
+      </a>
+    </sc-if>
+    <sc-if value="{{notFirst}}" hint-placeholder-val="{{ false }}">
+      <button onClick="{{back}}" aria-label="Pasul anterior" style="width: 44px; height: 44px; border: none; background: none; display: flex; align-items: center; justify-content: center; color: #2A2420">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>
+      </button>
+    </sc-if>
+    <div style="flex: 1; display: flex; gap: 6px" role="progressbar" aria-valuemin="1" aria-valuemax="3" aria-valuenow="{{step}}" aria-label="Progres înregistrare">
+      <sc-for list="{{bars}}" as="b" hint-placeholder-count="3">
+        <span style="flex: 1; height: 4px; border-radius: 2px; background: {{b.color}}"></span>
+      </sc-for>
+    </div>
+    <span style="width: 44px; text-align: center; font-size: 12px; color: #6F6660">{{step}}/3</span>
+  </div>
+</header>
+
+<div style="padding: 24px 24px 0; display: flex; flex-direction: column; gap: 22px">
+
+  <sc-if value="{{s1}}" hint-placeholder-val="{{ true }}">
+    <div style="display: flex; flex-direction: column; gap: 22px">
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <h1 style="margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.01em">Creează-ți contul</h1>
+        <span style="font-size: 14px; color: #6F6660">Durează un minut. Promitem.</span>
+      </div>
+      <label style="display: flex; flex-direction: column; gap: 6px">
+        <span style="font-size: 13px; font-weight: 500">Email</span>
+        <input type="email" autocomplete="email" placeholder="nume@exemplu.ro" style="height: 48px; border-radius: 14px; border: 1px solid #E8E1DB; padding: 0 14px; font-size: 15px; color: #2A2420; outline: none">
+      </label>
+      <label style="display: flex; flex-direction: column; gap: 6px">
+        <span style="font-size: 13px; font-weight: 500">Parolă</span>
+        <input type="password" autocomplete="new-password" placeholder="Minim 8 caractere" style="height: 48px; border-radius: 14px; border: 1px solid #E8E1DB; padding: 0 14px; font-size: 15px; color: #2A2420; outline: none">
+        <span style="font-size: 12px; color: #6F6660">Folosește cel puțin o cifră și o literă mare.</span>
+      </label>
+      <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: #4A413C; line-height: 1.5">
+        <input type="checkbox" checked="{{terms}}" onChange="{{toggleTerms}}" style="width: 20px; height: 20px; margin: 0; accent-color: {{fill}}; flex: none">
+        <span>Accept <a href="#" style="color: {{deep}}; font-weight: 600">Termenii</a> și <a href="#" style="color: {{deep}}; font-weight: 600">Politica de confidențialitate</a>.</span>
+      </label>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{s2}}" hint-placeholder-val="{{ false }}">
+    <div style="display: flex; flex-direction: column; gap: 20px">
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <h1 style="margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.01em">Despre tine</h1>
+        <span style="font-size: 14px; color: #6F6660">Asta văd ceilalți prima dată.</span>
+      </div>
+      <button aria-label="Adaugă o poză de profil" style="align-self: center; width: 112px; height: 112px; border-radius: 56px; border: 1px dashed {{line}}; background: {{soft}}; color: {{deep}}; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 12px; font-weight: 600">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>
+        Adaugă poză
+      </button>
+      <label style="display: flex; flex-direction: column; gap: 6px">
+        <span style="font-size: 13px; font-weight: 500">Prenume</span>
+        <input type="text" autocomplete="given-name" placeholder="Cum te strigă prietenii" style="height: 48px; border-radius: 14px; border: 1px solid #E8E1DB; padding: 0 14px; font-size: 15px; color: #2A2420; outline: none">
+      </label>
+      <label style="display: flex; flex-direction: column; gap: 6px">
+        <span style="font-size: 13px; font-weight: 500">Data nașterii</span>
+        <input type="text" inputmode="numeric" placeholder="ZZ / LL / AAAA" style="height: 48px; border-radius: 14px; border: 1px solid #E8E1DB; padding: 0 14px; font-size: 15px; color: #2A2420; outline: none">
+        <span style="font-size: 12px; color: #6F6660">Trebuie să ai cel puțin 18 ani. Arătăm doar vârsta.</span>
+      </label>
+      <label style="display: flex; flex-direction: column; gap: 6px">
+        <span style="font-size: 13px; font-weight: 500">Oraș</span>
+        <span style="height: 48px; border-radius: 14px; border: 1px solid #E8E1DB; padding: 0 14px; display: flex; align-items: center; gap: 8px; font-size: 15px">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="{{deep}}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"></path><circle cx="12" cy="9" r="2.5"></circle></svg>
+          <input type="text" value="Cluj-Napoca" readonly="readonly" style="flex: 1; border: none; outline: none; background: transparent; font-size: 15px; color: #2A2420; min-width: 0">
+        </span>
+      </label>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{s3}}" hint-placeholder-val="{{ false }}">
+    <div style="display: flex; flex-direction: column; gap: 20px">
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <h1 style="margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.01em">Ce îți place?</h1>
+        <span style="font-size: 14px; color: #6F6660">Alege cel puțin 3. Așa îți arătăm evenimente și oameni potriviți.</span>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px">
+        <sc-for list="{{tags}}" as="t" hint-placeholder-count="14">
+          <button onClick="{{t.toggle}}" aria-pressed="{{t.pressed}}" style="height: 36px; padding: 0 14px; border-radius: 18px; border: 1px solid {{t.border}}; background: {{t.bg}}; color: {{t.fg}}; font-size: 13px; font-weight: {{t.weight}}">{{t.label}}</button>
+        </sc-for>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px">
+        <span style="font-size: 13px; font-weight: 500">Ce cauți?</span>
+        <div style="display: flex; gap: 8px">
+          <sc-for list="{{goals}}" as="g" hint-placeholder-count="3">
+            <button onClick="{{g.toggle}}" aria-pressed="{{g.pressed}}" style="flex: 1; height: 40px; border-radius: 20px; border: 1px solid {{g.border}}; background: {{g.bg}}; color: {{g.fg}}; font-size: 13px; font-weight: {{g.weight}}">{{g.label}}</button>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+
+<div style="position: absolute; left: 24px; right: 24px; bottom: 32px; display: flex; flex-direction: column; gap: 10px">
+  <sc-if value="{{canFinish}}" hint-placeholder-val="{{ false }}">
+    <a href="Main.dc.html" style="height: 50px; border-radius: 25px; background: {{fill}}; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600; text-decoration: none">Gata, intră în Meetvent</a>
+  </sc-if>
+  <sc-if value="{{showNext}}" hint-placeholder-val="{{ true }}">
+    <button onClick="{{next}}" disabled="{{nextDisabled}}" style="height: 50px; border-radius: 25px; border: none; background: {{nextBg}}; color: {{nextFg}}; font-size: 16px; font-weight: 600">{{nextLabel}}</button>
+  </sc-if>
+  <span style="text-align: center; font-size: 12px; color: #6F6660">{{hint}}</span>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#F57C3F","options":["#F57C3F","#F59A4A","#EF6F5A","#E8803A"],"section":"Temă"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { step: 1, terms: true, picked: { Festivaluri: true, Techno: true }, goals: { Prieteni: true } };
+  }
+  renderVals() {
+    const accent = this.props.accent ?? '#F57C3F';
+    const rgb = (h) => { const n = parseInt(String(h).replace('#', ''), 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; };
+    const lum = (a) => { const l = a.map((c) => { const v = c / 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }); return 0.2126 * l[0] + 0.7152 * l[1] + 0.0722 * l[2]; };
+    let d = rgb(accent); let i = 0;
+    while (1.05 / (lum(d) + 0.05) < 4.6 && i < 40) { d = d.map((c) => c * 0.96); i++; }
+    let f = rgb(accent); let j = 0;
+    while (1.05 / (lum(f) + 0.05) < 3.1 && j < 40) { f = f.map((c) => c * 0.97); j++; }
+    const css = (a) => 'rgb(' + a.map(Math.round).join(',') + ')';
+    const deep = css(d);
+    const fill = css(f);
+    const soft = css(rgb(accent).map((c) => c + (255 - c) * 0.9));
+    const line = css(rgb(accent).map((c) => c + (255 - c) * 0.45));
+    const s = this.state;
+    const chip = (on) => ({ bg: on ? soft : '#FFFFFF', fg: on ? deep : '#2A2420', border: on ? line : '#E8E1DB', weight: on ? '600' : '500', pressed: on ? 'true' : 'false' });
+    const all = ['Festivaluri', 'Techno', 'Fotbal', 'Teatru', 'Stand-up', 'Film', 'Artă', 'Jazz', 'Tech', 'Drumeții', 'Board games', 'Gaming', 'Fotografie', 'Cafea'];
+    const tags = all.map((label) => Object.assign({ label: label, toggle: () => this.setState({ picked: Object.assign({}, s.picked, { [label]: !s.picked[label] }) }) }, chip(!!s.picked[label])));
+    const goals = ['Prieteni', 'Dating', 'Networking'].map((label) => Object.assign({ label: label, toggle: () => this.setState({ goals: Object.assign({}, s.goals, { [label]: !s.goals[label] }) }) }, chip(!!s.goals[label])));
+    const count = all.filter((t) => s.picked[t]).length;
+    const anyGoal = Object.keys(s.goals).some((k) => s.goals[k]);
+    const step = s.step;
+    const nextDisabled = step === 1 ? !s.terms : step === 3;
+    const canFinish = step === 3 && count >= 3 && anyGoal;
+    const hints = {
+      1: 'Ai deja cont? Te poți autentifica din ecranul anterior.',
+      2: 'Poți schimba oricând aceste detalii din profil.',
+      3: count >= 3 ? (anyGoal ? 'Perfect, ești gata.' : 'Alege și ce cauți.') : 'Mai alege ' + (3 - count) + '.'
+    };
+    return {
+      deep: deep,
+      fill: fill,
+      soft: soft,
+      line: line,
+      step: step,
+      isFirst: step === 1,
+      notFirst: step > 1,
+      s1: step === 1,
+      s2: step === 2,
+      s3: step === 3,
+      bars: [1, 2, 3].map((n) => ({ color: n <= step ? accent : '#EFE9E4' })),
+      terms: s.terms,
+      toggleTerms: () => this.setState({ terms: !s.terms }),
+      tags: tags,
+      goals: goals,
+      canFinish: canFinish,
+      showNext: !canFinish,
+      nextDisabled: nextDisabled,
+      nextBg: nextDisabled ? '#F2ECE7' : fill,
+      nextFg: nextDisabled ? '#8A817B' : '#FFFFFF',
+      nextLabel: step === 3 ? 'Gata, intră în Meetvent' : 'Continuă',
+      hint: hints[step],
+      next: () => { if (!nextDisabled && step < 3) this.setState({ step: step + 1 }); },
+      back: () => this.setState({ step: Math.max(1, step - 1) })
+    };
+  }
+}
+</script>
+</body>
+</html>

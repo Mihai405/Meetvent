@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<title>Meetvent – Mesaje</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400..700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#2A2420}a:hover{color:#2A2420}
+button{font:inherit;cursor:pointer}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #FFFFFF; font-family: 'DM Sans', system-ui, sans-serif; color: #2A2420">
+
+<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 82px; overflow-y: auto; padding: 20px 0 24px; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px">
+
+  <div style="padding: 0 20px; display: flex; align-items: center; justify-content: space-between">
+    <h1 style="margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.01em">Mesaje</h1>
+    <button aria-label="Caută în mesaje" style="width: 44px; height: 44px; border-radius: 22px; border: 1px solid #EFE9E4; background: #FFFFFF; color: #2A2420; display: flex; align-items: center; justify-content: center">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+    </button>
+  </div>
+
+  <section aria-label="Conexiuni noi" style="display: flex; flex-direction: column; gap: 10px">
+    <h2 style="margin: 0; padding: 0 20px; font-size: 13px; font-weight: 600; color: #6F6660">Conexiuni noi</h2>
+    <div style="display: flex; gap: 14px; overflow-x: auto; padding: 2px 20px">
+      <a href="Connect.dc.html" style="flex: none; width: 62px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-decoration: none; color: #2A2420">
+        <span style="width: 58px; height: 58px; border-radius: 29px; background: {{soft}}; color: {{deep}}; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700">12</span>
+        <span style="font-size: 12px; font-weight: 500">Like-uri</span>
+      </a>
+      <sc-for list="{{fresh}}" as="f" hint-placeholder-count="4">
+        <a href="Conversation.dc.html" style="flex: none; width: 62px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-decoration: none; color: #2A2420">
+          <span style="width: 58px; height: 58px; border-radius: 29px; overflow: hidden; position: relative; display: block; box-shadow: 0 0 0 2px #FFFFFF, 0 0 0 3.5px {{accent}}"><dc-import name="Portrait" who="{{f.who}}" crop="face" hint-size="100%,100%"></dc-import></span>
+          <span style="font-size: 12px; font-weight: 500">{{f.name}}</span>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+
+  <section aria-label="Conversații" style="display: flex; flex-direction: column">
+    <h2 style="margin: 0 0 4px; padding: 0 20px; font-size: 13px; font-weight: 600; color: #6F6660">Conversații</h2>
+    <sc-for list="{{chats}}" as="c" hint-placeholder-count="4">
+      <a href="Conversation.dc.html" style="display: flex; gap: 12px; align-items: center; padding: 12px 20px; text-decoration: none; color: #2A2420; border-bottom: 1px solid #F4EFEA">
+        <span style="width: 50px; height: 50px; border-radius: 25px; overflow: hidden; position: relative; display: block; flex: none"><dc-import name="Portrait" who="{{c.who}}" crop="face" hint-size="100%,100%"></dc-import></span>
+        <span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px">
+          <span style="display: flex; justify-content: space-between; align-items: baseline">
+            <span style="font-size: 15px; font-weight: 600">{{c.name}}</span>
+            <span style="font-size: 11px; color: {{c.timeColor}}; font-weight: {{c.timeWeight}}">{{c.time}}</span>
+          </span>
+          <span style="font-size: 13px; color: {{c.msgColor}}; font-weight: {{c.msgWeight}}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{c.msg}}</span>
+          <span style="font-size: 11px; color: #6F6660">{{c.event}}</span>
+        </span>
+        <sc-if value="{{c.unread}}" hint-placeholder-val="{{ false }}">
+          <span style="width: 8px; height: 8px; border-radius: 4px; background: {{accent}}; flex: none"></span>
+        </sc-if>
+      </a>
+    </sc-for>
+  </section>
+
+</div>
+
+<nav aria-label="Navigare principală" style="position: absolute; left: 0; right: 0; bottom: 0; height: 82px; background: #FFFFFF; border-top: 1px solid #EFE9E4; display: flex; justify-content: space-around; align-items: flex-start; padding-top: 10px; box-sizing: border-box">
+  <a href="Main.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; width: 64px; min-height: 44px; text-decoration: none; color: #776E68; font-size: 11px; font-weight: 500">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"></path></svg>Acasă</a>
+  <a href="Events.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; width: 64px; min-height: 44px; text-decoration: none; color: #776E68; font-size: 11px; font-weight: 500">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>Evenimente</a>
+  <a href="Connect.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; width: 64px; min-height: 44px; text-decoration: none; color: #776E68; font-size: 11px; font-weight: 500">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="9" cy="12" r="6"></circle><circle cx="15" cy="12" r="6"></circle></svg>Connect</a>
+  <a href="Messages.dc.html" aria-current="page" style="display: flex; flex-direction: column; align-items: center; gap: 4px; width: 64px; min-height: 44px; text-decoration: none; color: {{deep}}; font-size: 11px; font-weight: 600">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"></path></svg>Mesaje</a>
+  <a href="MyProfile.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; width: 64px; min-height: 44px; text-decoration: none; color: #776E68; font-size: 11px; font-weight: 500">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>Profil</a>
+</nav>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#F57C3F","options":["#F57C3F","#F59A4A","#EF6F5A","#E8803A"],"section":"Temă"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const accent = this.props.accent ?? '#F57C3F';
+    const rgb = (h) => { const n = parseInt(String(h).replace('#', ''), 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; };
+    const lum = (a) => { const l = a.map((c) => { const v = c / 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }); return 0.2126 * l[0] + 0.7152 * l[1] + 0.0722 * l[2]; };
+    let d = rgb(accent); let i = 0;
+    while (1.05 / (lum(d) + 0.05) < 4.6 && i < 40) { d = d.map((c) => c * 0.96); i++; }
+    const css = (a) => 'rgb(' + a.map(Math.round).join(',') + ')';
+    const deep = css(d);
+    const chats = [
+      { who: 'radu', name: 'Radu', time: 'acum 2 min', msg: 'Prima oară la un U–CFR?', event: 'U Cluj – CFR · Sâm 17 oct', unread: true },
+      { who: 'ioana', name: 'Ioana', time: '14:20', msg: 'Tu: Ne vedem la intrare pe la 23?', event: 'Techno Night · Vin 16 oct', unread: false },
+      { who: 'alex', name: 'Alex', time: 'Ieri', msg: 'Ce pitch-uri ai văzut până acum?', event: 'Cluj Startup Meetup · Mar 13 oct', unread: false },
+      { who: 'maria', name: 'Maria', time: 'Joi', msg: 'Galeria de la etajul 2 merită!', event: 'Noaptea Albă a Galeriilor', unread: false }
+    ].map((c) => Object.assign({}, c, {
+      timeColor: c.unread ? deep : '#6F6660',
+      timeWeight: c.unread ? '600' : '400',
+      msgColor: c.unread ? '#2A2420' : '#6F6660',
+      msgWeight: c.unread ? '600' : '400'
+    }));
+    return {
+      accent: accent,
+      deep: deep,
+      soft: css(rgb(accent).map((c) => c + (255 - c) * 0.88)),
+      fresh: [
+        { who: 'ioana', name: 'Ioana' },
+        { who: 'maria', name: 'Maria' },
+        { who: 'bianca', name: 'Bianca' },
+        { who: 'cristi', name: 'Cristi' }
+      ],
+      chats: chats
+    };
+  }
+}
+</script>
+</body>
+</html>

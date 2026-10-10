@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<title>Scenă eveniment</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="position: absolute; inset: 0; overflow: hidden; background: {{bg}}">
+
+<sc-if value="{{is.concert}}" hint-placeholder-val="{{ true }}">
+  <svg viewBox="0 0 240 150" preserveAspectRatio="xMidYMid slice" style="width: 100%; height: 100%; display: block" aria-hidden="true">
+    <rect width="240" height="150" fill="#2A1735"></rect>
+    <path d="M50 -5 L5 150 H95Z" fill="#FF6B2C" opacity="0.5"></path>
+    <path d="M190 -5 L145 150 H235Z" fill="#FFC44D" opacity="0.4"></path>
+    <path d="M120 -5 L88 150 H152Z" fill="#FF5C8A" opacity="0.38"></path>
+    <circle cx="50" cy="0" r="9" fill="#FFD3B5"></circle>
+    <circle cx="120" cy="0" r="9" fill="#FFD3B5"></circle>
+    <circle cx="190" cy="0" r="9" fill="#FFD3B5"></circle>
+    <g fill="#130A19">
+      <rect x="0" y="134" width="240" height="16"></rect>
+      <circle cx="10" cy="134" r="10"></circle><circle cx="32" cy="130" r="10"></circle><circle cx="54" cy="135" r="10"></circle><circle cx="76" cy="129" r="10"></circle><circle cx="98" cy="134" r="10"></circle><circle cx="120" cy="128" r="10"></circle><circle cx="142" cy="133" r="10"></circle><circle cx="164" cy="129" r="10"></circle><circle cx="186" cy="134" r="10"></circle><circle cx="208" cy="130" r="10"></circle><circle cx="230" cy="134" r="10"></circle>
+      <path d="M70 126 L62 102 L69 100 L78 124Z"></path><path d="M168 124 L176 98 L183 100 L175 126Z"></path><path d="M118 122 L114 96 L121 95 L124 121Z"></path>
+    </g>
+  </svg>
+</sc-if>
+
+<sc-if value="{{is.football}}" hint-placeholder-val="{{ false }}">
+  <svg viewBox="0 0 240 150" preserveAspectRatio="xMidYMid slice" style="width: 100%; height: 100%; display: block" aria-hidden="true">
+    <rect width="240" height="150" fill="#2E8A4E"></rect>
+    <rect x="0" width="30" height="150" fill="#287D45"></rect><rect x="60" width="30" height="150" fill="#287D45"></rect><rect x="120" width="30" height="150" fill="#287D45"></rect><rect x="180" width="30" height="150" fill="#287D45"></rect>
+    <g fill="none" stroke="#FFFFFF" stroke-opacity="0.8" stroke-width="2.5"><rect x="8" y="8" width="224" height="134"></rect><path d="M120 8V142"></path><circle cx="120" cy="75" r="26"></circle><rect x="8" y="45" width="30" height="60"></rect><rect x="202" y="45" width="30" height="60"></rect></g>
+    <circle cx="150" cy="98" r="7" fill="#FFFFFF"></circle>
+    <rect x="0" y="0" width="240" height="6" fill="#1E1612"></rect>
+    <rect x="0" y="0" width="120" height="6" fill="#FF6B2C"></rect>
+  </svg>
+</sc-if>
+
+<sc-if value="{{is.gallery}}" hint-placeholder-val="{{ false }}">
+  <svg viewBox="0 0 240 150" preserveAspectRatio="xMidYMid slice" style="width: 100%; height: 100%; display: block" aria-hidden="true">
+    <rect width="240" height="150" fill="#F6E4D2"></rect>
+    <rect y="116" width="240" height="34" fill="#E2C7AC"></rect>
+    <rect x="26" y="28" width="58" height="72" fill="#FF6B2C" stroke="#1E1612" stroke-width="4"></rect>
+    <circle cx="55" cy="56" r="14" fill="#FFC44D"></circle>
+    <rect x="104" y="40" width="40" height="50" fill="#2F4858" stroke="#1E1612" stroke-width="4"></rect>
+    <rect x="164" y="24" width="50" height="78" fill="#FF5C8A" stroke="#1E1612" stroke-width="4"></rect>
+    <path d="M166 100 L184 62 L198 82 L212 68 V100Z" fill="#7A2E4A"></path>
+  </svg>
+</sc-if>
+
+<sc-if value="{{is.comedy}}" hint-placeholder-val="{{ false }}">
+  <svg viewBox="0 0 240 150" preserveAspectRatio="xMidYMid slice" style="width: 100%; height: 100%; display: block" aria-hidden="true">
+    <rect width="240" height="150" fill="#3B1E2C"></rect>
+    <path d="M120 -10 L56 150 H184Z" fill="#FFD9A0" opacity="0.22"></path>
+    <ellipse cx="120" cy="140" rx="62" ry="10" fill="#FFD9A0" opacity="0.3"></ellipse>
+    <rect x="117" y="70" width="6" height="68" fill="#1E1612"></rect>
+    <rect x="102" y="134" width="36" height="6" rx="3" fill="#1E1612"></rect>
+    <rect x="110" y="44" width="20" height="32" rx="10" fill="#FF6B2C"></rect>
+    <circle cx="40" cy="30" r="3" fill="#FFD9A0"></circle><circle cx="200" cy="22" r="3" fill="#FFD9A0"></circle><circle cx="214" cy="60" r="2" fill="#FFD9A0"></circle>
+  </svg>
+</sc-if>
+
+<sc-if value="{{is.film}}" hint-placeholder-val="{{ false }}">
+  <svg viewBox="0 0 240 150" preserveAspectRatio="xMidYMid slice" style="width: 100%; height: 100%; display: block" aria-hidden="true">
+    <rect width="240" height="150" fill="#1E2740"></rect>
+    <rect x="30" y="16" width="180" height="80" rx="4" fill="#FFE1C7"></rect>
+    <path d="M30 96 L96 46 L138 76 L168 56 L210 96Z" fill="#FF8A4C"></path>
+    <circle cx="176" cy="38" r="10" fill="#FFC44D"></circle>
+    <g fill="#121829"><rect x="0" y="126" width="240" height="24"></rect><circle cx="20" cy="124" r="11"></circle><circle cx="48" cy="126" r="11"></circle><circle cx="76" cy="123" r="11"></circle><circle cx="104" cy="126" r="11"></circle><circle cx="132" cy="124" r="11"></circle><circle cx="160" cy="126" r="11"></circle><circle cx="188" cy="123" r="11"></circle><circle cx="216" cy="126" r="11"></circle></g>
+  </svg>
+</sc-if>
+
+<sc-if value="{{is.tech}}" hint-placeholder-val="{{ false }}">
+  <svg viewBox="0 0 240 150" preserveAspectRatio="xMidYMid slice" style="width: 100%; height: 100%; display: block" aria-hidden="true">
+    <rect width="240" height="150" fill="#FFE8D6"></rect>
+    <g fill="#F7C6A2"><circle cx="20" cy="20" r="3"></circle><circle cx="50" cy="20" r="3"></circle><circle cx="190" cy="20" r="3"></circle><circle cx="220" cy="20" r="3"></circle><circle cx="20" cy="50" r="3"></circle><circle cx="220" cy="50" r="3"></circle><circle cx="20" cy="80" r="3"></circle><circle cx="220" cy="80" r="3"></circle><circle cx="20" cy="110" r="3"></circle><circle cx="220" cy="110" r="3"></circle></g>
+    <rect x="70" y="34" width="100" height="66" rx="6" fill="#1E1612"></rect>
+    <rect x="76" y="40" width="88" height="54" rx="2" fill="#FF6B2C"></rect>
+    <path d="M90 58h30M90 68h50M90 78h22" stroke="#1E1612" stroke-width="4" stroke-linecap="round"></path>
+    <path d="M54 102 H186 L176 114 H64Z" fill="#3A2E28"></path>
+  </svg>
+</sc-if>
+
+<sc-if value="{{is.jazz}}" hint-placeholder-val="{{ false }}">
+  <svg viewBox="0 0 240 150" preserveAspectRatio="xMidYMid slice" style="width: 100%; height: 100%; display: block" aria-hidden="true">
+    <rect width="240" height="150" fill="#2D2452"></rect>
+    <circle cx="186" cy="38" r="18" fill="#FFE3B0"></circle>
+    <circle cx="40" cy="24" r="2" fill="#FFE3B0"></circle><circle cx="80" cy="40" r="1.5" fill="#FFE3B0"></circle><circle cx="130" cy="18" r="2" fill="#FFE3B0"></circle>
+    <path d="M0 150 V100 H24 V84 H44 V106 H64 V76 H88 V98 H108 V88 H132 V110 H150 V80 H174 V100 H196 V90 H216 V104 H240 V150Z" fill="#17122E"></path>
+    <g fill="#FF8A3D"><rect x="70" y="84" width="4" height="4"></rect><rect x="78" y="92" width="4" height="4"></rect><rect x="156" y="88" width="4" height="4"></rect><rect x="164" y="96" width="4" height="4"></rect><rect x="30" y="92" width="4" height="4"></rect></g>
+  </svg>
+</sc-if>
+
+<sc-if value="{{is.photo}}" hint-placeholder-val="{{ false }}">
+  <svg viewBox="0 0 240 150" preserveAspectRatio="xMidYMid slice" style="width: 100%; height: 100%; display: block" aria-hidden="true">
+    <rect width="240" height="150" fill="#2F4858"></rect>
+    <rect x="72" y="48" width="96" height="64" rx="10" fill="#FFE8D6"></rect>
+    <rect x="96" y="38" width="30" height="14" rx="4" fill="#FFE8D6"></rect>
+    <circle cx="120" cy="80" r="21" fill="#1E1612"></circle>
+    <circle cx="120" cy="80" r="11" fill="#FF6B2C"></circle>
+    <circle cx="154" cy="60" r="4" fill="#FF6B2C"></circle>
+  </svg>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"kind":{"editor":"enum","default":"concert","options":["concert","football","gallery","comedy","film","tech","jazz","photo"]},"$preview":{"width":320,"height":200}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const kind = this.props.kind ?? 'concert';
+    const bgs = { concert: '#2A1735', football: '#2E8A4E', gallery: '#F6E4D2', comedy: '#3B1E2C', film: '#1E2740', tech: '#FFE8D6', jazz: '#2D2452', photo: '#2F4858' };
+    const is = {};
+    Object.keys(bgs).forEach((k) => { is[k] = k === kind; });
+    return { is: is, bg: bgs[kind] || '#2A1735' };
+  }
+}
+</script>
+</body>
+</html>

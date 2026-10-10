@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<title>Meetvent – Connect</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400..700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#2A2420}a:hover{color:#2A2420}
+button{font:inherit;cursor:pointer}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #FFFFFF; font-family: 'DM Sans', system-ui, sans-serif; color: #2A2420">
+
+<header style="padding: 20px 20px 0; display: flex; flex-direction: column; gap: 10px">
+  <div style="display: flex; align-items: center; justify-content: space-between">
+    <h1 style="margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.01em">Connect</h1>
+    <button aria-label="Preferințe" style="width: 44px; height: 44px; border-radius: 22px; border: 1px solid #EFE9E4; background: #FFFFFF; color: #2A2420; display: flex; align-items: center; justify-content: center">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"></path><circle cx="15" cy="7" r="2"></circle><circle cx="9" cy="17" r="2"></circle></svg>
+    </button>
+  </div>
+
+  <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px">
+    <div role="group" aria-label="Ce cauți" style="display: flex; gap: 18px">
+      <sc-for list="{{modes}}" as="m" hint-placeholder-count="3">
+        <button onClick="{{m.pick}}" aria-pressed="{{m.pressed}}" style="height: 40px; border: none; background: none; padding: 0; font-size: 14px; font-weight: {{m.weight}}; color: {{m.fg}}; box-shadow: inset 0 -2px 0 {{m.line}}">{{m.label}}</button>
+      </sc-for>
+    </div>
+    <button style="height: 32px; padding: 0 10px; border-radius: 16px; border: 1px solid #E8E1DB; background: #FFFFFF; display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; color: #2A2420">
+      Techno Night
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>
+    </button>
+  </div>
+</header>
+
+<div style="position: absolute; top: 140px; left: 20px; right: 20px; height: 500px">
+  <article style="position: absolute; inset: 0; border-radius: 20px; overflow: hidden; color: #FFFFFF; box-shadow: 0 6px 20px rgba(42,36,32,0.10)">
+    <dc-import name="Portrait" who="{{p.who}}" hint-size="100%,100%"></dc-import>
+    <div style="position: absolute; top: 10px; left: 12px; right: 12px; display: flex; gap: 4px">
+      <span style="flex: 1; height: 3px; border-radius: 2px; background: #FFFFFF"></span>
+      <span style="flex: 1; height: 3px; border-radius: 2px; background: rgba(255,255,255,0.5)"></span>
+      <span style="flex: 1; height: 3px; border-radius: 2px; background: rgba(255,255,255,0.5)"></span>
+      <span style="flex: 1; height: 3px; border-radius: 2px; background: rgba(255,255,255,0.5)"></span>
+    </div>
+    <span style="position: absolute; top: 22px; left: 12px; font-size: 11px; font-weight: 600; background: rgba(255,255,255,0.92); color: #2A2420; padding: 4px 8px; border-radius: 8px">{{counter}}</span>
+
+    <div style="position: absolute; left: 0; right: 0; bottom: 0; padding: 60px 16px 16px; background: linear-gradient(to top, rgba(42,36,32,0.78), rgba(42,36,32,0))">
+      <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 12px">
+        <div style="display: flex; flex-direction: column; gap: 4px; min-width: 0">
+          <div style="display: flex; align-items: center; gap: 6px">
+            <span style="font-size: 26px; font-weight: 700; line-height: 1.1">{{p.name}}, {{p.age}}</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFFFFF" aria-label="Profil verificat" role="img"><path d="M12 2 4.5 5.2v6c0 4.7 3.2 8.6 7.5 10.3 4.3-1.7 7.5-5.6 7.5-10.3v-6z"></path><path d="m8.5 12 2.5 2.5 4.5-5" fill="none" stroke="{{deep}}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </div>
+          <span style="font-size: 13px; color: rgba(255,255,255,0.9)">{{p.job}} · la {{p.dist}}</span>
+        </div>
+        <a href="ProfileView.dc.html" aria-label="Vezi profilul complet" style="width: 40px; height: 40px; border-radius: 20px; background: rgba(255,255,255,0.92); display: flex; align-items: center; justify-content: center; color: #2A2420; flex: none">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"></path></svg>
+        </a>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px">
+        <span style="font-size: 12px; font-weight: 600; color: {{deep}}; background: #FFFFFF; padding: 5px 9px; border-radius: 8px">{{p.shared}}</span>
+        <sc-for list="{{p.tags}}" as="t" hint-placeholder-count="2">
+          <span style="font-size: 12px; font-weight: 500; border: 1px solid rgba(255,255,255,0.6); padding: 4px 9px; border-radius: 8px">{{t}}</span>
+        </sc-for>
+      </div>
+    </div>
+  </article>
+</div>
+
+<sc-if value="{{toast}}" hint-placeholder-val="{{ false }}">
+  <div role="status" style="position: absolute; top: 156px; left: 50%; transform: translateX(-50%); background: #FFFFFF; color: #2A2420; font-size: 13px; font-weight: 600; padding: 9px 14px; border-radius: 12px; white-space: nowrap; z-index: 2; box-shadow: 0 4px 16px rgba(42,36,32,0.15)">{{toastText}}</div>
+</sc-if>
+
+<div style="position: absolute; left: 0; right: 0; bottom: 100px; display: flex; justify-content: center; align-items: center; gap: 22px">
+  <button onClick="{{pass}}" aria-label="Treci mai departe" style="width: 56px; height: 56px; border-radius: 28px; border: 1px solid #E8E1DB; background: #FFFFFF; color: #6F6660; display: flex; align-items: center; justify-content: center">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+  </button>
+  <button onClick="{{star}}" aria-label="Trimite un salut" style="width: 46px; height: 46px; border-radius: 23px; border: 1px solid #E8E1DB; background: #FFFFFF; color: {{deep}}; display: flex; align-items: center; justify-content: center">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"></path></svg>
+  </button>
+  <button onClick="{{like}}" aria-label="Îmi place" style="width: 56px; height: 56px; border-radius: 28px; border: none; background: {{fill}}; color: #FFFFFF; display: flex; align-items: center; justify-content: center">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-7.5-10.4A4.3 4.3 0 0 1 12 7.4a4.3 4.3 0 0 1 7.5 2.7c0 5.8-7.5 10.4-7.5 10.4z"></path></svg>
+  </button>
+</div>
+
+<nav aria-label="Navigare principală" style="position: absolute; left: 0; right: 0; bottom: 0; height: 82px; background: #FFFFFF; border-top: 1px solid #EFE9E4; display: flex; justify-content: space-around; align-items: flex-start; padding-top: 10px; box-sizing: border-box">
+  <a href="Main.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; width: 64px; min-height: 44px; text-decoration: none; color: #776E68; font-size: 11px; font-weight: 500">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"></path></svg>Acasă</a>
+  <a href="Events.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; width: 64px; min-height: 44px; text-decoration: none; color: #776E68; font-size: 11px; font-weight: 500">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>Evenimente</a>
+  <a href="Connect.dc.html" aria-current="page" style="display: flex; flex-direction: column; align-items: center; gap: 4px; width: 64px; min-height: 44px; text-decoration: none; color: {{deep}}; font-size: 11px; font-weight: 600">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><circle cx="9" cy="12" r="6"></circle><circle cx="15" cy="12" r="6"></circle></svg>Connect</a>
+  <a href="Messages.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; width: 64px; min-height: 44px; text-decoration: none; color: #776E68; font-size: 11px; font-weight: 500">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"></path></svg>Mesaje</a>
+  <a href="MyProfile.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; width: 64px; min-height: 44px; text-decoration: none; color: #776E68; font-size: 11px; font-weight: 500">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>Profil</a>
+</nav>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#F57C3F","options":["#F57C3F","#F59A4A","#EF6F5A","#E8803A"],"section":"Temă"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { idx: 0, mode: 'friends', toast: '' };
+  }
+  renderVals() {
+    const accent = this.props.accent ?? '#F57C3F';
+    const rgb = (h) => { const n = parseInt(String(h).replace('#', ''), 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; };
+    const lum = (a) => { const l = a.map((c) => { const v = c / 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }); return 0.2126 * l[0] + 0.7152 * l[1] + 0.0722 * l[2]; };
+    let d = rgb(accent); let i = 0;
+    while (1.05 / (lum(d) + 0.05) < 4.6 && i < 40) { d = d.map((c) => c * 0.96); i++; }
+    let f = rgb(accent); let j = 0;
+    while (1.05 / (lum(f) + 0.05) < 3.1 && j < 40) { f = f.map((c) => c * 0.97); j++; }
+    const fillC = 'rgb(' + f.map(Math.round).join(',') + ')';
+    const deep = 'rgb(' + d.map(Math.round).join(',') + ')';
+    const people = [
+      { who: 'ioana', name: 'Ioana', age: 26, job: 'Designer UX', dist: '3 km', shared: '2 evenimente comune', tags: ['Techno', 'Fotografie', 'Film coreean'] },
+      { who: 'radu', name: 'Radu', age: 28, job: 'Inginer software', dist: '5 km', shared: '3 evenimente comune', tags: ['Fotbal', 'Techno', 'Drumeții'] },
+      { who: 'maria', name: 'Maria', age: 24, job: 'Studentă la Medicină', dist: '2 km', shared: '1 eveniment comun', tags: ['Artă', 'Cafea de specialitate'] },
+      { who: 'alex', name: 'Alex', age: 30, job: 'Fondator startup', dist: '4 km', shared: '2 evenimente comune', tags: ['Tech', 'Jazz'] }
+    ];
+    const s = this.state;
+    const p = people[s.idx % people.length];
+    const next = (msg) => {
+      this.setState({ idx: s.idx + 1, toast: msg });
+      clearTimeout(this._t);
+      if (msg) this._t = setTimeout(() => this.setState({ toast: '' }), 1600);
+    };
+    const modes = [['friends', 'Prieteni'], ['dating', 'Dating'], ['network', 'Networking']].map(([id, label]) => {
+      const on = s.mode === id;
+      return { label: label, pressed: on ? 'true' : 'false', fg: on ? '#2A2420' : '#6F6660', weight: on ? '600' : '500', line: on ? accent : 'transparent', pick: () => this.setState({ mode: id }) };
+    });
+    return {
+      deep: deep,
+      fill: fillC,
+      p: p,
+      modes: modes,
+      counter: ((s.idx % 14) + 1) + ' din 14 compatibili',
+      toast: !!s.toast,
+      toastText: s.toast,
+      pass: () => next(''),
+      like: () => next('Like trimis lui ' + p.name),
+      star: () => next('Salut trimis lui ' + p.name)
+    };
+  }
+  componentWillUnmount() {
+    clearTimeout(this._t);
+  }
+}
+</script>
+</body>
+</html>

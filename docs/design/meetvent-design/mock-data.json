@@ -1,0 +1,58 @@
+{
+  "currentUser": {
+    "id": "u_ana", "firstName": "Ana", "lastName": "Ionescu", "age": 25, "city": "Cluj-Napoca",
+    "bio": "Îmi plac festivalurile, sunt o persoană deschisă care e dornică să întâlnească cât mai mulți oameni noi.",
+    "goals": ["friends", "dating"],
+    "interests": ["Festivaluri", "Techno", "Drumeții", "Fotografie"],
+    "prompts": [
+      { "question": "Weekendul ideal arată așa…", "answer": "Vineri concert, sâmbătă brunch lung, duminică pe munte." },
+      { "question": "Mă cunoști ușor dacă…", "answer": "Îmi recomanzi o trupă de care n-am auzit." }
+    ],
+    "details": { "job": "Marketing specialist", "education": "UBB, Științe Economice", "zodiac": "Săgetător", "drinking": "Ocazional", "sport": "Câteodată", "languages": ["Română", "Engleză"] },
+    "privacy": { "showEvents": true, "showDistance": false },
+    "profileCompletion": 0.7,
+    "goingTo": ["techno"]
+  },
+  "people": [
+    { "id": "u_ioana", "firstName": "Ioana", "age": 26, "job": "Designer UX", "distanceKm": 3, "verified": true, "goals": ["friends", "dating"],
+      "bio": "Lucrez în design de produs, iar weekendurile le împart între concerte și drumeții prin Apuseni. Caut oameni cu care să descopăr locuri noi din Cluj – și care nu pleacă înainte de ultimul set.",
+      "details": { "job": "Designer UX", "education": "UBB, Litere", "heightCm": 168, "zodiac": "Leu", "drinking": "Ocazional", "smoking": "Nefumătoare", "sport": "3×/săpt.", "languages": ["Română", "Engleză", "Spaniolă"] },
+      "interests": ["Techno", "Fotografie", "Film coreean", "Drumeții", "Cafea de specialitate", "Board games", "Design"],
+      "prompts": [
+        { "question": "Cel mai tare concert la care am fost…", "answer": "Un set la răsărit pe un deal din Transilvania. Nu mai știu DJ-ul, dar știu exact cu cine eram." },
+        { "question": "La un festival mă găsești…", "answer": "Lângă scena mică, unde descoperi artiști noi înaintea tuturor." }
+      ],
+      "topArtists": [
+        { "name": "Bicep", "genre": "Electronic" }, { "name": "Subcarpați", "genre": "Hip-hop, folk" },
+        { "name": "Bonobo", "genre": "Downtempo" }, { "name": "Peggy Gou", "genre": "House" }
+      ],
+      "pastEvents": ["Electric Castle 2026", "TIFF 2026", "Jazz in the Park"],
+      "goingTo": ["techno", "galerii"] },
+    { "id": "u_radu", "firstName": "Radu", "age": 28, "job": "Inginer software", "distanceKm": 5, "verified": true, "goals": ["friends"], "interests": ["Fotbal", "Techno", "Drumeții"], "goingTo": ["techno", "derby", "startup"] },
+    { "id": "u_maria", "firstName": "Maria", "age": 24, "job": "Studentă la Medicină", "distanceKm": 2, "verified": true, "goals": ["friends", "dating"], "interests": ["Artă", "Cafea de specialitate"], "goingTo": ["techno"] },
+    { "id": "u_alex", "firstName": "Alex", "age": 30, "job": "Fondator startup", "distanceKm": 4, "verified": true, "goals": ["networking", "friends"], "interests": ["Tech", "Jazz"], "goingTo": ["techno", "startup"] },
+    { "id": "u_bianca", "firstName": "Bianca", "age": 27, "goals": ["dating"] },
+    { "id": "u_cristi", "firstName": "Cristi", "age": 29, "goals": ["networking"] }
+  ],
+  "events": [
+    { "id": "jazz", "category": "music", "title": "Jazz pe acoperiș", "startsAt": "2026-10-10T21:00", "venue": "Rooftop Central", "going": 75, "compatible": 4 },
+    { "id": "startup", "category": "tech", "title": "Cluj Startup Meetup", "startsAt": "2026-10-13T18:30", "venue": "Cluj Hub", "going": 120, "compatible": 7 },
+    { "id": "techno", "category": "music", "tags": ["Techno", "18+"], "title": "Techno Night @ Form Space", "startsAt": "2026-10-16T22:00", "endsAt": "2026-10-17T05:00", "venue": "Form Space", "priceFrom": 60, "organizer": { "name": "Form Space", "verified": true }, "going": 230, "compatible": 14 },
+    { "id": "derby", "category": "sport", "title": "U Cluj – CFR Cluj", "startsAt": "2026-10-17T19:30", "venue": "Cluj Arena", "going": 1200, "compatible": 21 },
+    { "id": "galerii", "category": "art", "title": "Noaptea Albă a Galeriilor", "startsAt": "2026-10-17T18:00", "venue": "Fabrica de Pensule", "going": 410, "compatible": 9 },
+    { "id": "standup", "category": "comedy", "title": "Stand-up în Subsol", "startsAt": "2026-10-18T20:00", "venue": "Subsol Club", "going": 64, "compatible": 3 },
+    { "id": "film", "category": "film", "title": "Seară de film coreean", "startsAt": "2026-10-18T19:00", "venue": "Cinema Victoria", "going": 90, "compatible": 5 },
+    { "id": "foto", "category": "art", "title": "Expoziție foto: Oameni din Cluj", "startsAt": "2026-10-29T18:00", "venue": "Casino – Parcul Central", "going": 150, "compatible": 6 }
+  ],
+  "conversations": [
+    { "with": "u_radu", "eventId": "derby", "unread": 2, "messages": [
+      { "from": "u_radu", "text": "Salut! Am văzut că mergi și tu la derby.", "at": "18:02" },
+      { "from": "u_ana", "text": "Da! Merg cu doi prieteni, suntem la peluză.", "at": "18:05" },
+      { "from": "u_radu", "text": "Super, și noi. Prima oară la un U–CFR?", "at": "18:06" }
+    ], "icebreakers": ["A treia oară, tu?", "Bem o bere înainte de meci?", "Pe ce scor pariezi?"] },
+    { "with": "u_ioana", "eventId": "techno", "lastMessage": "Tu: Ne vedem la intrare pe la 23?", "at": "14:20" },
+    { "with": "u_alex", "eventId": "startup", "lastMessage": "Ce pitch-uri ai văzut până acum?", "at": "Ieri" },
+    { "with": "u_maria", "eventId": "galerii", "lastMessage": "Galeria de la etajul 2 merită!", "at": "Joi" }
+  ],
+  "interestOptions": ["Festivaluri", "Techno", "Fotbal", "Teatru", "Stand-up", "Film", "Artă", "Jazz", "Tech", "Drumeții", "Board games", "Gaming", "Fotografie", "Cafea"]
+}
