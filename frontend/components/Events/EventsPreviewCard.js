@@ -3,7 +3,8 @@ import { useNavigation } from "@react-navigation/native";
 
 import {Ionicons} from "@expo/vector-icons";
 import colors from "../../constants/colors";
-import {Avatar, Badge} from "@rneui/base";
+import Avatar from "../ui/Avatar";
+import Badge from "../ui/Badge";
 import AvatarCardList from "./AvatarCardList";
 import Colors from "../../constants/colors";
 

@@ -5,7 +5,7 @@ import {doRequest} from "../../util/request";
 import {AuthContext} from "../../store/auth-context";
 import {authorizationHeader} from "../../constants/requestObjects";
 import {useFocusEffect} from "@react-navigation/native";
-import {FAB} from "@rneui/base";
+import FAB from "../../components/ui/FAB";
 import Colors from "../../constants/colors";
 import {API_URL} from "../../constants/api";
 

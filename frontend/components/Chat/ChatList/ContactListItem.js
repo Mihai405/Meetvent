@@ -1,7 +1,7 @@
 import {StyleSheet, View, Text, Image, Pressable} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import {FontAwesome} from "@expo/vector-icons";
-import {Badge} from "@rneui/base";
+import Badge from "../../ui/Badge";
 import {useContext} from "react";
 import {AuthContext} from "../../../store/auth-context";
 import {useNavigation} from "@react-navigation/native";

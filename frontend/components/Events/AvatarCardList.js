@@ -1,4 +1,4 @@
-import {Avatar} from "@rneui/base";
+import Avatar from "../ui/Avatar";
 import {View, StyleSheet, FlatList} from "react-native";
 import React, {useContext} from "react";
 import {AuthContext} from "../../store/auth-context";

@@ -1,7 +1,7 @@
 import {Pressable, StyleSheet, View} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import Colors from "../../../constants/colors";
-import {Badge} from "@rneui/base";
+import Badge from "../../ui/Badge";
 
 function FiltersButton({onPress, isActive, filtersNumber}) {
     const color = isActive ? "white" : Colors.primary500;

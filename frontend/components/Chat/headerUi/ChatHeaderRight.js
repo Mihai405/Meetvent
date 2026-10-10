@@ -1,7 +1,7 @@
 import { StyleSheet, View, Text, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
-import { Badge } from "@rneui/base";
+import Badge from "../../ui/Badge";
 
 function ChatHeaderRight({ tintColor }) {
   return (

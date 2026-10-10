@@ -1,7 +1,7 @@
 import {Ionicons} from "@expo/vector-icons";
 import {memo, useCallback, useContext, useEffect, useRef, useState} from "react";
 import {StyleSheet, View} from "react-native";
-import {Badge} from "@rneui/base";
+import Badge from "../../ui/Badge";
 import {doRequest} from "../../../util/request";
 import {authorizationHeader} from "../../../constants/requestObjects";
 import {AuthContext} from "../../../store/auth-context";
