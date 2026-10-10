@@ -11,7 +11,7 @@ import ChatHeaderRight from "../components/Chat/headerUi/ChatHeaderRight";
 
 function HomeStackNavigator() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{headerBackButtonDisplayMode: "minimal"}}>
         <Stack.Screen name="TabNavigator" component={TabNavigator} options={{
             headerShown: false
         }}/>
