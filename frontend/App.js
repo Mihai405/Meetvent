@@ -14,8 +14,15 @@ import {useFonts, DMSans_400Regular, DMSans_500Medium, DMSans_600SemiBold, DMSan
 import {ThemeProvider} from "./src/theme/ThemeProvider";
 import {SafeAreaProvider} from "react-native-safe-area-context";
 import UiKitScreen from "./src/screens/UiKitScreen";
+import RootNavigator from "./src/navigation/RootNavigator";
+import {PrototypeStoreProvider} from "./src/store/PrototypeStore";
 
+// EXPO_PUBLIC_UI_KIT=1 shows the component preview, EXPO_PUBLIC_LEGACY_APP=1 the
+// previous backend-connected app. By default the redesigned prototype runs on mock data;
+// EXPO_PUBLIC_PROTOTYPE_LOGGED_IN=1 skips the login screen (useful for deep links).
 const SHOW_UI_KIT = process.env.EXPO_PUBLIC_UI_KIT === "1";
+const SHOW_LEGACY_APP = process.env.EXPO_PUBLIC_LEGACY_APP === "1";
+const START_LOGGED_IN = process.env.EXPO_PUBLIC_PROTOTYPE_LOGGED_IN === "1";
 
 function Navigation() {
     const authCtx = useContext(AuthContext);
@@ -72,12 +79,16 @@ export default function App() {
         <GestureHandlerRootView style={{flex: 1}}>
             <SafeAreaProvider>
                 <ThemeProvider>
-                    {SHOW_UI_KIT ? <UiKitScreen/> : (
+                    {SHOW_UI_KIT ? <UiKitScreen/> : SHOW_LEGACY_APP ? (
                         <AuthContextProvider>
                             <InterestsContextProvider>
                                 <Root/>
                             </InterestsContextProvider>
                         </AuthContextProvider>
+                    ) : (
+                        <PrototypeStoreProvider initiallyLoggedIn={START_LOGGED_IN}>
+                            <RootNavigator/>
+                        </PrototypeStoreProvider>
                     )}
                 </ThemeProvider>
             </SafeAreaProvider>
