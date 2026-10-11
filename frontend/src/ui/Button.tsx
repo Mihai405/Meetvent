@@ -6,7 +6,7 @@ import Text from "./Text";
 type Props = {
   title: string;
   onPress?: () => void;
-  variant?: "primary" | "outline";
+  variant?: "primary" | "outline" | "accentOutline";
   size?: "lg" | "md" | "sm";
   disabled?: boolean;
   icon?: ReactNode;
@@ -20,6 +20,14 @@ export default function Button({title, onPress, variant = "primary", size = "lg"
   const theme = useTheme();
   const height = heights[size];
   const primary = variant === "primary";
+  const c = theme.color;
+  const colors = disabled
+    ? {bg: c.divider, border: c.divider, fg: c.iconMuted}
+    : variant === "primary"
+      ? {bg: c.accentFill, border: c.accentFill, fg: c.onAccentFill}
+      : variant === "accentOutline"
+        ? {bg: c.bg, border: c.accent, fg: c.accentText}
+        : {bg: c.bg, border: c.borderControl, fg: c.ink};
   return (
     <Pressable
       accessibilityRole="button"
@@ -33,12 +41,12 @@ export default function Button({title, onPress, variant = "primary", size = "lg"
           height,
           borderRadius: height / 2,
           paddingHorizontal: size === "sm" ? theme.space.xl : theme.space["2xl"],
-          backgroundColor: primary ? theme.color.accentFill : theme.color.bg,
-          borderWidth: primary ? 0 : 1,
-          borderColor: theme.color.borderControl,
+          backgroundColor: colors.bg,
+          borderWidth: 1,
+          borderColor: colors.border,
           alignItems: "center",
           justifyContent: "center",
-          opacity: disabled ? 0.45 : pressed ? 0.8 : 1,
+          opacity: pressed ? 0.8 : 1,
         },
         style,
       ]}
@@ -46,8 +54,8 @@ export default function Button({title, onPress, variant = "primary", size = "lg"
       <View style={{flexDirection: "row", alignItems: "center", gap: theme.space.sm}}>
         {icon}
         <Text
-          weight={primary ? 600 : 500}
-          color={primary ? theme.color.onAccentFill : theme.color.ink}
+          weight={primary || variant === "accentOutline" ? 600 : 500}
+          color={colors.fg}
           style={{fontSize: primary ? theme.fontSize.button : size === "sm" ? theme.fontSize.label : theme.fontSize.body}}
         >
           {title}

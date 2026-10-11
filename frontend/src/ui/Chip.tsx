@@ -10,9 +10,11 @@ type Props = {
   // "fill": categories (solid accent when selected); "soft": interests / modes (tinted when selected)
   tone?: "fill" | "soft";
   icon?: ReactNode;
+  // Stretches to its container (e.g. the three goal buttons in Register)
+  fullWidth?: boolean;
 };
 
-export default function Chip({label, selected = false, onPress, tone = "fill", icon}: Props) {
+export default function Chip({label, selected = false, onPress, tone = "fill", icon, fullWidth}: Props) {
   const theme = useTheme();
   const c = theme.color;
   const colors = !selected
@@ -27,8 +29,9 @@ export default function Chip({label, selected = false, onPress, tone = "fill", i
       onPress={onPress}
       hitSlop={(theme.size.touch - theme.size.chip) / 2}
       style={({pressed}) => ({
-        height: theme.size.chip,
-        borderRadius: theme.size.chip / 2,
+        height: fullWidth ? 40 : theme.size.chip,
+        borderRadius: fullWidth ? 20 : theme.size.chip / 2,
+        alignItems: fullWidth ? "center" : undefined,
         paddingHorizontal: theme.space.xl,
         borderWidth: 1,
         borderColor: colors.border,
